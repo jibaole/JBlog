@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caliven.blog.db.repository.CategoryTagMapper">
+    <resultMap id="BaseResultMap" type="com.caliven.blog.db.entity.CategoryTag">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="slug" property="slug" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="order" property="order" jdbcType="INTEGER"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      c.id, c.user_id, c.parent_id, c.`name`, c.slug, c.`type`, c.description, c.`count`, c.`order`,c.level, c.created_date, c.updated_date
+    </sql>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from category_tag c
+        where c.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByCon" resultMap="BaseResultMap" parameterType="com.caliven.blog.db.entity.CategoryTag">
+        select
+        <include refid="Base_Column_List"/>
+        from category_tag c
+        where c.parent_id &lt;&gt; 0
+        <if test="id != null">
+            and c.id &lt;&gt; #{id,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            and c.user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="type != null">
+            and c.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="name != null">
+            and c.name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="slug != null">
+            and c.slug = #{slug,jdbcType=VARCHAR}
+        </if>
+        limit 1
+    </select>
+
+    <select id="selectCategoryTag" resultMap="BaseResultMap" parameterType="com.caliven.blog.db.entity.CategoryTag">
+        select
+        <include refid="Base_Column_List"/>,
+        (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum,
+        (select count(1) from category_tag ct where ct.parent_id = c.id) as childrenNum,
+        (select u.nickname from user u where u.id = c.user_id) as username
+        from category_tag c
+        where 1=1
+        <if test="type != null">
+            and c.type = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            and c.user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        <if test="parentId != null">
+            and c.parent_id = #{parentId,jdbcType=INTEGER}
+        </if>
+        <if test="name != null">
+            and (
+            c.name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            or c.slug like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            )
+        </if>
+    </select>
+
+    <select id="selectRootCategory" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from category_tag c
+        where type = 1
+        and c.parent_id = 0
+        and c.user_id = #{userId,jdbcType=INTEGER}
+        limit 1
+    </select>
+
+    <select id="selectTreeCategory" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from category_tag c
+        where c.type = 1
+        and c.user_id = #{userId,jdbcType=INTEGER}
+        and c.parent_id = #{parentId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectCategoryCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select
+        count(1)
+        from category_tag
+        where type = 1
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectTagCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select
+        count(1)
+        from category_tag
+        where type = 2
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+      delete from category_tag where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.caliven.blog.db.entity.CategoryTag">
+        insert into category_tag (id, user_id, parent_id, name,
+          slug, type, description,
+          count, order, level, created_date,
+          updated_date)
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+          #{slug,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+          #{count,jdbcType=INTEGER}, #{order,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP},
+          #{updatedDate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.caliven.blog.db.entity.CategoryTag">
+        insert into category_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="slug != null">
+                slug,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="order != null">
+                order,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="updatedDate != null">
+                updated_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="slug != null">
+                #{slug,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="order != null">
+                #{order,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByIdSelective" parameterType="com.caliven.blog.db.entity.CategoryTag">
+        update category_tag
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="slug != null">
+                slug = #{slug,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="order != null">
+                order = #{order,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateById" parameterType="com.caliven.blog.db.entity.CategoryTag">
+        update category_tag
+        set user_id = #{userId,jdbcType=INTEGER},
+          parent_id = #{parentId,jdbcType=INTEGER},
+          name = #{name,jdbcType=VARCHAR},
+          slug = #{slug,jdbcType=VARCHAR},
+          type = #{type,jdbcType=INTEGER},
+          description = #{description,jdbcType=VARCHAR},
+          count = #{count,jdbcType=INTEGER},
+          order = #{order,jdbcType=INTEGER},
+          level = #{level,jdbcType=INTEGER},
+          created_date = #{createdDate,jdbcType=TIMESTAMP},
+          updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

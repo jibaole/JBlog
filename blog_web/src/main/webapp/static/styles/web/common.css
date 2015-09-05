@@ -1,0 +1,38 @@
+/*
+ * Globals
+ */
+body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #555;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    /*font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;*/
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-weight: normal;
+    color: #333;
+}
+
+/*
+ * Override Bootstrap's default container.
+ */
+@media ( min-width: 1200px) {
+    .container {
+        width: 970px;
+    }
+}
+
+.badge {
+    margin-bottom: 4px;
+}
+
+/*
+ * Footer page
+ */
+.blog-footer {
+    padding: 40px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-top: 1px solid #e5e5e5;
+    color: #999;
+}

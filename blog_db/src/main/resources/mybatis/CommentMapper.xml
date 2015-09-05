@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caliven.blog.db.repository.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.caliven.blog.db.entity.Comment">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="blog_id" property="contentId" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="agent" property="agent" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="BIT"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.caliven.blog.db.entity.Comment" extends="BaseResultMap">
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, blog_id, user_id, parent_id, author, email, url, ip, agent, status, is_deleted, created_date, updated_date
+    </sql>
+    <sql id="Blob_Column_List">
+        content
+    </sql>
+
+    <select id="selectById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from comment
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectRecentCommentByUserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from comment
+        where is_deleted = 0
+        and blog_id in(
+        select b.id from blog b where b.user_id = #{userId,jdbcType=INTEGER}
+        )
+        order by created_date desc
+        limit 0, 10
+    </select>
+
+    <select id="selectCommentCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select
+        count(1)
+        from comment
+        where user_id= #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectNoAuditCommentCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select
+        count(1)
+        from comment
+        where user_id= #{userId,jdbcType=INTEGER}
+        and status = 0
+    </select>
+
+    <select id="selectComment" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from comment where is_deleted = 0
+        <if test="userId != null">
+            and user_id = #{userId, jdbcType=INTEGER}
+        </if>
+        <if test="content != null">
+            and content like CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="status != null">
+            and status = #{status, jdbcType=INTEGER}
+        </if>
+        order by created_date desc
+    </select>
+
+    <select id="selectWaitAuditCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select
+        count(1)
+        from comment
+        where status = 0 and is_deleted = 0
+        and user_id= #{userId,jdbcType=INTEGER}
+    </select>
+
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.caliven.blog.db.entity.Comment">
+    insert into comment (id, blog_id, user_id, 
+      parent_id, author, email, 
+      url, ip, agent, status, 
+      created_date, is_deleted, updated_date, content
+      )
+    values (#{id,jdbcType=INTEGER}, #{contentId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{parentId,jdbcType=INTEGER}, #{author,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+      #{isDeleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP},
+      #{updatedDate,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.caliven.blog.db.entity.Comment">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="contentId != null">
+                blog_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="author != null">
+                author,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="agent != null">
+                agent,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="updatedDate != null">
+                updated_date,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="contentId != null">
+                #{contentId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=BIT},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.caliven.blog.db.entity.Comment">
+        update comment
+        <set>
+            <if test="contentId != null">
+                blog_id = #{contentId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="author != null">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                agent = #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=BIT},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByIdWithBLOBs" parameterType="com.caliven.blog.db.entity.Comment">
+    update comment
+    set blog_id = #{contentId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateById" parameterType="com.caliven.blog.db.entity.Comment">
+    update comment
+    set blog_id = #{contentId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      author = #{author,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

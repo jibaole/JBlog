@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caliven.blog.db.repository.BlogMapper">
+
+    <resultMap id="BaseResultMap" type="com.caliven.blog.db.entity.Blog">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="page_url" property="pageUrl" jdbcType="VARCHAR"/>
+        <result column="view_num" property="viewNum" jdbcType="INTEGER"/>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
+        <result column="allow_comment" property="allowComment" jdbcType="BIT"/>
+        <result column="allow_quote" property="allowQuote" jdbcType="BIT"/>
+        <result column="allow_feed" property="allowFeed" jdbcType="BIT"/>
+        <result column="is_draft" property="isDraft" jdbcType="BIT"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="BIT"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP"/>
+        <association property="user" javaType="com.caliven.blog.db.entity.User">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+            <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+            <result column="email" property="email" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.caliven.blog.db.entity.Blog" extends="BaseResultMap">
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      b.id, b.user_id, b.title, b.status, b.password, b.type, b.page_url, b.view_num, b.comment_num, b.allow_comment,
+      b.allow_quote, b.allow_feed, b.is_draft, b.is_deleted, b.created_date, b.updated_date
+    </sql>
+    <sql id="Blob_Column_List">
+      b.content
+    </sql>
+    <sql id="User_Column_List">
+        u.id, u.username, u.nickname, u.email
+    </sql>
+
+    <select id="selectBlog" resultMap="ResultMapWithBLOBs" parameterType="com.caliven.blog.db.entity.Blog">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="User_Column_List"/>
+        from blog b
+        JOIN user u on b.user_id = u.id
+        where b.is_deleted = 0
+        <if test="userId != null">
+            and b.user_id = #{userId, jdbcType=INTEGER}
+        </if>
+        <if test="title != null">
+            and b.title like CONCAT('%',#{title,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="status != null">
+            and b.status = #{status, jdbcType=INTEGER}
+        </if>
+        <if test="categroyId != null">
+            and b.id in(
+              select r.blog_id from blog_rel_category r
+              where r.category_tag_id = #{categroyId, jdbcType=INTEGER}
+            )
+        </if>
+        order by b.created_date desc
+    </select>
+
+
+    <select id="selectBlogByUserId" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="User_Column_List"/>
+        from blog b
+        JOIN user u on b.user_id = u.id
+        where b.is_deleted = 0
+        and u.id = #{userId,jdbcType=INTEGER}
+        and b.type = #{type,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectRecentBlogByUserId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="User_Column_List"/>
+        from blog b
+        JOIN user u on b.user_id = u.id
+        where b.is_deleted = 0
+        and u.id = #{userId,jdbcType=INTEGER}
+        and b.type = 1
+        order by created_date desc
+        limit 0, 10
+    </select>
+
+    <select id="selectBlogCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select
+        count(1)
+        from blog
+        where is_deleted = 0
+        and user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectNoAuditBlogCount" resultType="java.lang.Integer">
+        select
+        count(1)
+        from blog
+        where is_deleted = 0 and status = 0
+    </select>
+
+    <select id="selectById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from blog b
+        where b.id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from blog
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.caliven.blog.db.entity.Blog">
+    insert into blog (id, user_id, title, 
+      status, password, type, page_url, 
+      view_num, comment_num, allow_comment, 
+      allow_quote, allow_feed, is_draft, is_deleted,
+      created_date, updated_date, content)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{status,jdbcType=BIT}, #{password,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{pageUrl,jdbcType=VARCHAR}, 
+      #{viewNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, #{allowComment,jdbcType=BIT}, 
+      #{allowQuote,jdbcType=BIT}, #{allowFeed,jdbcType=BIT}, #{isDraft,jdbcType=BIT}, #{isDeleted,jdbcType=BIT},
+      #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.caliven.blog.db.entity.Blog">
+        insert into blog
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="pageUrl != null">
+                page_url,
+            </if>
+            <if test="viewNum != null">
+                view_num,
+            </if>
+            <if test="commentNum != null">
+                comment_num,
+            </if>
+            <if test="allowComment != null">
+                allow_comment,
+            </if>
+            <if test="allowQuote != null">
+                allow_quote,
+            </if>
+            <if test="allowFeed != null">
+                allow_feed,
+            </if>
+            <if test="isDraft != null">
+                is_draft,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="updatedDate != null">
+                updated_date,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=BIT},
+            </if>
+            <if test="pageUrl != null">
+                #{pageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="viewNum != null">
+                #{viewNum,jdbcType=INTEGER},
+            </if>
+            <if test="commentNum != null">
+                #{commentNum,jdbcType=INTEGER},
+            </if>
+            <if test="allowComment != null">
+                #{allowComment,jdbcType=BIT},
+            </if>
+            <if test="allowQuote != null">
+                #{allowQuote,jdbcType=BIT},
+            </if>
+            <if test="allowFeed != null">
+                #{allowFeed,jdbcType=BIT},
+            </if>
+            <if test="isDraft != null">
+                #{isDraft,jdbcType=BIT},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=BIT},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" keyProperty="id" parameterType="com.caliven.blog.db.entity.Blog">
+        update blog
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=BIT},
+            </if>
+            <if test="pageUrl != null">
+                page_url = #{pageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="viewNum != null">
+                view_num = #{viewNum,jdbcType=INTEGER},
+            </if>
+            <if test="commentNum != null">
+                comment_num = #{commentNum,jdbcType=INTEGER},
+            </if>
+            <if test="allowComment != null">
+                allow_comment = #{allowComment,jdbcType=BIT},
+            </if>
+            <if test="allowQuote != null">
+                allow_quote = #{allowQuote,jdbcType=BIT},
+            </if>
+            <if test="allowFeed != null">
+                allow_feed = #{allowFeed,jdbcType=BIT},
+            </if>
+            <if test="isDraft != null">
+                is_draft = #{isDraft,jdbcType=BIT},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=BIT},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByIdWithBLOBs" keyProperty="id" parameterType="com.caliven.blog.db.entity.Blog">
+    update blog
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      password = #{password,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIT},
+      page_url = #{pageUrl,jdbcType=VARCHAR},
+      view_num = #{viewNum,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      allow_comment = #{allowComment,jdbcType=BIT},
+      allow_quote = #{allowQuote,jdbcType=BIT},
+      allow_feed = #{allowFeed,jdbcType=BIT},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateById" parameterType="com.caliven.blog.db.entity.Blog">
+    update blog
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIT},
+      password = #{password,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIT},
+      page_url = #{pageUrl,jdbcType=VARCHAR},
+      view_num = #{viewNum,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      allow_comment = #{allowComment,jdbcType=BIT},
+      allow_quote = #{allowQuote,jdbcType=BIT},
+      allow_feed = #{allowFeed,jdbcType=BIT},
+      is_draft = #{isDraft,jdbcType=BIT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

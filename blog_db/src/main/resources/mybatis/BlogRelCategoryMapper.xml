@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caliven.blog.db.repository.BlogRelCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.caliven.blog.db.entity.BlogRelCategory">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="blog_id" property="blogId" jdbcType="INTEGER"/>
+        <result column="category_tag_id" property="categoryTagId" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    r.id, r.blog_id, r.category_tag_id
+  </sql>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from blog_rel_category r
+        where r.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByBlogId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from blog_rel_category r, category_tag c
+        where r.category_tag_id = c.id
+        and r.blog_id = #{blogId,jdbcType=INTEGER}
+        and c.type = #{type, jdbcType=INTEGER}
+    </select>
+
+    <select id="selectCateIdByBlogId" resultType="java.lang.Integer">
+        select r.category_tag_id
+        from blog_rel_category r, category_tag c
+        where r.category_tag_id = c.id
+        and r.blog_id = #{blogId,jdbcType=INTEGER}
+        and c.type = #{type, jdbcType=INTEGER}
+    </select>
+    <!--
+        <select id="selectCategoryBycategoryTagId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+            select
+            <include refid="Base_Column_List"/>
+            from blog_rel_category
+            where category_tag_id = #{categoryTagId,jdbcType=INTEGER} and type = 1
+        </select>
+
+        <select id="selectTagBycategoryTagId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+            select
+            <include refid="Base_Column_List"/>
+            from blog_rel_category
+            where category_tag_id = #{categoryTagId,jdbcType=INTEGER} and type = 2
+        </select>-->
+
+    <delete id="deleteId" parameterType="java.lang.Integer">
+      delete from blog_rel_category
+      where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByBlogId" parameterType="java.lang.Integer">
+      delete from blog_rel_category
+      where blog_id = #{blog_id,jdbcType=INTEGER}
+    </delete>
+
+    <delete id="deleteByCategoryTagId" parameterType="java.lang.Integer">
+        delete from blog_rel_category
+        where category_tag_id = #{categoryTagId,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.caliven.blog.db.entity.BlogRelCategory">
+    insert into blog_rel_category (id, blog_id, category_tag_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, #{categoryTagId,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.caliven.blog.db.entity.BlogRelCategory">
+        insert into blog_rel_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="blogId != null">
+                blog_id,
+            </if>
+            <if test="categoryTagId != null">
+                category_tag_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="blogId != null">
+                #{blogId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryTagId != null">
+                #{categoryTagId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.caliven.blog.db.entity.BlogRelCategory">
+        update blog_rel_category
+        <set>
+            <if test="blogId != null">
+                blog_id = #{blogId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryTagId != null">
+                category_tag_id = #{categoryTagId,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateById" parameterType="com.caliven.blog.db.entity.BlogRelCategory">
+    update blog_rel_category
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      category_tag_id = #{categoryTagId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caliven.blog.db.repository.UserMapper">
+    <resultMap id="BaseResultMap" type="com.caliven.blog.db.entity.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="roles" property="roles" jdbcType="INTEGER"/>
+        <result column="img_id" property="imgId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="BIT"/>
+        <result column="last_login_date" property="lastLoginDate" jdbcType="TIMESTAMP"/>
+        <result column="last_login_ip" property="lastLoginIp" jdbcType="VARCHAR"/>
+        <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
+        <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="UserResultMap" type="com.caliven.blog.db.entity.User" extends="BaseResultMap">
+        <result column="blogNum" property="blogNum" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        u.id, u.username, u.nickname, u.password, u.email, u.salt, u.url, u.roles,
+        u.img_id, u.status, u.last_login_date, u.last_login_ip, u.created_date, u.updated_date
+    </sql>
+
+    <select id="selectAll" resultMap="UserResultMap" parameterType="com.caliven.blog.db.search.Search">
+        select
+        <include refid="Base_Column_List"/>,
+        (select count(1) from blog b where b.user_id = u.id) as blogNum
+        from user u
+        where 1=1
+        <if test="search != null and search != ''">
+            and (
+            u.username like CONCAT('%',#{search,jdbcType=VARCHAR},'%')
+            or u.nickname like CONCAT('%',#{search,jdbcType=VARCHAR},'%')
+            or u.email like CONCAT('%',#{search,jdbcType=VARCHAR},'%')
+            or u.url like CONCAT('%',#{search,jdbcType=VARCHAR},'%')
+            )
+        </if>
+        <if test="roles != null and roles != ''">
+            and u.roles =#{roles,jdbcType=INTEGER}
+        </if>
+        order by u.status desc, u.created_date desc
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user u
+        where u.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user u
+        where u.email = #{email,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user u
+        where u.username = #{username,jdbcType=VARCHAR} limit 1
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+      delete from user
+      where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.caliven.blog.db.entity.User">
+        insert into user (id, username, nickname,
+          password, email, salt,
+          url, roles, img_id, status, last_login_date,
+          last_login_ip, created_date, updated_date
+          )
+        values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR},
+          #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},
+          #{url,jdbcType=VARCHAR}, #{roles,jdbcType=INTEGER}, #{imgId,jdbcType=INTEGER}, #{status,jdbcType=BIT}, #{lastLoginDate,jdbcType=TIMESTAMP},
+          #{lastLoginIp,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP}
+          )
+    </insert>
+    <insert id="insertSelective" parameterType="com.caliven.blog.db.entity.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="roles != null">
+                roles,
+            </if>
+            <if test="imgId != null">
+                img_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="lastLoginDate != null">
+                last_login_date,
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip,
+            </if>
+            <if test="createdDate != null">
+                created_date,
+            </if>
+            <if test="updatedDate != null">
+                updated_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="roles != null">
+                #{roles,jdbcType=INTEGER},
+            </if>
+            <if test="imgId != null">
+                #{imgId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=BIT},
+            </if>
+            <if test="lastLoginDate != null">
+                #{lastLoginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createdDate != null">
+                #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByIdSelective" parameterType="com.caliven.blog.db.entity.User">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="nickname != null">
+                nickname = #{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="roles != null">
+                roles = #{roles,jdbcType=INTEGER},
+            </if>
+            <if test="imgId != null">
+                img_id = #{imgId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=BIT},
+            </if>
+            <if test="lastLoginDate != null">
+                last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginIp != null">
+                last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+            </if>
+            <if test="createdDate != null">
+                created_date = #{createdDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedDate != null">
+                updated_date = #{updatedDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateById" parameterType="com.caliven.blog.db.entity.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      roles = #{roles,jdbcType=INTEGER},
+      img_id = #{imgId,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
+      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
+      created_date = #{createdDate,jdbcType=TIMESTAMP},
+      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
