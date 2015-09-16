@@ -1,10 +1,9 @@
 package com.caliven.blog.service.admin;
 
-import com.caliven.blog.db.entity.Blog;
 import com.caliven.blog.db.entity.Comment;
 import com.caliven.blog.db.repository.CommentMapper;
 import com.caliven.blog.service.shiro.ShiroUtils;
-import com.caliven.blog.utils.Page;
+import com.caliven.blog.utils.Page2;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +29,11 @@ public class CommentService {
      * 查询评论
      *
      * @param comment
-     * @param page
+     * @param page2
      * @return
      */
-    public List<Comment> findsCommentByPage(Comment comment, Page page) {
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+    public List<Comment> findsCommentByPage(Comment comment, Page2 page2) {
+        PageHelper.startPage(page2.getPageNum(), page2.getPageSize());
         return commentMapper.selectComment(comment);
     }
 

@@ -1,5 +1,7 @@
 body {
+    /*
     padding-top: 70px;
+    */
 }
 /*
  * Masthead for nav
@@ -110,7 +112,7 @@ body {
 
 .blog-post-title {
     margin-bottom: 8px;
-    font-size: 22px;
+    font-size: 16px;
 }
 
 .blog-post-meta {
@@ -120,4 +122,6 @@ body {
 }
 .blog-post-meta a{
     font-size: 13px;
+}
+.blog-post-content{
 }

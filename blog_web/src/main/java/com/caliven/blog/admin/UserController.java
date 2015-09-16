@@ -3,7 +3,7 @@ package com.caliven.blog.admin;
 import com.caliven.blog.db.entity.User;
 import com.caliven.blog.db.search.Search;
 import com.caliven.blog.service.admin.UserService;
-import com.caliven.blog.utils.Page;
+import com.caliven.blog.utils.Page2;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Search search, Page page) {
+    public String list(Model model, Search search, Page2 page) {
         List<User> list = userService.findsUserByPage(search, page);
         PageInfo pageInfo = new PageInfo(list);
         BeanUtils.copyProperties(pageInfo, page);

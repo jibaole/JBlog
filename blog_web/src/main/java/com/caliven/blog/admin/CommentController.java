@@ -5,7 +5,7 @@ import com.caliven.blog.service.admin.CommentService;
 import com.caliven.blog.service.admin.UserService;
 import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.utils.IPUtils;
-import com.caliven.blog.utils.Page;
+import com.caliven.blog.utils.Page2;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,20 +34,20 @@ public class CommentController {
     }
 
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Comment comment, Page page) {
+    public String list(Model model, Comment comment, Page2 page) {
         searchComment(model, comment, page);
         return "admin/comment/comment-list";
     }
 
     @RequestMapping(value = "audits", method = RequestMethod.GET)
-    public String audits(Model model, Page page) {
+    public String audits(Model model, Page2 page) {
         Comment comment = new Comment();
         comment.setStatus(0);
         searchComment(model, comment, page);
         return "admin/comment/comment-list";
     }
 
-    private void searchComment(Model model, Comment comment, Page page) {
+    private void searchComment(Model model, Comment comment, Page2 page) {
         if (comment.getStatus() == null) {
             comment.setStatus(1);
         }

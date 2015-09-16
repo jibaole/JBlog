@@ -4,7 +4,7 @@
 <%@ taglib prefix="s" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav id="top-nav" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"

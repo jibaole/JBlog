@@ -15,7 +15,7 @@
         var _ctx = '${ctx}';
     </script>
 
-    <link href="${ctx}/static/images/favicon/favicon.ico" rel="shortcut icon" />
+    <link href="${ctx}/static/images/favicon/favicon1.ico" rel="shortcut icon" />
     <link href="${ctx}/static/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/styles/account/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/styles/account/css/form-elements.css" type="text/css" rel="stylesheet"/>

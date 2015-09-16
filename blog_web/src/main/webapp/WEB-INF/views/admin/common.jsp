@@ -5,7 +5,7 @@
 </script>
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico"/>
+<link rel="shortcut icon" href="${ctx}/static/images/favicon/favicon1.ico"/>
 <link href="${ctx}/static/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
 <link href="${ctx}/static/styles/admin/index.css" type="text/css" rel="stylesheet"/>
 <!--[if lt IE 9]>

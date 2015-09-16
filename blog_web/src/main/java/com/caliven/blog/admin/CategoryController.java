@@ -3,6 +3,7 @@ package com.caliven.blog.admin;
 import com.caliven.blog.db.entity.CategoryTag;
 import com.caliven.blog.service.admin.CategoryTagService;
 import com.caliven.blog.utils.Page;
+import com.caliven.blog.utils.Page2;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, CategoryTag ct, Page page) {
+    public String list(Model model, CategoryTag ct, Page2 page) {
         List<CategoryTag> list = categoryTagService.findsCategory(ct, page);
         PageInfo pageInfo = new PageInfo(list);
         BeanUtils.copyProperties(pageInfo, page);

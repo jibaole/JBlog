@@ -9,6 +9,7 @@ import com.caliven.blog.db.repository.CategoryTagMapper;
 import com.caliven.blog.db.vo.CategoryVo;
 import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.utils.Page;
+import com.caliven.blog.utils.Page2;
 import com.caliven.blog.utils.RelativeDateFormat;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -101,34 +102,23 @@ public class BlogService {
         }
     }
 
-    public List<Blog> findsBlogByUserAndPage(Integer userId, Page page) {
-        List<Blog> blogList = new ArrayList<Blog>();
-        Blog blog = new Blog();
-        blog.setUserId(ShiroUtils.getCurrUserId());
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<Blog> list = blogMapper.selectBlog(blog);
-
-        List<BlogRelCategory> cateList = null;
-        List<CategoryVo> voList = null;
-        for (Blog b : list) {
-            voList = new ArrayList<CategoryVo>();
-            cateList = blogRelCategoryMapper.selectByBlogId(b.getId(), 1);
-            if (cateList != null && cateList.size() > 0) {
-                for (BlogRelCategory cate : cateList) {
-                    CategoryTag ct = categoryTagMapper.selectById(cate.getCategoryTagId());
-                    if (ct == null) {
-                        continue;
-                    }
-                    CategoryVo vo = new CategoryVo();
-                    vo.setCategoryId(cate.getId());
-                    vo.setCategoryName(ct.getName());
-                    voList.add(vo);
-                }
-            }
-            b.setCategorys(voList);
-            blogList.add(b);
+    /**
+     * 移除字符串中包含HTML的标签
+     *
+     * @param content
+     * @return
+     */
+    public static String removeHTML(String content) {
+        int before = content.indexOf('<');
+        int behind = content.indexOf('>');
+        if (before != -1 || behind != -1) {
+            behind += 1;
+            content = content.substring(0, before).trim()
+                    + content.substring(behind, content.length()).trim();
+            content = removeHTML(content);
         }
-        return blogList;
+        content = content.replaceAll(" ", "").replaceAll("　", "");//.replaceAll("&nbsp;","");
+        return content;
     }
 
     /**
@@ -140,10 +130,14 @@ public class BlogService {
      */
     public List<Blog> findsBlogByPage(Blog blog, Page page) {
         List<Blog> blogList = new ArrayList<Blog>();
-        blog.setUserId(ShiroUtils.getCurrUserId());
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        List<Blog> list = blogMapper.selectBlog(blog);
+        //blog.setUserId(ShiroUtils.getCurrUserId());
+        //PageHelper.startPage(page2.getPageNum(), page2.getPageSize());
+        List<Blog> list = blogMapper.selectBlog(blog, page);
+        StringBuilder content = null;
         for (Blog b : list) {
+            content = new StringBuilder(b.getContent());
+            String[] content2 = content.toString().split("<!--more-->");
+            b.setContent(content2[0]);
             String categoryNames = "";
             b.setRelativeTime(RelativeDateFormat.format(b.getCreatedDate()));
             List<BlogRelCategory> cateList = blogRelCategoryMapper.selectByBlogId(b.getId(), 1);
@@ -155,11 +149,11 @@ public class BlogService {
                     }
                     CategoryVo vo = new CategoryVo();
                     vo.setCategoryId(cate.getId());
-                    categoryNames += ct.getName()+",";
+                    categoryNames += ct.getName() + ",";
                 }
             }
-            if(StringUtils.isNotBlank(categoryNames)){
-                categoryNames = categoryNames.substring(0, (categoryNames.length()-1));
+            if (StringUtils.isNotBlank(categoryNames)) {
+                categoryNames = categoryNames.substring(0, (categoryNames.length() - 1));
             }
             b.setCategoryNames(categoryNames);
             blogList.add(b);
@@ -169,6 +163,7 @@ public class BlogService {
 
     /**
      * 查询未审核的文章数量
+     *
      * @return
      */
     public int findNoAuditBlogCount() {

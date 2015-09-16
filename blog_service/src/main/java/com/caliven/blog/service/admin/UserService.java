@@ -4,9 +4,8 @@ import com.caliven.blog.db.entity.User;
 import com.caliven.blog.db.repository.UserMapper;
 import com.caliven.blog.db.search.Search;
 import com.caliven.blog.utils.BlogUtils;
-import com.caliven.blog.utils.Page;
+import com.caliven.blog.utils.Page2;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,13 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> findsUserByPage(Search search, Page page) {
+    public List<User> findsUserByPage(Search search, Page2 page2) {
         /**
          * 分页查询，在查询之前(必须在查询之前)调用MyBatis分页插件pagehelper
          * 的PageHelper.startPage()方法,即可实现分页(物理分页)
          * http://git.oschina.net/free/Mybatis_PageHelper/blob/master/wikis/HowToUse.markdown
          */
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page2.getPageNum(), page2.getPageSize());
         List<User> list = userMapper.selectAll(search);
         return list;
     }

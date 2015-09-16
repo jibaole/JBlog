@@ -147,7 +147,6 @@ public class ArticleController {
         }
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss aaa");
         json += ",\"id\":" + id + ",\"date\":\"" + sdf.format(new Date()) + "\"}";
-        System.out.println(json);
         return json;
     }
 
