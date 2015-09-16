@@ -5,9 +5,7 @@ import com.caliven.blog.service.admin.CommentService;
 import com.caliven.blog.service.admin.UserService;
 import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.utils.IPUtils;
-import com.caliven.blog.utils.Page2;
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
+import com.caliven.blog.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,27 +32,25 @@ public class CommentController {
     }
 
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Comment comment, Page2 page) {
+    public String list(Model model, Comment comment, Page page) {
         searchComment(model, comment, page);
         return "admin/comment/comment-list";
     }
 
     @RequestMapping(value = "audits", method = RequestMethod.GET)
-    public String audits(Model model, Page2 page) {
+    public String audits(Model model, Page page) {
         Comment comment = new Comment();
         comment.setStatus(0);
         searchComment(model, comment, page);
         return "admin/comment/comment-list";
     }
 
-    private void searchComment(Model model, Comment comment, Page2 page) {
+    private void searchComment(Model model, Comment comment, Page page) {
         if (comment.getStatus() == null) {
             comment.setStatus(1);
         }
         List<Comment> list = commentService.findsCommentByPage(comment, page);
         int waitAuditCount = commentService.findWaitAuditCount();
-        PageInfo pageInfo = new PageInfo(list);
-        BeanUtils.copyProperties(pageInfo, page);
         model.addAttribute("comments", list);
         model.addAttribute("page", page);
         model.addAttribute("comment", comment);

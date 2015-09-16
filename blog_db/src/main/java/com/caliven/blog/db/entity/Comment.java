@@ -4,8 +4,11 @@ import java.util.Date;
 
 /**
  * 评论pojo
+ *
+ * Created by Caliven on 2015/6/24.
  */
 public class Comment {
+
     private Integer id;
 
     private Integer contentId;

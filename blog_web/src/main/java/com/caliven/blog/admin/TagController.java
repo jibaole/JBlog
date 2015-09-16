@@ -2,6 +2,7 @@ package com.caliven.blog.admin;
 
 import com.caliven.blog.db.entity.CategoryTag;
 import com.caliven.blog.service.admin.CategoryTagService;
+import com.caliven.blog.service.shiro.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
+ * 标签Controller
  * Created by Caliven on 2015/7/8.
  */
 @Controller
@@ -28,13 +30,27 @@ public class TagController {
         model.addAttribute("navbar", 3);
     }
 
+    /**
+     * 列表
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(Model model) {
-        List<CategoryTag> list = categoryTagService.findsTag();
+        Integer userId = ShiroUtils.getCurrUserId();
+        List<CategoryTag> list = categoryTagService.findsTag(userId);
         model.addAttribute("tags", list);
         return "admin/tag/tag";
     }
 
+    /**
+     * 保存标签
+     *
+     * @param model
+     * @param tag
+     * @return
+     */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String save(Model model, CategoryTag tag) {
         try {
@@ -51,9 +67,15 @@ public class TagController {
         }
     }
 
-    @ResponseBody
+    /**
+     * 检测标签名称是否唯一
+     *
+     * @param name
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "check_name", method = RequestMethod.GET)
-    public Object checkUsername(String name, Integer id) {
+    public @ResponseBody Object checkUsername(String name, Integer id) {
         boolean flag = categoryTagService.checkName(2, name, id);
         String status = flag ? "false" : "true";
         // 配合 bootstrapValidator 框架验证，返回json数据格式必须为 {"valid": true/false} 格式
@@ -61,18 +83,29 @@ public class TagController {
         return json;
     }
 
-    @ResponseBody
+    /**
+     * 检测缩略名是否唯一
+     *
+     * @param slug
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "check_slug", method = RequestMethod.GET)
-    public Object checkSlug(String slug, Integer id) {
+    public @ResponseBody Object checkSlug(String slug, Integer id) {
         boolean flag = categoryTagService.checkSlug(2, slug, id);
         String status = flag ? "false" : "true";
         String json = "{\"valid\":" + status + "}";
         return json;
     }
 
-    @ResponseBody
+    /**
+     * 删除标签
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "del", method = RequestMethod.POST)
-    public Object del(Integer id) {
+    public @ResponseBody Object del(Integer id) {
         try {
             categoryTagService.deleteTag(id);
             return "success";

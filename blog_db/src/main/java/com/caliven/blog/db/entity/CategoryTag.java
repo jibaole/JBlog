@@ -4,8 +4,11 @@ import java.util.Date;
 
 /**
  * 分类、标签pojo
+ *
+ * Created by Caliven on 2015/6/24.
  */
 public class CategoryTag {
+
     private Integer id;
 
     private Integer userId;

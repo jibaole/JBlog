@@ -8,8 +8,11 @@ import java.util.List;
 
 /**
  * 博文pojo
+ *
+ * Created by Caliven on 2015/6/24.
  */
 public class Blog {
+
     private Integer id;
 
     private Integer userId;
@@ -46,13 +49,13 @@ public class Blog {
 
     private String content;
 
+
     private List<Comment> comments;
     private List<CategoryVo> categorys;
-    private Integer categroyId;
+    private Integer categroyTagId;
     private String relativeTime;
     private String publishTime;
     private String categoryNames;
-
 
 
     public Integer getId() {
@@ -215,12 +218,12 @@ public class Blog {
         this.categorys = categorys;
     }
 
-    public Integer getCategroyId() {
-        return categroyId;
+    public Integer getCategroyTagId() {
+        return categroyTagId;
     }
 
-    public void setCategroyId(Integer categroyId) {
-        this.categroyId = categroyId;
+    public void setCategroyTagId(Integer categroyTagId) {
+        this.categroyTagId = categroyTagId;
     }
 
     public String getRelativeTime() {

@@ -32,7 +32,7 @@
         from category_tag c
         where c.parent_id &lt;&gt; 0
         <if test="id != null">
-            and c.id &lt;&gt; #{id,jdbcType=INTEGER}
+            <![CDATA[ and c.id <> #{id,jdbcType=INTEGER} ]]>
         </if>
         <if test="userId != null">
             and c.user_id = #{userId,jdbcType=INTEGER}
@@ -49,17 +49,15 @@
         limit 1
     </select>
 
-    <select id="selectCategoryTag" resultMap="BaseResultMap" parameterType="com.caliven.blog.db.entity.CategoryTag">
+    <select id="selectCategoryByParams" resultMap="BaseResultMap"
+            parameterType="com.caliven.blog.db.entity.CategoryTag">
         select
         <include refid="Base_Column_List"/>,
         (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum,
         (select count(1) from category_tag ct where ct.parent_id = c.id) as childrenNum,
         (select u.nickname from user u where u.id = c.user_id) as username
         from category_tag c
-        where 1=1
-        <if test="type != null">
-            and c.type = #{type,jdbcType=INTEGER}
-        </if>
+        where c.type = 1
         <if test="userId != null">
             and c.user_id = #{userId,jdbcType=INTEGER}
         </if>
@@ -78,7 +76,7 @@
         select
         <include refid="Base_Column_List"/>
         from category_tag c
-        where type = 1
+        where c.type = 1
         and c.parent_id = 0
         and c.user_id = #{userId,jdbcType=INTEGER}
         limit 1
@@ -89,7 +87,9 @@
         <include refid="Base_Column_List"/>
         from category_tag c
         where c.type = 1
-        and c.user_id = #{userId,jdbcType=INTEGER}
+        <if test="userId != null">
+            and c.user_id = #{userId,jdbcType=INTEGER}
+        </if>
         and c.parent_id = #{parentId,jdbcType=INTEGER}
     </select>
 
@@ -98,8 +98,19 @@
         count(1)
         from category_tag
         where type = 1
-        <if test="userId != null">
+        <if test="_parameter != null">
             and user_id = #{userId,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectTagByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>,
+        (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum
+        from category_tag c
+        where c.type = 2
+        <if test="_parameter != null">
+            and c.user_id = #{userId,jdbcType=INTEGER}
         </if>
     </select>
 

@@ -11,6 +11,11 @@ import org.apache.shiro.subject.Subject;
  */
 public class ShiroUtils {
 
+    /**
+     * admin 账号 id
+     */
+    public static final Integer ADMIN_ID = 1;
+
     public static ShiroDbRealm.ShiroUser getCurrUser() {
         Subject currentUser = SecurityUtils.getSubject();
         Session session = currentUser.getSession();
@@ -18,9 +23,15 @@ public class ShiroUtils {
         return (ShiroDbRealm.ShiroUser) principals.getPrimaryPrincipal();
     }
 
-    public static boolean isAdmin(){
+
+    public static Integer getAdminId() {
+        // 默认写死 admin 账号 id 为1，与数据库 admin 账号 id 保持一致
+        return ADMIN_ID;
+    }
+
+    public static boolean isAdmin() {
         Subject currentUser = SecurityUtils.getSubject();
-        if(currentUser.hasRole("admin")){
+        if (currentUser.hasRole("admin")) {
             return true;
         }
         return false;

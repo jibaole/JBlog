@@ -6,15 +6,12 @@ import com.caliven.blog.db.entity.CategoryTag;
 import com.caliven.blog.db.repository.BlogMapper;
 import com.caliven.blog.db.repository.BlogRelCategoryMapper;
 import com.caliven.blog.db.repository.CategoryTagMapper;
-import com.caliven.blog.db.vo.CategoryVo;
 import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.utils.Page;
-import com.caliven.blog.utils.Page2;
 import com.caliven.blog.utils.RelativeDateFormat;
-import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -28,7 +25,7 @@ import java.util.List;
  * 博客管理Service
  * Created by Caliven on 2015/6/28.
  */
-@Component
+@Service
 @Transactional
 public class BlogService {
 
@@ -39,8 +36,21 @@ public class BlogService {
     @Autowired
     private BlogRelCategoryMapper blogRelCategoryMapper;
 
+    /**
+     * 博文更多标示，该标示前的字符用于列表前台博文首页显示（配合后端撰写页面 markdown 空间更多按钮显示）
+     */
+    public static final String CONTENT_SPLIT = "<!--more-->";
+
+    /**
+     * 保存博文
+     *
+     * @param blog
+     * @param ctIds
+     * @return
+     * @throws ParseException
+     */
     public int saveBlog(Blog blog, String ctIds) throws ParseException {
-        Timestamp time = new Timestamp(System.currentTimeMillis());
+        // 处理发布时间
         if (StringUtils.isBlank(blog.getPublishTime())) {
             blog.setCreatedDate(new Date());
         } else {
@@ -53,7 +63,7 @@ public class BlogService {
         if (blog.getAllowQuote() == null || !blog.getAllowQuote()) {
             blog.setAllowQuote(false);
         }
-        blog.setUpdatedDate(time);
+        blog.setUpdatedDate(new Timestamp(System.currentTimeMillis()));
         blog.setUserId(ShiroUtils.getCurrUserId());
         if (blog.getId() == null) {
             blog.setType(1);
@@ -63,11 +73,11 @@ public class BlogService {
             blogMapper.updateByIdSelective(blog);
         }
 
-
+        // 开始处理分类
+        BlogRelCategory rel;
         Integer blogId = blog.getId();
-        blogRelCategoryMapper.deleteByBlogId(blog.getId());
+        blogRelCategoryMapper.deleteByBlogId(blogId);
         String[] ids = ctIds.split(",");
-        BlogRelCategory rel = null;
         for (int i = 0; i < ids.length; i++) {
             String sid = ids[i];
             if (StringUtils.isBlank(sid) || "null".equals(sid)) {
@@ -79,14 +89,24 @@ public class BlogService {
             rel.setCategoryTagId(id);
             blogRelCategoryMapper.insertSelective(rel);
         }
-
         return blogId;
     }
 
+    /**
+     * 查询某篇博文
+     *
+     * @param id
+     * @return
+     */
     public Blog findBlogById(Integer id) {
         return blogMapper.selectById(id);
     }
 
+    /**
+     * 删除博文
+     *
+     * @param ids
+     */
     public void delBlog(String ids) {
         String[] bIds = ids.split(",");
         for (int i = 0; i < bIds.length; i++) {
@@ -121,44 +141,49 @@ public class BlogService {
         return content;
     }
 
+
     /**
-     * 获取所有博客
+     * 后台查询所有博文
      *
      * @param blog
      * @param page
      * @return
      */
-    public List<Blog> findsBlogByPage(Blog blog, Page page) {
-        List<Blog> blogList = new ArrayList<Blog>();
-        //blog.setUserId(ShiroUtils.getCurrUserId());
-        //PageHelper.startPage(page2.getPageNum(), page2.getPageSize());
-        List<Blog> list = blogMapper.selectBlog(blog, page);
-        StringBuilder content = null;
-        for (Blog b : list) {
-            content = new StringBuilder(b.getContent());
-            String[] content2 = content.toString().split("<!--more-->");
-            b.setContent(content2[0]);
-            String categoryNames = "";
-            b.setRelativeTime(RelativeDateFormat.format(b.getCreatedDate()));
-            List<BlogRelCategory> cateList = blogRelCategoryMapper.selectByBlogId(b.getId(), 1);
-            if (cateList != null && cateList.size() > 0) {
-                for (BlogRelCategory cate : cateList) {
-                    CategoryTag ct = categoryTagMapper.selectById(cate.getCategoryTagId());
-                    if (ct == null) {
-                        continue;
-                    }
-                    CategoryVo vo = new CategoryVo();
-                    vo.setCategoryId(cate.getId());
-                    categoryNames += ct.getName() + ",";
-                }
-            }
-            if (StringUtils.isNotBlank(categoryNames)) {
-                categoryNames = categoryNames.substring(0, (categoryNames.length() - 1));
-            }
-            b.setCategoryNames(categoryNames);
-            blogList.add(b);
+    public List<Blog> findsAllBlog(Blog blog, Page page) {
+        List<Blog> blogList = blogMapper.selectByParams(blog, page, true);
+        List<Blog> retList = new ArrayList<>();
+        for (Blog b : blogList) {
+            retList.add(this.setBlogValue(b));
         }
-        return blogList;
+        return retList;
+    }
+
+    /**
+     * 设置博文特殊参数值
+     *
+     * @param blog
+     * @return
+     */
+    private Blog setBlogValue(Blog blog) {
+        String categoryNames = "";
+        // 处理博文时间显示
+        blog.setRelativeTime(RelativeDateFormat.format(blog.getCreatedDate()));
+        // 查询博文分类
+        List<BlogRelCategory> cateList = blogRelCategoryMapper.selectByBlogId(blog.getId(), 1);
+        if (cateList != null && cateList.size() > 0) {
+            for (BlogRelCategory cate : cateList) {
+                CategoryTag ct = categoryTagMapper.selectById(cate.getCategoryTagId());
+                if (ct == null) {
+                    continue;
+                }
+                categoryNames += ct.getName() + ",";
+            }
+        }
+        if (StringUtils.isNotBlank(categoryNames)) {
+            categoryNames = categoryNames.substring(0, (categoryNames.length() - 1));
+        }
+        blog.setCategoryNames(categoryNames);
+        return blog;
     }
 
     /**
@@ -167,7 +192,12 @@ public class BlogService {
      * @return
      */
     public int findNoAuditBlogCount() {
-        return blogMapper.selectNoAuditBlogCount();
+        // 管理员则查询所以，无需传 userId 参数
+        Integer userId = null;
+        if (!ShiroUtils.isAdmin()) {
+            userId = ShiroUtils.getCurrUserId();
+        }
+        return blogMapper.selectNoAuditCount(userId);
     }
 
     /**
@@ -180,7 +210,7 @@ public class BlogService {
         if (userId == null) {
             return 0;
         }
-        return blogMapper.selectBlogCountByUserId(userId);
+        return blogMapper.selectCountByUserId(userId);
     }
 
     /**
@@ -193,15 +223,45 @@ public class BlogService {
         if (userId == null) {
             return null;
         }
-        return blogMapper.selectBlogByUserId(userId, 1);
+        return blogMapper.selectByUserId(userId, true);
     }
 
 
-    public List<Blog> findsRecentBlogByUserId(Integer userId) {
-        if (userId == null) {
-            return null;
+    /***********************前台查询***********************/
+
+    /**
+     * 前台查询博文，默认查询 admin 账号下的博文
+     *
+     * @param blog
+     * @param page
+     * @return
+     */
+    public List<Blog> findsBlogByPage(Blog blog, Page page) {
+        //获取admin账号id
+        blog.setUserId(ShiroUtils.getAdminId());
+        List<Blog> blogList = blogMapper.selectByParams(blog, page, false);
+
+        List<Blog> retList = new ArrayList<>();
+        for (Blog b : blogList) {
+            // 处理博文内容，只截取"<!--more-->"标签前的字符显示
+            String content = b.getContent();
+            if (StringUtils.isNotBlank(content)) {
+                String[] content2 = content.split(CONTENT_SPLIT);
+                b.setContent(content2[0]);
+            }
+            retList.add(this.setBlogValue(b));
         }
-        return blogMapper.selectRecentBlogByUserId(userId);
+        return retList;
+    }
+
+    /**
+     * 前台查询最近博文列表
+     *
+     * @param userId
+     * @return
+     */
+    public List<Blog> findsRecentBlog(Integer userId) {
+        return blogMapper.selectRecentBlog(userId);
     }
 
 

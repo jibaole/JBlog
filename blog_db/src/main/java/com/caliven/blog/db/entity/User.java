@@ -9,9 +9,11 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 用户 pojo
  * Created by Caliven on 2015/6/24.
  */
 public class User {
+
     private Integer id;
 
     private String username;
@@ -43,7 +45,17 @@ public class User {
     /******
      * 非数据库字段 start
      ******/
+    private String search;
+
     private Integer blogNum;
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
     /******
      * 非数据库字段 end

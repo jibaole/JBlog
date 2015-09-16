@@ -4,9 +4,8 @@ import com.caliven.blog.db.entity.BlogRelCategory;
 import com.caliven.blog.db.entity.CategoryTag;
 import com.caliven.blog.db.repository.BlogRelCategoryMapper;
 import com.caliven.blog.db.repository.CategoryTagMapper;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.List;
 /**
  * Created by Caliven on 2015/7/11.
  */
-@Component
+@Service
 @Transactional
 public class BlogRelCategoryService {
 

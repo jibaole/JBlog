@@ -130,12 +130,13 @@
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
-            <!-- pagehelper(mybatis分页插件) -->
+            <!-- pagehelper(mybatis分页插件)
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
                 <version>${pagehelper.vaersion}</version>
             </dependency>
+            -->
             <!-- mybatis-spring -->
             <dependency>
                 <groupId>org.mybatis</groupId>

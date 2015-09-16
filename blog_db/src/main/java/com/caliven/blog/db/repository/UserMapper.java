@@ -2,6 +2,8 @@ package com.caliven.blog.db.repository;
 
 import com.caliven.blog.db.entity.User;
 import com.caliven.blog.db.search.Search;
+import com.caliven.blog.utils.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,15 +22,34 @@ public interface UserMapper {
 
     int insertSelective(User record);
 
-    User selectById(Integer id);
-
-    List<User> selectAll(Search search);
-
-    User selectByEmail(String email);
-
-    User selectByUsername(String username);
-
     int updateByIdSelective(User record);
 
     int updateById(User record);
+
+    User selectById(Integer id);
+
+    /**
+     * 查询用户
+     *
+     * @param user
+     * @param page
+     * @return
+     */
+    List<User> selectByParams(@Param("user") User user, @Param("page") Page page);
+
+    /**
+     * 通过 email 查询
+     *
+     * @param email
+     * @return
+     */
+    User selectByEmail(String email);
+
+    /**
+     * 通过用户名查询
+     *
+     * @param username
+     * @return
+     */
+    User selectByUsername(String username);
 }

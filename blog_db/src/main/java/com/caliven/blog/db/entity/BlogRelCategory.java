@@ -2,8 +2,11 @@ package com.caliven.blog.db.entity;
 
 /**
  * 博文、类别|Tag关系pojo
+ *
+ * Created by Caliven on 2015/6/24.
  */
 public class BlogRelCategory {
+
     private Integer id;
 
     private Integer blogId;

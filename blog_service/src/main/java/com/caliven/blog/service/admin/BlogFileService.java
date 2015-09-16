@@ -3,7 +3,7 @@ package com.caliven.blog.service.admin;
 import com.caliven.blog.db.entity.BlogFile;
 import com.caliven.blog.db.repository.BlogFileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -13,7 +13,7 @@ import java.util.List;
  * 附件管理Service
  * Created by Caliven on 2015/7/1.
  */
-@Component
+@Service
 @Transactional
 public class BlogFileService {
 

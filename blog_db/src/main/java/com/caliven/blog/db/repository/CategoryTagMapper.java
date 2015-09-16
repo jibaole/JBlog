@@ -1,7 +1,7 @@
 package com.caliven.blog.db.repository;
 
 import com.caliven.blog.db.entity.CategoryTag;
-import com.caliven.blog.db.search.Search;
+import com.caliven.blog.utils.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,21 +15,64 @@ public interface CategoryTagMapper {
 
     int insertSelective(CategoryTag record);
 
-    CategoryTag selectById(Integer id);
-    CategoryTag selectByCon(CategoryTag ct);
-    CategoryTag selectRootCategory(Integer userId);
-
-
     int updateByIdSelective(CategoryTag record);
 
     int updateById(CategoryTag record);
 
-    List<CategoryTag> selectCategoryTag(CategoryTag ct);
+    CategoryTag selectById(Integer id);
 
-    List<CategoryTag> selectTreeCategory(@Param("userId")Integer userId, @Param("parentId")Integer parentId);
+    CategoryTag selectByCon(CategoryTag ct);
 
+    /**
+     * 通过用户查询根节点类别
+     *
+     * @param userId
+     * @return
+     */
+    CategoryTag selectRootCategory(Integer userId);
+
+    /**
+     * 根据用户 ID 、父节点 ID 查询类别
+     *
+     * @param userId
+     * @param parentId
+     * @return
+     */
+    List<CategoryTag> selectTreeCategory(@Param("userId") Integer userId, @Param("parentId") Integer parentId);
+
+
+    /**
+     * 查询类别
+     *
+     * @param ct
+     * @param page
+     * @return
+     */
+    List<CategoryTag> selectCategoryByParams(CategoryTag ct, Page page);
+
+
+    /**
+     * 查询用户类别总数
+     *
+     * @param userId
+     * @return
+     */
     int selectCategoryCountByUserId(Integer userId);
 
+    /**
+     * 通过用户 ID 查询标签
+     *
+     * @param userId 如果为空则查所有
+     * @return
+     */
+    List<CategoryTag> selectTagByUserId(Integer userId);
+
+    /**
+     * 查询用户标签总数
+     *
+     * @param userId
+     * @return
+     */
     int selectTagCountByUserId(Integer userId);
 
 }

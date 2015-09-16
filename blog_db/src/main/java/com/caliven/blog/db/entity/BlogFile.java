@@ -2,7 +2,13 @@ package com.caliven.blog.db.entity;
 
 import java.util.Date;
 
+/**
+ * 文件 pojo
+ *
+ * Created by Caliven on 2015/6/24.
+ */
 public class BlogFile {
+
     private Integer id;
 
     private String entityId;

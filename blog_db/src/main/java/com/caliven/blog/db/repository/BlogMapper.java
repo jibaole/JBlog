@@ -8,13 +8,12 @@ import java.util.List;
 
 @MyBatisRepository
 public interface BlogMapper {
+
     int deleteById(Integer id);
 
     int insert(Blog record);
 
     int insertSelective(Blog record);
-
-    Blog selectById(Integer id);
 
     int updateByIdSelective(Blog record);
 
@@ -22,13 +21,48 @@ public interface BlogMapper {
 
     int updateById(Blog record);
 
-    List<Blog> selectBlog(@Param("blog") Blog blog, @Param("page")Page page);
+    Blog selectById(Integer id);
 
-    List<Blog> selectBlogByUserId(@Param("userId")Integer userId, @Param("type")Integer type);
+    /**
+     * 查询博文
+     *
+     * @param blog  查询参数
+     * @param page  分页
+     * @param isAll 是否所有博文(创建时间在当前时候的不查询)
+     * @return
+     */
+    List<Blog> selectByParams(@Param("blog") Blog blog, @Param("page") Page page, @Param("isAll") Boolean isAll);
 
-    List<Blog> selectRecentBlogByUserId(Integer userId);
+    /**
+     * 查询某个用户博文
+     *
+     * @param userId 用户 ID
+     * @param isAll  是否查询所有博文(创建时间在当前时候的不查询)
+     * @return
+     */
+    List<Blog> selectByUserId(@Param("userId") Integer userId, @Param("isAll") Boolean isAll);
 
-    int selectBlogCountByUserId(Integer userId);
+    /**
+     * 查询最近博文
+     *
+     * @param userId 用户 ID
+     * @return
+     */
+    List<Blog> selectRecentBlog(Integer userId);
 
-    int selectNoAuditBlogCount();
+    /**
+     * 查询用户博文总数
+     *
+     * @param userId
+     * @return
+     */
+    int selectCountByUserId(Integer userId);
+
+    /**
+     * 查询未审核博文数
+     *
+     * @param userId 用户 id 为空则查询所有
+     * @return
+     */
+    int selectNoAuditCount(Integer userId);
 }

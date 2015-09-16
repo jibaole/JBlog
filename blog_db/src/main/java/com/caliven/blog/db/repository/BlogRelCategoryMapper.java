@@ -11,13 +11,18 @@ public interface BlogRelCategoryMapper {
     int deleteId(Integer id);
 
     int deleteByCategoryTagId(Integer categoryTagId);
+
     int deleteByBlogId(Integer blogId);
 
     int insert(BlogRelCategory record);
 
     int insertSelective(BlogRelCategory record);
 
-    BlogRelCategory selectByPrimaryKey(Integer id);
+    int updateByIdSelective(BlogRelCategory record);
+
+    int updateById(BlogRelCategory record);
+
+    BlogRelCategory selectById(Integer id);
 
     List<BlogRelCategory> selectByBlogId(@Param("blogId") Integer blogId, @Param("type") Integer type);
 
@@ -27,7 +32,4 @@ public interface BlogRelCategoryMapper {
 
     List<BlogRelCategory> selectTagByCategoryId(Integer categoryId);*/
 
-    int updateByIdSelective(BlogRelCategory record);
-
-    int updateById(BlogRelCategory record);
 }

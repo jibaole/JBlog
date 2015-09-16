@@ -5,7 +5,7 @@ import com.caliven.blog.db.entity.Comment;
 import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.service.vo.NumberVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Caliven on 2015/7/1.
  */
-@Component
+@Service
 @Transactional
 public class AdminIndexService {
 
@@ -42,7 +42,7 @@ public class AdminIndexService {
 
     public List<Blog> findsRecentBlog() {
         Integer userId = ShiroUtils.getCurrUserId();
-        return blogService.findsRecentBlogByUserId(userId);
+        return blogService.findsRecentBlog(userId);
     }
 
     public List<Comment> findsRecentComment() {

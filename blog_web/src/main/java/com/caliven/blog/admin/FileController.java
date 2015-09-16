@@ -22,6 +22,10 @@ import java.io.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * 上传文件Controller
+ * Created by Caliven on 2015/7/30.
+ */
 @Controller
 @RequestMapping("/admin/file")
 public class FileController {
@@ -99,7 +103,7 @@ public class FileController {
     }
 
     /**
-     * 文件上传
+     * 多文件上传
      *
      * @param request
      * @param response
@@ -160,14 +164,12 @@ public class FileController {
 
     }
 
-    /***************************************************
-     * URL: /rest/controller/get/{value}
-     * get(): get file as an attachment
+    /**
+     * 下载图片
      *
-     * @param response : passed by the server
-     * @param value    : value from the URL
-     * @return void
-     ****************************************************/
+     * @param response
+     * @param value
+     */
     @RequestMapping(value = "/get/{value}", method = RequestMethod.GET)
     public void get(HttpServletResponse response, @PathVariable String value) {
         FileMeta getFile = new FileMeta();
@@ -183,6 +185,13 @@ public class FileController {
         }
     }
 
+    /**
+     * 预览图片
+     *
+     * @param response
+     * @param value
+     * @throws Exception
+     */
     @RequestMapping(value = "/show/{value}")
     public void showImage(HttpServletResponse response,@PathVariable String value) throws Exception {
         BlogFile file = blogFileService.findBlogFile(Integer.parseInt(value));
@@ -218,9 +227,14 @@ public class FileController {
         }
     }
 
-    @ResponseBody
+    /**
+     * 删除图片
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/del", method = RequestMethod.POST)
-    public Object del(Integer id) {
+    public @ResponseBody Object del(Integer id) {
         String json = "{\"status\":\"success\"}";
         try {
             blogFileService.delFile(id);

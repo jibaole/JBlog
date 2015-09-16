@@ -2,10 +2,8 @@ package com.caliven.blog.admin;
 
 import com.caliven.blog.db.entity.CategoryTag;
 import com.caliven.blog.service.admin.CategoryTagService;
+import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.utils.Page;
-import com.caliven.blog.utils.Page2;
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 /**
+ * 分类Controller
  * Created by Caliven on 2015/6/30.
  */
 @Controller
@@ -31,11 +30,17 @@ public class CategoryController {
         model.addAttribute("navbar", 3);
     }
 
+    /**
+     * 列表
+     *
+     * @param model
+     * @param ct
+     * @param page
+     * @return
+     */
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, CategoryTag ct, Page2 page) {
+    public String list(Model model, CategoryTag ct, Page page) {
         List<CategoryTag> list = categoryTagService.findsCategory(ct, page);
-        PageInfo pageInfo = new PageInfo(list);
-        BeanUtils.copyProperties(pageInfo, page);
         if (ct.getParentId() != null) {
             CategoryTag parent = categoryTagService.findCategoryTagById(ct.getParentId());
             if (0 != parent.getParentId()) {
@@ -48,19 +53,33 @@ public class CategoryController {
         return "admin/categroy/categroy-list";
     }
 
+    /**
+     * 跳转编辑
+     *
+     * @param model
+     * @param id
+     * @param parentId
+     * @return
+     */
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String edit(Model model, Integer id, Integer parentId) {
+        Integer userId = ShiroUtils.getCurrUserId();
         CategoryTag ct = categoryTagService.findCategoryTagById(id);
-        List<CategoryTag> treeList = categoryTagService.findsAllCategory();
+        List<CategoryTag> treeList = categoryTagService.findsAllCategoryByUserId(userId);
         model.addAttribute("category", ct);
         model.addAttribute("treeList", treeList);
         model.addAttribute("parentId", parentId);
         return "admin/categroy/categroy-edit";
     }
 
-    @ResponseBody
+    /**
+     * 删除分类
+     *
+     * @param ids
+     * @return
+     */
     @RequestMapping(value = "del", method = RequestMethod.GET)
-    public Object del(String ids) {
+    public @ResponseBody Object del(String ids) {
         try {
             categoryTagService.deleteCategory(ids);
             return "success";
@@ -70,9 +89,15 @@ public class CategoryController {
         }
     }
 
-    @ResponseBody
+    /**
+     * 检测名称是否唯一
+     *
+     * @param name
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "check_name", method = RequestMethod.GET)
-    public Object checkUsername(String name, Integer id) {
+    public @ResponseBody Object checkUsername(String name, Integer id) {
         boolean flag = categoryTagService.checkName(1, name, id);
         String status = flag ? "false" : "true";
         // 配合 bootstrapValidator 框架验证，返回json数据格式必须为 {"valid": true/false} 格式
@@ -80,15 +105,28 @@ public class CategoryController {
         return json;
     }
 
-    @ResponseBody
+    /**
+     * 检测缩略名是否唯一
+     *
+     * @param slug
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "check_slug", method = RequestMethod.GET)
-    public Object checkSlug(String slug, Integer id) {
+    public @ResponseBody Object checkSlug(String slug, Integer id) {
         boolean flag = categoryTagService.checkSlug(1, slug, id);
         String status = flag ? "false" : "true";
         String json = "{\"valid\":" + status + "}";
         return json;
     }
 
+    /**
+     * 保存分类
+     *
+     * @param model
+     * @param category
+     * @return
+     */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String save(Model model, CategoryTag category) {
         try {

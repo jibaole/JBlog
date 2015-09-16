@@ -5,9 +5,7 @@ import com.caliven.blog.service.admin.*;
 import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.utils.Page;
 import com.caliven.blog.utils.RelativeDateFormat;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 后台博文Controller
  * Created by Caliven on 2015/6/30.
  */
 @Controller
@@ -41,6 +40,14 @@ public class ArticleController {
         model.addAttribute("navbar", 3);
     }
 
+    /**
+     * 博文列表
+     *
+     * @param model
+     * @param blog
+     * @param page
+     * @return
+     */
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(Model model, Blog blog, Page page) {
         searchBlog(model, blog, page);
@@ -63,20 +70,27 @@ public class ArticleController {
     }
 
     private void searchBlog(Model model, Blog blog, Page page) {
-        List<CategoryTag> treeList = categoryTagService.findsAllCategory();
+        Integer userId = ShiroUtils.getCurrUserId();
+        List<CategoryTag> treeList = categoryTagService.findsAllCategoryByUserId(userId);
         List<Blog> list = blogService.findsBlogByPage(blog, page);
-        PageInfo pageInfo = new PageInfo(list);
-        BeanUtils.copyProperties(pageInfo, page);
         model.addAttribute("blogs", list);
         model.addAttribute("page", page);
         model.addAttribute("blog", blog);
         model.addAttribute("treeList", treeList);
     }
 
+    /**
+     * 跳转编辑页
+     *
+     * @param model
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String edit(Model model, Integer id) {
-        List<CategoryTag> alltagList = categoryTagService.findsTag();
-        List<CategoryTag> cateList = categoryTagService.findsAllCategoryNoRoot();
+        Integer userId = ShiroUtils.getCurrUserId();
+        List<CategoryTag> alltagList = categoryTagService.findsTag(userId);
+        List<CategoryTag> cateList = categoryTagService.findsAllCategoryNoRoot(userId);
         if (id != null) {
             Blog blog = blogService.findBlogById(id);
             User user = userService.findUserById(blog.getUserId());
@@ -112,6 +126,16 @@ public class ArticleController {
         return "admin/article/article-edit";
     }
 
+    /**
+     * 保存博文
+     *
+     * @param modelMap
+     * @param blog
+     * @param cateIds
+     * @param tagIds
+     * @param tmpBlogId
+     * @return
+     */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String save(RedirectAttributesModelMap modelMap,
                        Blog blog, String cateIds,
@@ -132,9 +156,16 @@ public class ArticleController {
         }
     }
 
-    @ResponseBody
+    /**
+     * 自动保存博文
+     * @param blog
+     * @param cateIds
+     * @param tagIds
+     * @param tmpBlogId
+     * @return
+     */
     @RequestMapping(value = "autosave", method = RequestMethod.POST)
-    public Object autosave(Blog blog, String cateIds, String tagIds, String tmpBlogId) {
+    public @ResponseBody Object autosave(Blog blog, String cateIds, String tagIds, String tmpBlogId) {
         Integer id = null;
         String json = "{\"status\":true";
         try {
@@ -150,9 +181,13 @@ public class ArticleController {
         return json;
     }
 
-    @ResponseBody
+    /**
+     * 删除博文
+     * @param ids
+     * @return
+     */
     @RequestMapping(value = "del", method = RequestMethod.GET)
-    public Object del(String ids) {
+    public @ResponseBody Object del(String ids) {
         try {
             blogService.delBlog(ids);
             return "success";
