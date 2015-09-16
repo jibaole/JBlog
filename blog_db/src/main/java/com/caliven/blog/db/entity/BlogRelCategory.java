@@ -1,7 +1,7 @@
 package com.caliven.blog.db.entity;
 
 /**
- * 博文、类别\Tag关系pojo
+ * 博文、类别|Tag关系pojo
  */
 public class BlogRelCategory {
     private Integer id;

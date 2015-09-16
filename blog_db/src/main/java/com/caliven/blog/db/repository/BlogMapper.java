@@ -1,6 +1,7 @@
 package com.caliven.blog.db.repository;
 
 import com.caliven.blog.db.entity.Blog;
+import com.caliven.blog.utils.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface BlogMapper {
 
     int updateById(Blog record);
 
-    List<Blog> selectBlog(Blog blog);
+    List<Blog> selectBlog(@Param("blog") Blog blog, @Param("page")Page page);
 
     List<Blog> selectBlogByUserId(@Param("userId")Integer userId, @Param("type")Integer type);
 

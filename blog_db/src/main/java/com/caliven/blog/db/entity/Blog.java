@@ -1,7 +1,6 @@
 package com.caliven.blog.db.entity;
 
 import com.caliven.blog.db.vo.CategoryVo;
-import com.github.pagehelper.PageInfo;
 
 import java.sql.Timestamp;
 import java.util.Date;
