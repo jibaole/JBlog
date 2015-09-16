@@ -4,7 +4,7 @@ import com.caliven.blog.db.entity.CategoryTag;
 import com.caliven.blog.db.repository.BlogRelCategoryMapper;
 import com.caliven.blog.db.repository.CategoryTagMapper;
 import com.caliven.blog.service.shiro.ShiroUtils;
-import com.caliven.blog.utils.Page;
+import com.caliven.blog.utils.Page2;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,10 +135,10 @@ public class CategoryTagService {
      * 查询某个用户的分类
      *
      * @param ct
-     * @param page
+     * @param page2
      * @return
      */
-    public List<CategoryTag> findsCategory(CategoryTag ct, Page page) {
+    public List<CategoryTag> findsCategory(CategoryTag ct, Page2 page2) {
         Integer userId = userId = ShiroUtils.getCurrUserId();
         if (ct.getParentId() == null) {
             CategoryTag root = categoryTagMapper.selectRootCategory(userId);
@@ -148,7 +148,7 @@ public class CategoryTagService {
         }
         ct.setUserId(userId);
         ct.setType(1);//type=1:类别
-        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        PageHelper.startPage(page2.getPageNum(), page2.getPageSize());
         List<CategoryTag> list = categoryTagMapper.selectCategoryTag(ct);
         return list;
     }
@@ -236,7 +236,7 @@ public class CategoryTagService {
         Integer userId = ShiroUtils.getCurrUserId();
         CategoryTag ct = new CategoryTag();
         ct.setType(2);//type=2:标签
-        ct.setUserId(userId);
+        //ct.setUserId(userId);
         return categoryTagMapper.selectCategoryTag(ct);
     }
 

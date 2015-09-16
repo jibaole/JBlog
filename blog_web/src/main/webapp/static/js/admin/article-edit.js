@@ -1,47 +1,101 @@
 /**
  * Created by Caliven on 2015/7/11.
  */
+
+var articleEditor;
 $(function () {
-    setInterval(autosave, 60000);
+    //setInterval(autosave, 60000);
+
+    articleEditor = editormd("article-editormd", {
+        width: "100%",
+        height: 740,
+        path: _ctx + "/static/editor.md/lib/",
+        //theme : "dark",
+        //previewTheme : "dark",
+        //editorTheme : "pastel-on-dark",
+        //markdown : md,
+        codeFold: true,
+        //syncScrolling : false,
+        saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+        searchReplace: true,
+        watch: false,                // 关闭实时预览
+        htmlDecode: "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
+        //toolbar  : false,             //关闭工具栏
+        //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+        emoji: true,
+        taskList: true,
+        tocm: true,         // Using [TOCM]
+        tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+        flowChart: true,             // 开启流程图支持，默认关闭
+        sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+        imageUpload: true,
+        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUploadURL: _ctx + "/admin/file/upload-single",
+       /* onload: function () {
+            console.log('onload', this);
+            //this.fullscreen();
+            //this.unwatch();
+            //this.watch().fullscreen();
+
+            //this.setMarkdown("#PHP");
+            //this.width("100%");
+            //this.height(480);
+            //this.resize("100%", 640);
+        },*/
+        onfullscreen: function () {
+            $('#top-nav,#article-right-div').hide();
+        },
+        onfullscreenExit: function () {
+            $('#top-nav,#article-right-div').show();
+        },
+        toolbarIcons : function() {
+            var btnArry = editormd.toolbarModes["full"];
+            btnArry.push('moreIcon');
+            return btnArry;
+        },
+        toolbarIconsClass : {
+            moreIcon : "fa-tag"  // 指定一个FontAawsome的图标类
+        },
+        // 自定义工具栏按钮的事件处理
+        toolbarHandlers : {
+            /**
+             * @param {Object}      cm         CodeMirror对象
+             * @param {Object}      icon       图标按钮jQuery元素对象
+             * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
+             * @param {String}      selection  编辑器选中的文本
+             */
+            moreIcon : function(cm, icon, cursor, selection) {
+
+                //var cursor    = cm.getCursor();     //获取当前光标对象，同cursor参数
+                //var selection = cm.getSelection();  //获取当前选中的文本，同selection参数
+
+                // 替换选中文本，如果没有选中文本，则直接插入
+                cm.replaceSelection("<!--more-->");
+
+                // 如果当前没有选中的文本，将光标移到要输入的位置
+                if(selection === "") {
+                    cm.setCursor(cursor.line, cursor.ch + 1);
+                }
+
+            }
+        },
+        lang : {
+            toolbar : {
+                moreIcon : "插入更多标示，文章在首页只显示更多标示前的文字，在文章详细页会显示全部"// 自定义按钮的提示文本，即title属性
+            }
+        }
+    });
+
     $('#publishTime').datetimepicker({
         language: 'zh-CN',
         format: "yyyy-mm-dd hh:ii",
         autoclose: true,
         todayBtn: true
-    });
-
-    var oldLength = $('#content').text().length;
-    $('#content').markdown({
-        language: 'zh',
-        height: '500',
-        /*hiddenButtons: 'cmdPreview',*/
-        footer: '<div id="markdown-footer" class="well" style="display:none;"></div>' +
-        '<small id="markdown-tips" class="text-success text-left">&nbsp;</small>',
-        onChange: function (e) {
-            var newLength = document.getElementById("content").value.length;
-            console.info($('#content').text() + "===" + newLength + "--" + oldLength);
-            if ((newLength - oldLength) >= 10) {
-                oldLength = newLength;
-                autosave();
-            } else if ((oldLength - newLength) >= 10) {
-                oldLength = newLength;
-                autosave();
-            }
-            /*var content = e.parseContent(),
-             content_length = (content.match(/\n/g) || []).length + content.length
-
-             if (content == '') {
-             $('#markdown-footer').hide()
-             } else {
-             $('#markdown-footer').show().html(content)
-             }
-
-             if (content_length > 140) {
-             $('#markdown-tips').removeClass('text-success').addClass('text-danger').html(content_length - 140 + ' character surplus.')
-             } else {
-             $('#markdown-tips').removeClass('text-danger').addClass('text-success').html(140 - content_length + ' character left.')
-             }*/
-        }
     });
 
     $('#saveForm').bootstrapValidator({
@@ -95,7 +149,7 @@ $(function () {
                     '<a class="file" target="_blank" href="' + _ctx + '/admin/file/edit/' + file.fileId + '" title="编辑">' +
                     '<i class="i-edit"></i>' +
                     '</a>' +
-                    '<a class="delete" href="javascript:void(0);" onclick="delFile(' + file.fileId + ',\''+file.fileRealName+'\')" title="删除">' +
+                    '<a class="delete" href="javascript:void(0);" onclick="delFile(' + file.fileId + ',\'' + file.fileRealName + '\')" title="删除">' +
                     '<i class="i-del"></i>' +
                     '</a>' +
                     '</div>' +
@@ -112,15 +166,33 @@ $(function () {
          },*/
         dropZone: $('#upload-area')
     });
+
+    /**
+     * 发布文章
+     */
+    /*$('#saveForm').on('submit', function (e) {
+     debugger;
+     beforeSave(false);
+     //$('#content').text($('#editor').html());
+     $('#login-btn').text('发布中...').attr('disabled', true);
+     });*/
+    /**
+     * 存草稿
+     */
+    $('#draft-btn').click(function () {
+        beforeSave(true);
+        autosave();
+    });
 });
 
+/**
+ * 自动保存
+ */
 function autosave() {
-    var contentLength = document.getElementById("content").value.length;
-    if (contentLength <= 0) {
-        return;
-    }
+
     setCateIds();
-    $('#markdown-tips').text('正在保存...');
+    $('#content').text($('#editor').html());
+
     var url = _ctx + "/admin/article/autosave";
     $('#saveForm').attr('action', url);
     $('#saveForm').ajaxSubmit(function (result) {
@@ -135,8 +207,6 @@ function autosave() {
         if (id != null && '' != id && 'null' != id) {
             $('#blogId').val(id);
         }
-        $('#markdown-tips').text(tips);
-        $('#markdown-tips').fadeToggle("slow", "linear").fadeIn('slow');
 
         var url = _ctx + "/admin/article/save";
         $('#saveForm').attr('action', url);
@@ -147,16 +217,18 @@ function autosave() {
     });
 }
 
-function setDraft(isDraft) {
-    beforeSave(isDraft);
-    autosave();
-}
-
+/**
+ * 发布文章预处理
+ * @param isDraft
+ */
 function beforeSave(isDraft) {
     setCateIds();
     $('#isDraft').val(isDraft);
 }
 
+/**
+ * 设置类别id
+ */
 function setCateIds() {
     var cateIds = new Array;
     $('.cate-div input[type="checkbox"]:checked').each(function (i) {
@@ -164,7 +236,11 @@ function setCateIds() {
     });
     $('#cateIds').val(cateIds.join(','));
 }
-
+/**
+ * 切换div
+ * @param dom
+ * @param type
+ */
 function switchDiv(dom, type) {
     var divId = type == 1 ? 'leftDiv' : 'rightDiv';
     $('.btn-group-sm .btn-default').removeClass('select-btn');
@@ -173,6 +249,10 @@ function switchDiv(dom, type) {
     $('#' + divId).show();
 }
 
+/**
+ * 公开度选择
+ * @param dom
+ */
 function switchStatus(dom) {
     var val = $(dom).val();
     if (3 == val) {
@@ -182,7 +262,11 @@ function switchStatus(dom) {
     }
 }
 
-
+/**
+ * 删除文件
+ * @param id
+ * @param fileName
+ */
 function delFile(id, fileName) {
     var tmpBlogId = $('#tmpBlogId').val();
     if (tmpBlogId == '') {
