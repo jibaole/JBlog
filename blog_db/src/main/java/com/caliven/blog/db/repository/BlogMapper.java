@@ -34,6 +34,15 @@ public interface BlogMapper {
     List<Blog> selectByParams(@Param("blog") Blog blog, @Param("page") Page page, @Param("isAll") Boolean isAll);
 
     /**
+     * 查询总数
+     *
+     * @param blog
+     * @param isAll
+     * @return
+     */
+    int selectCountByParams(@Param("blog") Blog blog, @Param("isAll") Boolean isAll);
+
+    /**
      * 查询某个用户博文
      *
      * @param userId 用户 ID

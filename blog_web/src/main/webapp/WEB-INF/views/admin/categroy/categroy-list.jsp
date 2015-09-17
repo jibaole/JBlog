@@ -29,8 +29,6 @@
             </div>
             <div class="col-xs-7 col-sm-4 text-right">
                 <div class="input-group">
-                    <input type="hidden" id="pageNum" name="pageNum" value="${page.pageNum}"/>
-                    <input type="hidden" id="pageSize" name="pageSize" value="${page.pageSize}"/>
                     <input type="text" class="form-control" name="name" value="${categroy.name}"
                            onkeyup="search(event)" placeholder="输入关键字..."/>
                     <span class="input-group-btn">

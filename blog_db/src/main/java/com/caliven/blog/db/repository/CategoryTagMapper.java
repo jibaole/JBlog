@@ -48,7 +48,15 @@ public interface CategoryTagMapper {
      * @param page
      * @return
      */
-    List<CategoryTag> selectCategoryByParams(CategoryTag ct, Page page);
+    List<CategoryTag> selectCategoryByParams(@Param("category") CategoryTag ct, @Param("page") Page page);
+
+    /**
+     * 查询总数
+     *
+     * @param ct
+     * @return
+     */
+    int selectCountCategoryByParams(@Param("category") CategoryTag ct);
 
 
     /**

@@ -7,9 +7,20 @@ body {
 }
 
 div .table-responsive {
-    padding: 25px;
+    padding: 25px 25px 5px 25px;
     background: #ffffff;
 }
+
+/* 分页总记录显示样式 */
+.page-total {
+    height: 10px;
+    line-height: 10px;
+    padding: 0;
+    margin: 15px 5px -8px 0;
+    text-align: right;
+    font-size: 0.8em;
+}
+
 /*
 table tr td {
     white-space: nowrap;

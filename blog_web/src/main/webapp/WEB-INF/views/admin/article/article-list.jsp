@@ -30,7 +30,8 @@
                                 class="caret"></span>
                         </button>
                         <ul id="dropdown-menu" class="dropdown-menu">
-                            <li <c:if test="${blog.categroyId==null}">class="active"</c:if>><a href="#" val="">所有分类</a></li>
+                            <li <c:if test="${blog.categroyId==null}">class="active"</c:if>><a href="#" val="">所有分类</a>
+                            </li>
                             <c:forEach items="${treeList}" var="c" varStatus="v">
                                 <c:if test="${c.parentId != 0}">
                                     <li <c:if test="${c.id==blog.categroyId}">class="active"</c:if>>
@@ -48,11 +49,6 @@
                         </ul>
                         <button class="btn btn-info" type="submit">筛选</button>
                     </div>
-                    <%--
-                    <span class="input-group-btn">
-                        <button class="btn btn-info" type="submit">筛选</button>
-                    </span>
-                    --%>
                 </div>
             </div>
         </div>
@@ -61,10 +57,10 @@
     <div class="table-responsive">
         <table id="dataTable" class="table table-hover">
             <colgroup>
-                <col width="5%"/>
                 <col width="3%"/>
-                <col width="35%"/>
-                <col width="30%"/>
+                <col width="3%"/>
+                <col width="47%"/>
+                <col width="20%"/>
                 <col width="15%"/>
                 <col width="12%"/>
             </colgroup>
@@ -82,11 +78,14 @@
             <c:forEach items="${blogs}" var="b" varStatus="v">
                 <tr>
                     <td><input type="checkbox" name="checkId" value="${b.id}"/></td>
-                    <td><a href="${ctx}/admin/article/list" class="balloon-button" title="${b.commentNum}评论">${b.commentNum}</a></td>
+                    <td><a href="${ctx}/admin/article/list" class="balloon-button"
+                           title="${b.commentNum}评论">${b.commentNum}</a></td>
                     <td>
-                        <c:if test="${b.isDraft==true}"><small class="text-muted">[草稿]</small></c:if>
+                        <c:if test="${b.isDraft==true}">
+                            <small class="text-muted">[草稿]</small>
+                        </c:if>
                         <a href="${ctx}/admin/article/edit?id=${b.id}">${b.title}</a>
-                        <a href="" class="a-exlink" title="浏览文章"></a>
+                        <a href="${ctx}/article/${b.id}" class="a-exlink" target="_blank" title="浏览文章"></a>
                     </td>
                     <td>${b.categoryNames}</td>
                     <td>${b.user.username} / ${b.user.nickname}</td>
@@ -98,31 +97,6 @@
     </div>
 
     <p:page pn="${page.pn}" ps="${page.ps}" rct="${page.rct}"/>
-    <%--
-    <nav class="text-center">
-        <ul class="pagination">
-            <c:if test="${page.pageNum > 1}">
-                <li>
-                    <a href="javascript:void(0)" onclick="goto(${page.pageNum-1})" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            </c:if>
-            <c:forEach items="${page.navigatepageNums}" varStatus="v">
-                <li <c:if test="${page.pageNum == v.index+1}">class="active"</c:if>>
-                    <a href="javascript:void(0)" onclick="goto(${v.index+1})">${v.index+1}</a>
-                </li>
-            </c:forEach>
-            <c:if test="${page.pageNum < page.pages}">
-                <li>
-                    <a href="javascript:void(0)" onclick="goto(${page.pageNum+1})" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </c:if>
-        </ul>
-    </nav>
-    --%>
 </div>
 
 <script type="text/javascript">
@@ -141,15 +115,20 @@
             $('#dataTable input[name="checkId"]:checked').each(function (i) {
                 ids[i] = $(this).val();
             });
-            var data = {ids: ids.join(',')};
-            var url = _ctx + '/admin/article/del';
-            $.get(url, data, function (result) {
-                if ("success" == result) {
-                    location.href = location.href;
-                } else {
-                    alert('哦no,炒蛋的系统,在挂一次我立马走人!');
-                }
-            });
+            if(ids.length <= 0){
+                return;
+            }
+            if (confirm('确定这么干？')) {
+                var data = {ids: ids.join(',')};
+                var url = _ctx + '/admin/article/del';
+                $.get(url, data, function (result) {
+                    if ("success" == result) {
+                        location.href = location.href;
+                    } else {
+                        alert('哦no,炒蛋的系统,在挂一次我立马走人!');
+                    }
+                });
+            }
         });
 
         $('#dropdown-menu a').click(function () {
@@ -159,7 +138,8 @@
             $('#categroyId').val(value);
             $('#searchForm').submit();
         });
-    });
+    })
+    ;
 
     function goto(pageNum) {
         $('#pageNum').val(pageNum);

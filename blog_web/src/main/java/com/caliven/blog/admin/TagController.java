@@ -54,7 +54,7 @@ public class TagController {
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String save(Model model, CategoryTag tag) {
         try {
-            if (StringUtils.isNotBlank(tag.getSlug())) {
+            if (StringUtils.isBlank(tag.getSlug())) {
                 tag.setSlug(tag.getName());
             }
             categoryTagService.saveTag(tag);

@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${ctx}/admin/index">JBlog</a>
+            <a class="navbar-brand" href="${ctx}/admin/index">闲想录</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -27,11 +27,11 @@
                         <li><a href="${ctx}/admin/index">概要</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">个人设置</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">外观</a></li>
                     </ul>
                 </li>
                 <li class="dropdown <c:if test="${navbar == 2}">dropdown-select</c:if>">
+                    <a href="${ctx}/admin/article/edit">撰写文章</a>
+                    <%--
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">
                         撰写 <span class="caret"></span>
@@ -39,8 +39,8 @@
                     <ul class="dropdown-menu">
                         <li><a href="${ctx}/admin/article/edit">撰写文章</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/cpage">创建页面</a></li>
-                    </ul>
+                        <li><a href="${ctx}/admin/index">创建页面</a></li>
+                    </ul>--%>
                 </li>
                 <li class="dropdown <c:if test="${navbar == 3}">dropdown-select</c:if>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -50,9 +50,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="${ctx}/admin/article/list">文章</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/indie/list">独立页面</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/comment/list">评论</a></li>
+                        <li><a href="${ctx}/admin/index">独立页面</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="${ctx}/admin/category/list">分类</a></li>
                         <li role="separator" class="divider"></li>
@@ -80,9 +78,9 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="${ctx}/admin/setting"><shiro:principal property="username"/></a></li>
+                <li><a href="${ctx}/admin/setting"><shiro:principal property="nickname"/></a></li>
                 <li><a href="${ctx}/logout">登出</a></li>
-                <li><a href="${ctx}/index" target="_blank">网站</a></li>
+                <li><a href="${ctx}/" target="_blank">网站</a></li>
             </ul>
             <%--<form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search...">

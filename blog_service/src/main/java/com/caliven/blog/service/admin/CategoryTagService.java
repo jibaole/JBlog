@@ -129,7 +129,8 @@ public class CategoryTagService {
     private void batchDelCategory(Integer parentId) {
         List<CategoryTag> list = this.findsTreeCategroyByParentId(null, parentId);
         for (CategoryTag categroy : list) {
-            categoryTagMapper.deleteById(categroy.getId());
+            categroy.setIsDeleted(true);
+            categoryTagMapper.updateByIdSelective(categroy);
             blogRelCategoryMapper.deleteByCategoryTagId(categroy.getId());
         }
     }
@@ -165,6 +166,7 @@ public class CategoryTagService {
         }
         ct.setUserId(userId);
         ct.setType(1); //type=1:类别
+        page.setRct(categoryTagMapper.selectCountCategoryByParams(ct));
         List<CategoryTag> list = categoryTagMapper.selectCategoryByParams(ct, page);
         return list;
     }

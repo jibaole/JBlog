@@ -8,7 +8,7 @@ public class Page {
     /** page number */
     private int pn  = 1;
     /** page size */
-    private int ps  = 2;
+    private int ps  = 10;
     /** recond count */
     private int rct = 0;
 
@@ -40,8 +40,8 @@ public class Page {
             this.ps = 1;
             return;
         }
-        if (ps > 50) {
-            this.ps = 50;
+        if (ps > 20) {
+            this.ps = 20;
             return;
         }
         this.ps = ps;

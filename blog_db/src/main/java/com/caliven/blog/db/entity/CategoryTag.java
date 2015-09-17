@@ -4,7 +4,7 @@ import java.util.Date;
 
 /**
  * 分类、标签pojo
- *
+ * <p/>
  * Created by Caliven on 2015/6/24.
  */
 public class CategoryTag {
@@ -29,6 +29,8 @@ public class CategoryTag {
 
     private Integer level;
 
+    private Boolean isDeleted;
+
     private Date createdDate;
 
     private Date updatedDate;
@@ -43,30 +45,6 @@ public class CategoryTag {
     /******
      * 非数据库字段 end
      ******/
-
-    public Integer getBlogNum() {
-        return blogNum;
-    }
-
-    public void setBlogNum(Integer blogNum) {
-        this.blogNum = blogNum;
-    }
-
-    public Integer getChildrenNum() {
-        return childrenNum;
-    }
-
-    public void setChildrenNum(Integer childrenNum) {
-        this.childrenNum = childrenNum;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public Integer getId() {
         return id;
@@ -97,7 +75,7 @@ public class CategoryTag {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
     public String getSlug() {
@@ -105,7 +83,7 @@ public class CategoryTag {
     }
 
     public void setSlug(String slug) {
-        this.slug = slug == null ? null : slug.trim();
+        this.slug = slug;
     }
 
     public Integer getType() {
@@ -121,7 +99,7 @@ public class CategoryTag {
     }
 
     public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
+        this.description = description;
     }
 
     public Integer getCount() {
@@ -148,6 +126,14 @@ public class CategoryTag {
         this.level = level;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -162,5 +148,29 @@ public class CategoryTag {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public Integer getBlogNum() {
+        return blogNum;
+    }
+
+    public void setBlogNum(Integer blogNum) {
+        this.blogNum = blogNum;
+    }
+
+    public Integer getChildrenNum() {
+        return childrenNum;
+    }
+
+    public void setChildrenNum(Integer childrenNum) {
+        this.childrenNum = childrenNum;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

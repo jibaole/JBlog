@@ -12,11 +12,12 @@
         <result column="count" property="count" jdbcType="INTEGER"/>
         <result column="order" property="order" jdbcType="INTEGER"/>
         <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="BIT"/>
         <result column="created_date" property="createdDate" jdbcType="TIMESTAMP"/>
         <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
-      c.id, c.user_id, c.parent_id, c.`name`, c.slug, c.`type`, c.description, c.`count`, c.`order`,c.level, c.created_date, c.updated_date
+      c.id, c.user_id, c.parent_id, c.`name`, c.slug, c.`type`, c.description, c.`count`, c.`order`,c.level, c.is_deleted, c.created_date, c.updated_date
     </sql>
 
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -30,7 +31,8 @@
         select
         <include refid="Base_Column_List"/>
         from category_tag c
-        where c.parent_id &lt;&gt; 0
+        where c.is_deleted = 0
+        <![CDATA[ and c.parent_id <> 0 ]]>
         <if test="id != null">
             <![CDATA[ and c.id <> #{id,jdbcType=INTEGER} ]]>
         </if>
@@ -49,27 +51,46 @@
         limit 1
     </select>
 
+    <select id="selectCountCategoryByParams" resultType="java.lang.Integer" parameterType="map">
+        select count(1)
+        from category_tag c
+        where c.type = 1 and c.is_deleted = 0
+        <if test="category.userId != null">
+            and c.user_id = #{category.userId,jdbcType=INTEGER}
+        </if>
+        <if test="category.parentId != null">
+            and c.parent_id = #{category.parentId,jdbcType=INTEGER}
+        </if>
+        <if test="category.name != null">
+            and (
+            c.name like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
+            or c.slug like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
+            )
+        </if>
+    </select>
     <select id="selectCategoryByParams" resultMap="BaseResultMap"
-            parameterType="com.caliven.blog.db.entity.CategoryTag">
+            parameterType="map">
         select
         <include refid="Base_Column_List"/>,
         (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum,
         (select count(1) from category_tag ct where ct.parent_id = c.id) as childrenNum,
         (select u.nickname from user u where u.id = c.user_id) as username
         from category_tag c
-        where c.type = 1
-        <if test="userId != null">
-            and c.user_id = #{userId,jdbcType=INTEGER}
+        where c.type = 1 and c.is_deleted = 0
+        <if test="category.userId != null">
+            and c.user_id = #{category.userId,jdbcType=INTEGER}
         </if>
-        <if test="parentId != null">
-            and c.parent_id = #{parentId,jdbcType=INTEGER}
+        <if test="category.parentId != null">
+            and c.parent_id = #{category.parentId,jdbcType=INTEGER}
         </if>
-        <if test="name != null">
+        <if test="category.name != null">
             and (
-            c.name like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
-            or c.slug like CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+            c.name like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
+            or c.slug like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
             )
         </if>
+        order by c.created_date desc
+        limit #{page.offset, jdbcType=INTEGER}, #{page.limit, jdbcType=INTEGER}
     </select>
 
     <select id="selectRootCategory" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -77,6 +98,7 @@
         <include refid="Base_Column_List"/>
         from category_tag c
         where c.type = 1
+        and c.is_deleted = 0
         and c.parent_id = 0
         and c.user_id = #{userId,jdbcType=INTEGER}
         limit 1
@@ -87,19 +109,22 @@
         <include refid="Base_Column_List"/>
         from category_tag c
         where c.type = 1
+        and c.is_deleted = 0
         <if test="userId != null">
             and c.user_id = #{userId,jdbcType=INTEGER}
         </if>
         and c.parent_id = #{parentId,jdbcType=INTEGER}
+        order by c.created_date desc
     </select>
 
     <select id="selectCategoryCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select
         count(1)
-        from category_tag
-        where type = 1
+        from category_tag c
+        where c.type = 1
+        and c.is_deleted = 0
         <if test="_parameter != null">
-            and user_id = #{userId,jdbcType=INTEGER}
+            and c.user_id = #{userId,jdbcType=INTEGER}
         </if>
     </select>
 
@@ -109,9 +134,11 @@
         (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum
         from category_tag c
         where c.type = 2
+        and c.is_deleted = 0
         <if test="_parameter != null">
             and c.user_id = #{userId,jdbcType=INTEGER}
         </if>
+        order by c.created_date desc
     </select>
 
     <select id="selectTagCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
@@ -119,6 +146,7 @@
         count(1)
         from category_tag
         where type = 2
+        and c.is_deleted = 0
         <if test="userId != null">
             and user_id = #{userId,jdbcType=INTEGER}
         </if>
@@ -172,6 +200,9 @@
             <if test="level != null">
                 level,
             </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
             <if test="createdDate != null">
                 created_date,
             </if>
@@ -209,6 +240,9 @@
             </if>
             <if test="level != null">
                 #{level,jdbcType=INTEGER},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=BIT},
             </if>
             <if test="createdDate != null">
                 #{createdDate,jdbcType=TIMESTAMP},
@@ -249,6 +283,9 @@
             <if test="level != null">
                 level = #{level,jdbcType=INTEGER},
             </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=BIT},
+            </if>
             <if test="createdDate != null">
                 created_date = #{createdDate,jdbcType=TIMESTAMP},
             </if>
@@ -269,6 +306,7 @@
           count = #{count,jdbcType=INTEGER},
           order = #{order,jdbcType=INTEGER},
           level = #{level,jdbcType=INTEGER},
+          is_deleted = #{isDeleted,jdbcType=BIT},
           created_date = #{createdDate,jdbcType=TIMESTAMP},
           updated_date = #{updatedDate,jdbcType=TIMESTAMP}
         where id = #{id,jdbcType=INTEGER}

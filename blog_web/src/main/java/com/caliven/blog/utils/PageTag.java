@@ -16,7 +16,7 @@ public class PageTag extends TagSupport {
 
     private static final long serialVersionUID = 2925244112086923329L;
 
-    private int pn = 2;     //每页要显示的条数
+    private int pn;     //每页要显示的条数
     private int ps = 1;     //当前页
     private int rct;        //总记录数
 

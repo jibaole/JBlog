@@ -72,7 +72,7 @@ public class ArticleController {
     private void searchBlog(Model model, Blog blog, Page page) {
         Integer userId = ShiroUtils.getCurrUserId();
         List<CategoryTag> treeList = categoryTagService.findsAllCategoryByUserId(userId);
-        List<Blog> list = blogService.findsBlogByPage(blog, page);
+        List<Blog> list = blogService.findsAllBlog(blog, page);
         model.addAttribute("blogs", list);
         model.addAttribute("page", page);
         model.addAttribute("blog", blog);

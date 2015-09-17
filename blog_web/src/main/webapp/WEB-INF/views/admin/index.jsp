@@ -37,7 +37,7 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-12 col-sm-6">
+        <div class="col-xs-12 col-sm-12">
             <h4 class="sub-header">【最近发布的文章】</h4>
 
             <div class="table-responsive">
@@ -62,11 +62,11 @@
                             <td title="${blog.title}"><a href="${ctx}/admin/article/edit?id=${blog.id}">${blog.title}</a></td>
                             <td title="${blog.user.nickname}"><a href="${ctx}/admin/user/edit?id=${blog.user.id}">${blog.user.nickname}</a></td>
                         </tr>
-                    </c:forEach>晚上
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div><%--
         <div class="col-xs-12 col-sm-6">
             <h4 class="sub-header">【最近得到的回复】</h4>
 
@@ -95,7 +95,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>--%>
     </div>
 </div>
 
