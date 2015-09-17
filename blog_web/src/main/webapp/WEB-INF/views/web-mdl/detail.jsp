@@ -13,7 +13,7 @@
 <body>
 <div class="demo-blog--blogpost">
     <div class="demo-back">
-        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="${ctx}/index/list2"
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="${ctx}/"
            title="返回" role="button">
             <i class="material-icons" role="presentation">arrow_back</i>
         </a>

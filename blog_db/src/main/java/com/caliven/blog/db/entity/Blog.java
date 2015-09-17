@@ -52,7 +52,7 @@ public class Blog {
 
     private List<Comment> comments;
     private List<CategoryVo> categorys;
-    private Integer categroyTagId;
+    private Integer categroyId;
     private String relativeTime;
     private String publishTime;
     private String categoryNames;
@@ -218,12 +218,12 @@ public class Blog {
         this.categorys = categorys;
     }
 
-    public Integer getCategroyTagId() {
-        return categroyTagId;
+    public Integer getCategroyId() {
+        return categroyId;
     }
 
-    public void setCategroyTagId(Integer categroyTagId) {
-        this.categroyTagId = categroyTagId;
+    public void setCategroyId(Integer categroyId) {
+        this.categroyId = categroyId;
     }
 
     public String getRelativeTime() {

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="p" uri="http://caliven.com/tags/page" %>
 
 <html>
 <head>
@@ -20,8 +21,6 @@
             <div class="col-xs-7 col-sm-4 text-right">
                 <div class="input-group">
                     <input type="hidden" id="categroyId" name="categroyId" value="${blog.categroyId}"/>
-                    <input type="hidden" id="pageNum" name="pageNum" value="${page.pageNum}"/>
-                    <input type="hidden" id="pageSize" name="pageSize" value="${page.pageSize}"/>
 
                     <input type="text" class="form-control" name="title" value="${blog.title}" placeholder="输入关键字..."/>
 
@@ -98,6 +97,8 @@
         </table>
     </div>
 
+    <p:page pn="${page.pn}" ps="${page.ps}" rct="${page.rct}"/>
+    <%--
     <nav class="text-center">
         <ul class="pagination">
             <c:if test="${page.pageNum > 1}">
@@ -121,6 +122,7 @@
             </c:if>
         </ul>
     </nav>
+    --%>
 </div>
 
 <script type="text/javascript">

@@ -130,13 +130,12 @@
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
-            <!-- pagehelper(mybatis分页插件)
+            <!-- pagehelper(mybatis分页插件) -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
                 <version>${pagehelper.vaersion}</version>
             </dependency>
-            -->
             <!-- mybatis-spring -->
             <dependency>
                 <groupId>org.mybatis</groupId>
@@ -189,6 +188,12 @@
                         <artifactId>javax.servlet-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jsp-api</artifactId>
+                <version>7.0.63</version>
+                <scope>provided</scope>
             </dependency>
             <!-- WEB end -->
 

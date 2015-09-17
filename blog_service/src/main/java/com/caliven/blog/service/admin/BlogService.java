@@ -239,7 +239,8 @@ public class BlogService {
     public List<Blog> findsBlogByPage(Blog blog, Page page) {
         //获取admin账号id
         blog.setUserId(ShiroUtils.getAdminId());
-        List<Blog> blogList = blogMapper.selectByParams(blog, page, false);
+//        List<Blog> blogList = blogMapper.selectByParams(blog, page, false);
+        List<Blog> blogList = blogMapper.selectByUserId(1, true);
 
         List<Blog> retList = new ArrayList<>();
         for (Blog b : blogList) {

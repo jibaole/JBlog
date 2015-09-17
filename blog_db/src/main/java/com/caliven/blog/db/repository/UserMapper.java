@@ -38,6 +38,14 @@ public interface UserMapper {
     List<User> selectByParams(@Param("user") User user, @Param("page") Page page);
 
     /**
+     * 查询总数
+     *
+     * @param user
+     * @return
+     */
+    int selectCountByParams(@Param("user") User user);
+
+    /**
      * 通过 email 查询
      *
      * @param email

@@ -58,6 +58,7 @@ public class WebController {
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, Blog blog, Page page) {
         // 前台默认显示管理员的数据
+
         blog.setUserId(ShiroUtils.getAdminId());
         List<Blog> blogs = blogService.findsBlogByPage(blog, page);
         model.addAttribute("blogs", blogs);

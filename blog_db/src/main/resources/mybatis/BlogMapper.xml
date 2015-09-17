@@ -63,10 +63,10 @@
         <if test="blog.status != null">
             and b.status = #{blog.status, jdbcType=INTEGER}
         </if>
-        <if test="blog.categroyTagId != null">
+        <if test="blog.categroyId != null">
             and b.id in(
             select r.blog_id from blog_rel_category r
-            where r.category_tag_id = #{blog.categroyTagId, jdbcType=INTEGER}
+            where r.category_tag_id = #{blog.categroyId, jdbcType=INTEGER}
             )
         </if>
         order by b.created_date desc

@@ -31,30 +31,26 @@
     <!--
     <link rel="canonical" href="http://www.example.com/">
     -->
+    <%--
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.grey-orange.min.css">
-    <%--
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.cyan-light_blue.min.css"/>
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.pink-deep_purple.min.css" />
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.cyan-teal.min.css" />
-
     --%>
     <link rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico">
-    <%--
         <link rel="stylesheet" href="${ctx}/static/mdl/fonsts/fonts1.css">
         <link rel="stylesheet" href="${ctx}/static/mdl/fonsts/fonts2.css">
-        &lt;%&ndash;
-            <link rel="stylesheet" href="${ctx}/static/mdl/material.grey-orange.min.css">&ndash;%&gt;
+        <link rel="stylesheet" href="${ctx}/static/mdl/material.grey-orange.min.css">
 
+    <%--
         <link rel="stylesheet" href="${ctx}/static/mdl/material.min.css">
     --%>
     <link rel="stylesheet" href="${ctx}/static/mdl/styles.css">
-    <%--
     <link rel="stylesheet" href="${ctx}/static/editor.md/css/editormd.preview.css">
-    --%>
 
     <script language="javascript">
         var _ctx = '${ctx}';
@@ -75,14 +71,15 @@
     <i class="material-icons">keyboard_arrow_up</i>
 </button>
 --%>
-<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored back-to-top" id="back-to-top">
+<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored back-to-top"
+        id="back-to-top">
     <%-- <i class="material-icons">flight</i> --%>
     <i class="material-icons">keyboard_arrow_up</i>
 </button>
-<script src="${ctx}/static/js/jquery/jquery.min.js"></script>
+
 <script src="${ctx}/static/mdl/material.min.js"></script>
 
-<%--
+<script src="${ctx}/static/js/jquery/jquery.min.js"></script>
 <script src="${ctx}/static/editor.md/lib/marked.min.js"></script>
 <script src="${ctx}/static/editor.md/lib/prettify.min.js"></script>
 <script src="${ctx}/static/editor.md/lib/raphael.min.js"></script>
@@ -91,7 +88,7 @@
 <script src="${ctx}/static/editor.md/lib/flowchart.min.js"></script>
 <script src="${ctx}/static/editor.md/lib/jquery.flowchart.min.js"></script>
 <script src="${ctx}/static/editor.md/editormd.js"></script>
---%>
+
 </body>
 
 <script type="text/javascript">
@@ -122,28 +119,27 @@
         //$.getScript('${ctx}/static/editor.md/lib/flowchart.min.js');
         //$.getScript('${ctx}/static/editor.md/lib/jquery.flowchart.min.js');
         //$.getScript('${ctx}/static/editor.md/editormd.js');
-        /*
-         $('.editormd-content').each(function () {
-         var divId = $(this).attr('id');
-         var bId = $(this).attr('bId');
-         var content = $('#content-' + bId).text();
-         editormd.markdownToHTML(divId, {
-         markdown: content,//+"\r\n" + $("#append-test").text(),
-         //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-         htmlDecode: "style,script,iframe",  // you can filter tags decode
-         //toc             : false,
-         tocm: true,    // Using [TOCM]
-         //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
-         //gfm             : false,
-         //tocDropdown     : true,
-         markdownSourceCode: false, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
-         emoji: true,
-         taskList: true,
-         tex: true,  // 默认不解析
-         flowChart: true,  // 默认不解析
-         sequenceDiagram: true  // 默认不解析
-         });
-         });*/
+        $('.editormd-content').each(function () {
+            var divId = $(this).attr('id');
+            var bId = $(this).attr('bId');
+            var content = $('#content-' + bId).text();
+            editormd.markdownToHTML(divId, {
+                markdown: content,//+"\r\n" + $("#append-test").text(),
+                //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+                htmlDecode: "style,script,iframe",  // you can filter tags decode
+                //toc             : false,
+                tocm: true,    // Using [TOCM]
+                //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+                //gfm             : false,
+                //tocDropdown     : true,
+                markdownSourceCode: false, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+                emoji: true,
+                taskList: true,
+                tex: true,  // 默认不解析
+                flowChart: true,  // 默认不解析
+                sequenceDiagram: true  // 默认不解析
+            });
+        });
     });
 </script>
 </html>

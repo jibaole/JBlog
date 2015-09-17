@@ -53,20 +53,19 @@
     <c:forEach items="${blogs}" var="blog" varStatus="v">
         <div class="mdl-card on-the-road-again mdl-cell mdl-cell--12-col">
             <div class="mdl-card__media mdl-color-text--grey-50">
-                <h3><a href="${ctx}/index/detail2/${blog.id}">${blog.title}</a></h3>
+                <h3><a href="${ctx}/article/${blog.id}">${blog.title}</a></h3>
             </div>
             <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
-                <c:out value="${blog.content}" escapeXml="true"/><%--
                 <div id="editormd-view-${blog.id}" class="editormd-content" bid="${blog.id}">
                     <textarea style="display: none;" id="content-${blog.id}">
                         <c:out value="${blog.content}" escapeXml="true"/>
                     </textarea>
-                </div>--%>
+                </div>
             </div>
 
             <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
                 <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
-                   href="${ctx}/index/detail2/${blog.id}">
+                   href="${ctx}/article/${blog.id}">
                     Read More
                 </a>
                 <div class="minilogo"></div>
@@ -80,7 +79,7 @@
 
     <nav class="demo-nav mdl-cell mdl-cell--12-col">
         <div class="section-spacer"></div>
-        <a href="${ctx}/index/detail/12" class="demo-nav__button" title="show more">
+        <a href="${ctx}/?pn=${page.pn+1}" class="demo-nav__button" title="show more">
             More
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                 <i class="material-icons" role="presentation">arrow_forward</i>

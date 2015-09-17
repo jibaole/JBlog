@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ taglib prefix="p" uri="http://caliven.com/tags/page" %>
 
 <html>
 <head>
@@ -86,6 +87,8 @@
         </table>
     </div>
 
+    <p:page pn="${page.pn}" ps="${page.ps}" rct="${page.rct}"/>
+<%--
     <nav class="text-center">
         <ul class="pagination">
             <c:if test="${page.pageNum > 1}">
@@ -108,7 +111,7 @@
                 </li>
             </c:if>
         </ul>
-    </nav>
+    </nav>--%>
 </div>
 
 <script type="text/javascript">

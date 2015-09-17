@@ -27,6 +27,23 @@
         u.img_id, u.status, u.last_login_date, u.last_login_ip, u.created_date, u.updated_date
     </sql>
 
+    <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="map">
+        select count(1)
+        from user u
+        where 1=1
+        <if test="user.search != null and user.search != ''">
+            and (
+            u.username like CONCAT('%',#{user.search,jdbcType=VARCHAR},'%')
+            or u.nickname like CONCAT('%',#{user.search,jdbcType=VARCHAR},'%')
+            or u.email like CONCAT('%',#{user.search,jdbcType=VARCHAR},'%')
+            or u.url like CONCAT('%',#{user.search,jdbcType=VARCHAR},'%')
+            )
+        </if>
+        <if test="user.roles != null and user.roles != ''">
+            and u.roles =#{user.roles,jdbcType=INTEGER}
+        </if>
+    </select>
+
     <select id="selectByParams" resultMap="UserResultMap" parameterType="map">
         select
         <include refid="Base_Column_List"/>,

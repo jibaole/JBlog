@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="p" uri="http://caliven.com/tags/page" %>
 
 <html>
 <head>
@@ -24,8 +25,6 @@
                     <input type="text" class="form-control" name="search" value="${search.search}"
                            onkeyup="searchUser(event)" placeholder="输入关键字..."/>
                     <input type="hidden" id="roles" name="roles" value="${search.roles}"/>
-                    <input type="hidden" id="pageNum" name="pageNum" value="${page.pageNum}"/>
-                    <input type="hidden" id="pageSize" name="pageSize" value="${page.pageSize}"/>
 
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
@@ -45,54 +44,56 @@
                 </div>
             </div>
         </div>
-    </form>
 
-    <div id="table-responsive" class="table-responsive">
-        <table id="dataTable" class="table table-hover">
-            <thead>
-            <tr>
-                <th><input type="checkbox" id="selectAll"/></th>
-                <th></th>
-                <th>用户名</th>
-                <th>昵称</th>
-                <th>邮箱</th>
-                <th>主页</th>
-                <th>角色</th>
-                <th>注册时间</th>
-                <th>最后登录时间</th>
-                <th>状态</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${users}" var="user" varStatus="v">
+        <div id="table-responsive" class="table-responsive">
+            <table id="dataTable" class="table table-hover">
+                <thead>
                 <tr>
-                    <td><input type="checkbox" name="checkId" value="${user.id}"/></td>
-                    <td><a href="${ctx}/admin/blog/list" class="balloon-button"
-                           title="${user.blogNum}篇文章">${user.blogNum}</a></td>
-                    <td>
-                        <a href="${ctx}/admin/user/edit?id=${user.id}">${user.username}</a>
-                        <a href="" class="a-exlink" title="浏览${user.username}"></a>
-                    </td>
-                    <td>${user.nickname}</td>
-                    <td><a href="mailto:${user.email}" target="_blank">${user.email}</a></td>
-                    <td><a href="${user.url}" target="_blank">${user.url}</a></td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${user.roles==1}">管理员</c:when>
-                            <c:when test="${user.roles==2}">贡献者</c:when>
-                            <c:when test="${user.roles==3}">编辑</c:when>
-                            <c:when test="${user.roles==4}">关注着</c:when>
-                        </c:choose>
-                    </td>
-                    <td><fmt:formatDate value="${user.createdDate}" pattern="yyyy-MM-dd"/></td>
-                    <td><fmt:formatDate value="${user.lastLoginDate}" pattern="yyyy-MM-dd HH:mm"/></td>
-                    <td><c:if test="${user.status==true}">有效</c:if><c:if test="${user.status==false}">关闭</c:if></td>
+                    <th><input type="checkbox" id="selectAll"/></th>
+                    <th></th>
+                    <th>用户名</th>
+                    <th>昵称</th>
+                    <th>邮箱</th>
+                    <th>主页</th>
+                    <th>角色</th>
+                    <th>注册时间</th>
+                    <th>最后登录时间</th>
+                    <th>状态</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                <c:forEach items="${users}" var="user" varStatus="v">
+                    <tr>
+                        <td><input type="checkbox" name="checkId" value="${user.id}"/></td>
+                        <td><a href="${ctx}/admin/blog/list" class="balloon-button"
+                               title="${user.blogNum}篇文章">${user.blogNum}</a></td>
+                        <td>
+                            <a href="${ctx}/admin/user/edit?id=${user.id}">${user.username}</a>
+                            <a href="" class="a-exlink" title="浏览${user.username}"></a>
+                        </td>
+                        <td>${user.nickname}</td>
+                        <td><a href="mailto:${user.email}" target="_blank">${user.email}</a></td>
+                        <td><a href="${user.url}" target="_blank">${user.url}</a></td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.roles==1}">管理员</c:when>
+                                <c:when test="${user.roles==2}">贡献者</c:when>
+                                <c:when test="${user.roles==3}">编辑</c:when>
+                                <c:when test="${user.roles==4}">关注着</c:when>
+                            </c:choose>
+                        </td>
+                        <td><fmt:formatDate value="${user.createdDate}" pattern="yyyy-MM-dd"/></td>
+                        <td><fmt:formatDate value="${user.lastLoginDate}" pattern="yyyy-MM-dd HH:mm"/></td>
+                        <td><c:if test="${user.status==true}">有效</c:if><c:if test="${user.status==false}">关闭</c:if></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
 
+        <p:page pn="${page.pn}" ps="${page.ps}" rct="${page.rct}"/>
+    </form>
+    <%--
     <nav class="text-center">
         <ul class="pagination">
             <c:if test="${page.pageNum > 1}">
@@ -116,6 +117,7 @@
             </c:if>
         </ul>
     </nav>
+    --%>
 </div>
 
 <script type="text/javascript">

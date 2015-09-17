@@ -74,6 +74,7 @@ public class UserService {
          * http://git.oschina.net/free/Mybatis_PageHelper/blob/master/wikis/HowToUse.markdown
          */
         //PageHelper.startPage(page2.getPageNum(), page2.getPageSize());
+        page.setRct(userMapper.selectCountByParams(user));
         return userMapper.selectByParams(user, page);
     }
 

@@ -48,26 +48,9 @@ public class User {
     private String search;
 
     private Integer blogNum;
-
-    public String getSearch() {
-        return search;
-    }
-
-    public void setSearch(String search) {
-        this.search = search;
-    }
-
     /******
      * 非数据库字段 end
      ******/
-
-    public Integer getBlogNum() {
-        return blogNum;
-    }
-
-    public void setBlogNum(Integer blogNum) {
-        this.blogNum = blogNum;
-    }
 
     public Integer getId() {
         return id;
@@ -82,7 +65,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+        this.username = username;
     }
 
     public String getNickname() {
@@ -90,7 +73,7 @@ public class User {
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
+        this.nickname = nickname;
     }
 
     public String getPassword() {
@@ -98,7 +81,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public String getEmail() {
@@ -106,7 +89,7 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
+        this.email = email;
     }
 
     public String getSalt() {
@@ -114,7 +97,7 @@ public class User {
     }
 
     public void setSalt(String salt) {
-        this.salt = salt == null ? null : salt.trim();
+        this.salt = salt;
     }
 
     public String getUrl() {
@@ -122,7 +105,7 @@ public class User {
     }
 
     public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
+        this.url = url;
     }
 
     public Integer getRoles() {
@@ -162,7 +145,7 @@ public class User {
     }
 
     public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
+        this.lastLoginIp = lastLoginIp;
     }
 
     public Timestamp getCreatedDate() {
@@ -181,18 +164,36 @@ public class User {
         this.updatedDate = updatedDate;
     }
 
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
+    public Integer getBlogNum() {
+        return blogNum;
+    }
+
+    public void setBlogNum(Integer blogNum) {
+        this.blogNum = blogNum;
+    }
+
+
+
     // @JsonIgnore用于属性或者方法上（最好是属性上），作用是json序列化时将java bean中的一些属性忽略掉，序列化和反序列化都受影响。
     @JsonIgnore
     public List<String> getRoleList() {
         // 角色列表在数据库中实际以逗号分隔字符串存储，因此返回不能修改的List.
         return ImmutableList.copyOf(StringUtils.split(this.roleCd(roles), ","));
     }
-
+    @JsonIgnore
     public static String getRoleName(Integer role) {
         String roleName = User.roleName(role);
         return StringUtils.isNotBlank(roleName) ? roleName : "角色";
     }
-
+    @JsonIgnore
     private String roleCd(Integer role) {
         String roleCd = "";
         if (role == null) {
@@ -210,7 +211,7 @@ public class User {
         }
         return roleCd;
     }
-
+    @JsonIgnore
     private static String roleName(Integer role) {
         String roleName = "";
         if (role == null) {
