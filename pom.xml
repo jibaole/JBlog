@@ -22,7 +22,7 @@
         <aspectj.version>1.8.6</aspectj.version>
         <spring-data-jpa.version>1.8.0.RELEASE</spring-data-jpa.version>
         <mybatis.version>3.3.0</mybatis.version>
-        <pagehelper.vaersion>3.7.5</pagehelper.vaersion>
+        <!--<pagehelper.vaersion>3.7.5</pagehelper.vaersion>-->
         <mybatis-spring.version>1.2.3</mybatis-spring.version>
         <mybatis-redis.version>1.0.0-beta1</mybatis-redis.version>
         <tomcat-jdbc.version>8.0.23</tomcat-jdbc.version>
@@ -130,12 +130,12 @@
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
-            <!-- pagehelper(mybatis分页插件) -->
+            <!-- pagehelper(mybatis分页插件)
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
                 <version>${pagehelper.vaersion}</version>
-            </dependency>
+            </dependency>-->
             <!-- mybatis-spring -->
             <dependency>
                 <groupId>org.mybatis</groupId>
