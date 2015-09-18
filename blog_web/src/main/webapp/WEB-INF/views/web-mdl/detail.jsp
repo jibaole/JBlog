@@ -45,6 +45,11 @@
                 </div>
             </div>
             <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+                <%--
+                <jsp:include page="content.jsp" flush="true"/>
+                <iframe src="${ctx}/content-detail?id=${blog.id}" id="iframepage_${blog.id}" frameborder="0" scrolling="no"
+                        marginheight="0" marginwidth="0" width="100%"></iframe>
+                --%>
                 <div id="editormd-view-${blog.id}" class="editormd-content">
                     <textarea style="display: none;"><c:out value="${blog.content}" escapeXml="true"/></textarea>
                 </div>
@@ -151,4 +156,7 @@
     </div>
 </div>
 </body>
+<script type="text/javascript">
+
+</script>
 </html>

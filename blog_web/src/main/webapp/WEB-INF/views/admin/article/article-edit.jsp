@@ -51,7 +51,7 @@
 
                 <div class="text-right">
                     <button type="button" class="btn" onclick="setDraft(true);">保存草稿</button>
-                    <button type="submit" class="btn btn-primary" onclick="beforeSave(false);">发表文章</button>
+                    <button type="submit" class="btn btn-primary" id="save-btn">发表文章</button>
                 </div>
             </div>
             <div id="article-right-div" class="col-sm-3">

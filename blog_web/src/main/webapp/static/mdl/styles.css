@@ -609,8 +609,8 @@ body .demo-blog {
 }
 
 .back-to-top {
+    display: none;
     position: fixed;
-    display: block;
     right: 0;
     bottom: 0;
     margin-right: 85px;
@@ -622,8 +622,8 @@ body .demo-blog {
 /* 当宽度小于768px时，顶部操作栏显示，适配小于768的屏幕（如手机） */
 @media (max-width: 768px) {
     .back-to-top {
+        display: none;
         position: fixed;
-        display: block;
         right: 0;
         bottom: 0;
         margin-right: 10px;

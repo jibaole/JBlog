@@ -36,40 +36,40 @@ $(function () {
         imageUpload: true,
         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         imageUploadURL: _ctx + "/admin/file/upload-single",
-       /* onload: function () {
-            console.log('onload', this);
-            //this.fullscreen();
-            //this.unwatch();
-            //this.watch().fullscreen();
+        /* onload: function () {
+         console.log('onload', this);
+         //this.fullscreen();
+         //this.unwatch();
+         //this.watch().fullscreen();
 
-            //this.setMarkdown("#PHP");
-            //this.width("100%");
-            //this.height(480);
-            //this.resize("100%", 640);
-        },*/
+         //this.setMarkdown("#PHP");
+         //this.width("100%");
+         //this.height(480);
+         //this.resize("100%", 640);
+         },*/
         onfullscreen: function () {
             $('#top-nav,#article-right-div').hide();
         },
         onfullscreenExit: function () {
             $('#top-nav,#article-right-div').show();
         },
-        toolbarIcons : function() {
+        toolbarIcons: function () {
             var btnArry = editormd.toolbarModes["full"];
             btnArry.push('moreIcon');
             return btnArry;
         },
-        toolbarIconsClass : {
-            moreIcon : "fa-tag"  // 指定一个FontAawsome的图标类
+        toolbarIconsClass: {
+            moreIcon: "fa-tag"  // 指定一个FontAawsome的图标类
         },
         // 自定义工具栏按钮的事件处理
-        toolbarHandlers : {
+        toolbarHandlers: {
             /**
              * @param {Object}      cm         CodeMirror对象
              * @param {Object}      icon       图标按钮jQuery元素对象
              * @param {Object}      cursor     CodeMirror的光标对象，可获取光标所在行和位置
              * @param {String}      selection  编辑器选中的文本
              */
-            moreIcon : function(cm, icon, cursor, selection) {
+            moreIcon: function (cm, icon, cursor, selection) {
 
                 //var cursor    = cm.getCursor();     //获取当前光标对象，同cursor参数
                 //var selection = cm.getSelection();  //获取当前选中的文本，同selection参数
@@ -78,15 +78,15 @@ $(function () {
                 cm.replaceSelection("<!--more-->");
 
                 // 如果当前没有选中的文本，将光标移到要输入的位置
-                if(selection === "") {
+                if (selection === "") {
                     cm.setCursor(cursor.line, cursor.ch + 1);
                 }
 
             }
         },
-        lang : {
-            toolbar : {
-                moreIcon : "插入更多标示，文章在首页只显示更多标示前的文字，在文章详细页会显示全部"// 自定义按钮的提示文本，即title属性
+        lang: {
+            toolbar: {
+                moreIcon: "插入更多标示，文章在首页只显示更多标示前的文字，在文章详细页会显示全部"// 自定义按钮的提示文本，即title属性
             }
         }
     });
@@ -170,12 +170,14 @@ $(function () {
     /**
      * 发布文章
      */
-    /*$('#saveForm').on('submit', function (e) {
-     debugger;
-     beforeSave(false);
-     //$('#content').text($('#editor').html());
-     $('#login-btn').text('发布中...').attr('disabled', true);
-     });*/
+    $('#saveForm').on('submit', function (e) {
+        beforeSave(false);
+        //var htmlContent = articleEditor.getHTML();// 获取 Textarea 保存的 HTML 源码
+        //console.log(htmlContent);
+        //$('#htmlContent').text(htmlContent);
+        $('#save-btn').text('发布中...').attr('disabled', true);
+    });
+
     /**
      * 存草稿
      */

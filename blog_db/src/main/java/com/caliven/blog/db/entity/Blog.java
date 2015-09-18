@@ -49,7 +49,6 @@ public class Blog {
 
     private String content;
 
-
     private List<Comment> comments;
     private List<CategoryVo> categorys;
     private Integer categroyId;

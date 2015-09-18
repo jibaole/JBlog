@@ -81,4 +81,11 @@ public class WebController {
         return "web-mdl/detail";
     }
 
+    @RequestMapping(value = "content-detail", method = RequestMethod.GET)
+    public String detail3(Model model, Integer id) {
+        Blog blog = blogService.findBlogById(id);
+        model.addAttribute("blog", blog);
+        return "web-mdl/content";
+    }
+
 }

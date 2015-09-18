@@ -536,8 +536,7 @@ textarea {
   a[href^="#"]:after,
   a[href^="javascript:"]:after {
     content: ""; }
-  pre,
-  blockquote {
+  pre{
     border: 1px solid #999;
     page-break-inside: avoid; }
   /*
@@ -877,7 +876,7 @@ p {
 a {
   color: rgb(255,64,129);
   font-weight: 500; }
-
+/*
 blockquote {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   position: relative;
@@ -892,7 +891,7 @@ blockquote {
     content: '“'; }
   blockquote:after {
     content: '”';
-    margin-left: -0.05em; }
+    margin-left: -0.05em; }*/
 
 mark {
   background-color: #f4ff81; }
