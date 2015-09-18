@@ -1,0 +1,128 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #F6F6F3;
+    /*color: #444;
+    font-size: 87.5%;*/
+    line-height: 1.5;
+}
+
+div .table-responsive {
+    padding: 25px 25px 5px 25px;
+    background: #ffffff;
+}
+
+/* 分页总记录显示样式 */
+.page-total {
+    height: 10px;
+    line-height: 10px;
+    padding: 0;
+    margin: 15px 5px -8px 0;
+    text-align: right;
+    font-size: 0.8em;
+}
+
+/*
+table tr td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}*/
+
+.a-exlink {
+    display: inline-block;
+    vertical-align: text-bottom;
+    text-indent: -9999em;
+    background-image: url('../../images/icons.png');
+    background-repeat: no-repeat;
+    background-position: 0 -32px;
+    font-style: italic;
+    cursor: pointer;
+    margin-left: 4px;
+    width: 16px;
+    height: 16px;
+}
+
+.a-exlink:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
+    opacity: .75;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi) {
+    .a-exlink {
+        -moz-background-size: auto 256px;
+        -o-background-size: auto 256px;
+        -webkit-background-size: auto 256px;
+        background-size: auto 256px;
+        background-image: url('../../images/icons-2x.png');
+    }
+}
+
+.i-edit {
+    display: inline-block;
+    vertical-align: text-bottom;
+    text-indent: -9999em;
+    background-image: url('../../images/icons.png');
+    background-repeat: no-repeat;
+    background-position: 0 -16px;
+    width: 16px;
+    height: 16px;
+}
+
+.i-del {
+    display: inline-block;
+    vertical-align: text-bottom;
+    text-indent: -9999em;
+    background-image: url('../../images/icons.png');
+    background-repeat: no-repeat;
+    background-position: 0 0px;
+    width: 16px;
+    height: 16px;
+}
+
+.i-edit:hover, .i-del:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=75);
+    opacity: .75;
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi) {
+    .i-edit, .i-del {
+        -moz-background-size: auto 256px;
+        -o-background-size: auto 256px;
+        -webkit-background-size: auto 256px;
+        background-size: auto 256px;
+        background-image: url('../../images/icons-2x.png');
+    }
+}
+
+a.balloon-button {
+    display: inline-block;
+    padding: 0 6px;
+    min-width: 12px;
+    height: 18px;
+    line-height: 18px;
+    background: #D8E7EE;
+    font-size: .85714em;
+    text-align: center;
+    text-decoration: none;
+    zoom: 1;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+a.balloon-button:hover {
+    background-color: #A5CADC;
+    color: #FFF;
+    text-decoration: none;
+}
+
+.div-operate {
+    margin-bottom: 10px;
+}
+
+.description {
+    margin-bottom: 1.5em;
+    color: #999;
+    font-size: .92857em;
+}
