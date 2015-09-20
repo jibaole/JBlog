@@ -35,36 +35,63 @@ public class WebController {
     @ModelAttribute
     private void initNavbar(Model model) {
         // 前台默认显示管理员的数据
-        Integer adminId = ShiroUtils.getAdminId();
-        List<CategoryTag> tagList = categoryTagService.findsTag(adminId);
-        List<CategoryTag> categoryList = categoryTagService.findsAllCategoryByUserId(adminId);
-        List<Blog> blogList = blogService.findsBlogByPage(new Blog(), new Page());
+        Integer userId = ShiroUtils.getAdminId();
+        List<Blog> rencentBlog = blogService.findsRecentBlog(userId);
+        List<CategoryTag> tagList = categoryTagService.findsTag(userId);
+        List<CategoryTag> categoryList = categoryTagService.findsAllCategoryByUserId(userId);
         String[] last12Months = DateUtils.getLast12Months();
         model.addAttribute("last12Months", last12Months);
 
+        model.addAttribute("rencentBlog", rencentBlog);
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("tagList", tagList);
-        model.addAttribute("blogList", blogList);
     }
 
 
     /**
-     * 所有文章列表
+     * 查询博文
      *
      * @param model
+     * @param blog
      * @param page
+     */
+    private void searchBlog(Model model, Blog blog, Page page) {
+        blog.setUserId(ShiroUtils.getAdminId());
+        List<Blog> blogs = blogService.findsBlogByParams(blog, page);
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("page", page);
+    }
+
+    /**
+     * 所有博文列表
+     *
+     * @param model
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
-    public String list(Model model, Blog blog, Page page) {
-        // 前台默认显示管理员的数据
-
-        blog.setUserId(ShiroUtils.getAdminId());
-        List<Blog> blogs = blogService.findsBlogByPage(blog, page);
-        model.addAttribute("blogs", blogs);
-        model.addAttribute("page", page);
+    public String list(Model model) {
+        this.searchBlog(model, new Blog(), new Page(1, 3));
         return "web-mdl/index";
     }
+
+    /**
+     * 分页查询
+     *
+     * @param model
+     * @param blog
+     * @param pn
+     * @return
+     */
+    @RequestMapping(value = "/{pn}", method = RequestMethod.GET)
+    public String page(Model model, Blog blog, @PathVariable("pn") Integer pn) {
+        if (pn == null) {
+            pn = 1;
+        }
+        Page page = new Page(pn, 3);
+        this.searchBlog(model, blog, page);
+        return "web-mdl/index";
+    }
+
 
     /**
      * 文章详情
@@ -73,19 +100,17 @@ public class WebController {
      * @param id
      * @return
      */
-
     @RequestMapping(value = "article/{id}", method = RequestMethod.GET)
     public String detail2(Model model, @PathVariable("id") Integer id) {
         Blog blog = blogService.findBlogById(id);
-        model.addAttribute("blog", blog);
+        if (blog != null) {
+            Blog prevBlog = blogService.findPrevOrNextBlog(blog, 1);
+            Blog nextBlog = blogService.findPrevOrNextBlog(blog, 2);
+            model.addAttribute("blog", blog);
+            model.addAttribute("prevBlog", prevBlog);
+            model.addAttribute("nextBlog", nextBlog);
+        }
         return "web-mdl/detail";
-    }
-
-    @RequestMapping(value = "content-detail", method = RequestMethod.GET)
-    public String detail3(Model model, Integer id) {
-        Blog blog = blogService.findBlogById(id);
-        model.addAttribute("blog", blog);
-        return "web-mdl/content";
     }
 
 }

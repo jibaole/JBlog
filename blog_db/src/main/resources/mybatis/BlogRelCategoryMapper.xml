@@ -22,7 +22,10 @@
         from blog_rel_category r, category_tag c
         where r.category_tag_id = c.id
         and r.blog_id = #{blogId,jdbcType=INTEGER}
-        and c.type = #{type, jdbcType=INTEGER}
+        <if test="type != null">
+          and c.type = #{type, jdbcType=INTEGER}
+        </if>
+        order by c.name desc
     </select>
 
     <select id="selectCateIdByBlogId" resultType="java.lang.Integer">
@@ -47,7 +50,7 @@
             where category_tag_id = #{categoryTagId,jdbcType=INTEGER} and type = 2
         </select>-->
 
-    <delete id="deleteId" parameterType="java.lang.Integer">
+    <delete id="deleteById" parameterType="java.lang.Integer">
       delete from blog_rel_category
       where id = #{id,jdbcType=INTEGER}
     </delete>

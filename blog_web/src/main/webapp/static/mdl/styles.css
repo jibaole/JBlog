@@ -1,5 +1,5 @@
 body::before {
-    background-image: url('bg/cityscape-beach.jpg');
+    background-image: url('bg/1.jpg');
     background-size: cover;
     background-attachment: fixed;
     content: '';
@@ -31,7 +31,8 @@ body .demo-blog {
 }
 
 .demo-blog.mdl-layout .mdl-layout__content {
-    padding-top: 230px;
+    /*padding-top: 230px;*/
+    padding-top: 180px;
     position: relative;
     -webkit-overflow-scrolling: touch;
 }
@@ -102,6 +103,33 @@ body .demo-blog {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+}
+
+.on-the-road-again .mdl-card__supporting-text .text-category-tag {
+    margin-left: 18px;
+}
+
+.text-category-tag div {
+    padding-bottom: 3px;
+}
+
+.text-category-tag a {
+    text-decoration: none;
+}
+
+.text-category-tag a:hover {
+    text-decoration: underline;
+}
+
+.demo-blog .mdl-card__supporting-text .text-more {
+    display: block;
+}
+
+/* 当宽度小于768px时，隐藏阅读更多按钮，适配小于768的屏幕（如手机） */
+@media (max-width: 768px) {
+    .demo-blog .mdl-card__supporting-text .text-more {
+        display: none;
+    }
 }
 
 .demo-blog .mdl-card__supporting-text strong {
@@ -256,8 +284,67 @@ body .demo-blog {
 }
 
 .demo-blog .on-the-road-again .mdl-card__media {
-    background-image: url('images/road.jpg');
-    min-height: 200px;
+    height: 200px;
+}
+
+.mdl-card-banner-img {
+    background-image: url('images/road_big.jpg');
+}
+
+.mdl-card-banner-img1 {
+    background-image: url('bg/1.jpg');
+}
+
+.mdl-card-banner-img2 {
+    background-image: url('bg/2.jpg');
+}
+
+.mdl-card-banner-img3 {
+    background-image: url('bg/3.jpg');
+}
+
+.mdl-card-banner-img4 {
+    background-image: url('bg/4.jpg');
+}
+
+.mdl-card-banner-img5 {
+    background-image: url('bg/5.jpg');
+}
+
+.mdl-card-banner-img6 {
+    background-image: url('bg/6.jpg');
+}
+
+.mdl-card-banner-img7 {
+    background-image: url('bg/7.jpg');
+}
+
+.mdl-card-banner-img8 {
+    background-image: url('bg/8.jpg');
+}
+
+.mdl-card-banner-img9 {
+    background-image: url('bg/9.jpg');
+}
+
+.mdl-card-banner-img10 {
+    background-image: url('bg/10.jpg');
+}
+
+.mdl-card-banner-img11 {
+    background-image: url('bg/11.jpg');
+}
+
+.mdl-card-banner-img12 {
+    background-image: url('bg/12.jpg');
+}
+
+.mdl-card-banner-img13 {
+    background-image: url('bg/13.jpg');
+}
+
+.mdl-card-banner-img14 {
+    background-image: url('bg/14.jpg');
 }
 
 .demo-blog .shopping .mdl-card__media {
@@ -298,11 +385,13 @@ body .demo-blog {
 }
 
 .demo-blog .demo-blog__posts > .demo-nav > .demo-nav__button:first-child .mdl-button {
-    margin-right: 16px;
+    margin-bottom: 5px;
+    margin-right: 3px;
 }
 
 .demo-blog .demo-blog__posts > .demo-nav > .demo-nav__button:last-child .mdl-button {
-    margin-left: 16px;
+    margin-bottom: 5px;
+    margin-left: 3px;
 }
 
 .demo-blog .mdl-card > a {
@@ -321,7 +410,7 @@ body .demo-blog {
 
 .demo-blog .mdl-card h3.quote:before, .demo-blog .mdl-card h3.quote:after {
     display: block;
-    font-size: 3em;
+    font-size: 1.5em;
     margin-top: 0.5em;
 }
 
@@ -338,7 +427,6 @@ body .demo-blog {
 }
 
 .demo-blog--blogpost .demo-blog__posts > .mdl-card .mdl-card__media {
-    background-image: url('images/road_big.jpg');
     height: 280px;
 }
 
@@ -367,9 +455,9 @@ body .demo-blog {
 }
 
 .demo-blog--blogpost .meta + .mdl-card__supporting-text p {
-    max-width: 512px;
+    /*max-width: 512px;*/
     margin: 16px auto;
-    font-size: 16px;
+    /*font-size: 16px;*/
     line-height: 28px;
 }
 
@@ -579,18 +667,6 @@ body .demo-blog {
     border-radius: 2px;
 }
 
-.social-btn__twitter {
-    background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_twitter_black_24dp.png');
-}
-
-.social-btn__blogger {
-    background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_facebook_black_24dp.png');
-}
-
-.social-btn__gplus {
-    background-image: url('https://www.gstatic.com/images/icons/material/system/2x/post_gplus_black_24dp.png');
-}
-
 .social-btn__share {
     color: rgba(0, 0, 0, 0.54);
     background: transparent;
@@ -617,7 +693,6 @@ body .demo-blog {
     margin-bottom: 10px;
     z-index: 900;
 }
-
 
 /* 当宽度小于768px时，顶部操作栏显示，适配小于768的屏幕（如手机） */
 @media (max-width: 768px) {

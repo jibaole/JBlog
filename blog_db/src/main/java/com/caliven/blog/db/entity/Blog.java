@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 博文pojo
- *
+ * <p/>
  * Created by Caliven on 2015/6/24.
  */
 public class Blog {
@@ -41,6 +41,8 @@ public class Blog {
 
     private Boolean isDraft;
 
+    private Integer bannerImgId;
+
     private Boolean isDeleted;
 
     private Date createdDate;
@@ -51,6 +53,8 @@ public class Blog {
 
     private List<Comment> comments;
     private List<CategoryVo> categorys;
+    private List<CategoryTag> categoryList;
+    private List<CategoryTag> tagList;
     private Integer categroyId;
     private String relativeTime;
     private String publishTime;
@@ -86,7 +90,7 @@ public class Blog {
     }
 
     public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+        this.title = title;
     }
 
     public Integer getStatus() {
@@ -102,7 +106,7 @@ public class Blog {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public Integer getType() {
@@ -118,7 +122,7 @@ public class Blog {
     }
 
     public void setPageUrl(String pageUrl) {
-        this.pageUrl = pageUrl == null ? null : pageUrl.trim();
+        this.pageUrl = pageUrl;
     }
 
     public Integer getViewNum() {
@@ -169,6 +173,14 @@ public class Blog {
         this.isDraft = isDraft;
     }
 
+    public Integer getBannerImgId() {
+        return bannerImgId;
+    }
+
+    public void setBannerImgId(Integer bannerImgId) {
+        this.bannerImgId = bannerImgId;
+    }
+
     public Boolean getIsDeleted() {
         return isDeleted;
     }
@@ -198,7 +210,7 @@ public class Blog {
     }
 
     public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
+        this.content = content;
     }
 
     public List<Comment> getComments() {
@@ -215,6 +227,22 @@ public class Blog {
 
     public void setCategorys(List<CategoryVo> categorys) {
         this.categorys = categorys;
+    }
+
+    public List<CategoryTag> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<CategoryTag> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public List<CategoryTag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<CategoryTag> tagList) {
+        this.tagList = tagList;
     }
 
     public Integer getCategroyId() {

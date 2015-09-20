@@ -2,7 +2,7 @@
 <decorators defaultdir="/WEB-INF/layouts/">
     <!-- 过滤无需装饰的元素 -->
     <excludes>
-        <pattern>/static/*</pattern>
+        <pattern>/static/**</pattern>
         <pattern>/login</pattern>
         <pattern>/register</pattern>
         <pattern>/admin/file/upload-single*</pattern>

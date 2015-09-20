@@ -52,7 +52,7 @@ public class RelativeDateFormat {
             return (days <= 0 ? 1 : days) + ONE_DAY_AGO;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yy年MM月dd日");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(date);
         /*
         if (delta < 12L * 4L * ONE_WEEK) {

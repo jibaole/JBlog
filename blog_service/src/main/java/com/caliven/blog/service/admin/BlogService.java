@@ -7,6 +7,7 @@ import com.caliven.blog.db.repository.BlogMapper;
 import com.caliven.blog.db.repository.BlogRelCategoryMapper;
 import com.caliven.blog.db.repository.CategoryTagMapper;
 import com.caliven.blog.service.shiro.ShiroUtils;
+import com.caliven.blog.utils.BlogUtils;
 import com.caliven.blog.utils.Page;
 import com.caliven.blog.utils.RelativeDateFormat;
 import org.apache.commons.lang3.StringUtils;
@@ -67,9 +68,11 @@ public class BlogService {
         blog.setUserId(ShiroUtils.getCurrUserId());
         if (blog.getId() == null) {
             blog.setType(1);
+            blog.setBannerImgId(BlogUtils.gerRandom());
             blog.setIsDeleted(false);
             blogMapper.insertSelective(blog);
         } else {
+            blog.setBannerImgId(BlogUtils.gerRandom());
             blogMapper.updateByIdSelective(blog);
         }
 
@@ -99,7 +102,19 @@ public class BlogService {
      * @return
      */
     public Blog findBlogById(Integer id) {
-        return blogMapper.selectById(id);
+        Blog blog = blogMapper.selectById(id);
+        return this.setBlogValue(blog);
+    }
+
+    /**
+     * 查询上一篇或下一篇博文
+     *
+     * @param blog
+     * @param type 1：上一篇、2：下一篇
+     * @return
+     */
+    public Blog findPrevOrNextBlog(Blog blog, Integer type) {
+        return blogMapper.selectPrevOrNextBlog(blog, type);
     }
 
     /**
@@ -166,23 +181,38 @@ public class BlogService {
      * @return
      */
     private Blog setBlogValue(Blog blog) {
+        if (blog == null) {
+            return null;
+        }
+
         String categoryNames = "";
+        List<CategoryTag> tagList = null;
+        List<CategoryTag> categoryList = null;
         // 处理博文时间显示
         blog.setRelativeTime(RelativeDateFormat.format(blog.getCreatedDate()));
-        // 查询博文分类
-        List<BlogRelCategory> cateList = blogRelCategoryMapper.selectByBlogId(blog.getId(), 1);
-        if (cateList != null && cateList.size() > 0) {
-            for (BlogRelCategory cate : cateList) {
-                CategoryTag ct = categoryTagMapper.selectById(cate.getCategoryTagId());
+        // 查询博文分类、标签
+        List<BlogRelCategory> relList = blogRelCategoryMapper.selectByBlogId(blog.getId(), null);
+        if (relList != null && relList.size() > 0) {
+            tagList = new ArrayList<>();
+            categoryList = new ArrayList<>();
+            for (BlogRelCategory rel : relList) {
+                CategoryTag ct = categoryTagMapper.selectById(rel.getCategoryTagId());
                 if (ct == null) {
                     continue;
                 }
-                categoryNames += ct.getName() + ",";
+                if (ct.getType() == 1) {
+                    categoryList.add(ct);
+                    categoryNames += ct.getName() + ",";
+                } else {
+                    tagList.add(ct);
+                }
             }
         }
         if (StringUtils.isNotBlank(categoryNames)) {
             categoryNames = categoryNames.substring(0, (categoryNames.length() - 1));
         }
+        blog.setTagList(tagList);
+        blog.setCategoryList(categoryList);
         blog.setCategoryNames(categoryNames);
         return blog;
     }
@@ -237,9 +267,10 @@ public class BlogService {
      * @param page
      * @return
      */
-    public List<Blog> findsBlogByPage(Blog blog, Page page) {
+    public List<Blog> findsBlogByParams(Blog blog, Page page) {
         //获取admin账号id
         blog.setUserId(ShiroUtils.getAdminId());
+        page.setRct(blogMapper.selectCountByParams(blog, false));
         List<Blog> blogList = blogMapper.selectByParams(blog, page, false);
         //List<Blog> blogList = blogMapper.selectByUserId(1, true);
 

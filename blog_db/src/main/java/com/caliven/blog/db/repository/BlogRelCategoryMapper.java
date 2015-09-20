@@ -8,7 +8,7 @@ import java.util.List;
 @MyBatisRepository
 public interface BlogRelCategoryMapper {
 
-    int deleteId(Integer id);
+    int deleteById(Integer id);
 
     int deleteByCategoryTagId(Integer categoryTagId);
 

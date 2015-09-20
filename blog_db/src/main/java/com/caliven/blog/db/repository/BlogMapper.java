@@ -24,6 +24,16 @@ public interface BlogMapper {
     Blog selectById(Integer id);
 
     /**
+     * 查询上一篇或下一篇博文
+     *
+     * @param blog
+     * @param type 1：上一篇、2：下一篇
+     * @return
+     */
+    Blog selectPrevOrNextBlog(@Param("blog") Blog blog, @Param("type") Integer type);
+
+
+    /**
      * 查询博文
      *
      * @param blog  查询参数

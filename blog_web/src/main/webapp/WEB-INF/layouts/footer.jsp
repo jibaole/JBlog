@@ -43,7 +43,7 @@
 
             <h1 class="mdl-mega-footer__heading">最近文章</h1>
             <ul class="mdl-mega-footer__link-list">
-                <c:forEach items="${blogList}" var="b">
+                <c:forEach items="${rencentBlog}" var="b">
                     <li><a href="${ctx}/index/detail2/${b.id}">${b.title}</a></li>
                 </c:forEach>
             </ul>

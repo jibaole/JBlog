@@ -9,7 +9,6 @@ import com.caliven.blog.service.admin.CategoryTagService;
 import com.caliven.blog.service.shiro.ShiroUtils;
 import com.caliven.blog.utils.DateUtils;
 import com.caliven.blog.utils.Page;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +39,7 @@ public class IndexController {
         Integer adminId = ShiroUtils.getAdminId();
         List<CategoryTag> categoryList = categoryTagService.findsAllCategoryByUserId(adminId);
         List<CategoryTag> tagList = categoryTagService.findsTag(adminId);
-        List<Blog> blogList = blogService.findsBlogByPage(new Blog(), new Page());
+        List<Blog> blogList = blogService.findsBlogByParams(new Blog(), new Page());
         String[] last12Months = DateUtils.getLast12Months();
         model.addAttribute("last12Months", last12Months);
 
@@ -61,7 +60,7 @@ public class IndexController {
     public String list(Model model, Blog blog, Page page) {
         // 前台默认显示管理员的数据
         blog.setUserId(ShiroUtils.getAdminId());
-        List<Blog> blogs = blogService.findsBlogByPage(blog, page);
+        List<Blog> blogs = blogService.findsBlogByParams(blog, page);
         model.addAttribute("blogs", blogs);
         model.addAttribute("page", page);
         return "web/index";
@@ -71,7 +70,7 @@ public class IndexController {
     public String list2(Model model, Blog blog, Page page) {
         // 前台默认显示管理员的数据
         blog.setUserId(ShiroUtils.getAdminId());
-        List<Blog> blogs = blogService.findsBlogByPage(blog, page);
+        List<Blog> blogs = blogService.findsBlogByParams(blog, page);
         model.addAttribute("blogs", blogs);
         model.addAttribute("page", page);
         return "web-mdl/index";

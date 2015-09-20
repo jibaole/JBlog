@@ -52,51 +52,51 @@
                 </div>
             </div>
         </div>
-    </form>
 
-    <div class="table-responsive">
-        <table id="dataTable" class="table table-hover">
-            <colgroup>
-                <col width="3%"/>
-                <col width="3%"/>
-                <col width="47%"/>
-                <col width="20%"/>
-                <col width="15%"/>
-                <col width="12%"/>
-            </colgroup>
-            <thead>
-            <tr>
-                <th><input type="checkbox" id="selectAll"/></th>
-                <th></th>
-                <th>标题</th>
-                <th>分类</th>
-                <th>作者</th>
-                <th>日期</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${blogs}" var="b" varStatus="v">
+        <div class="table-responsive">
+            <table id="dataTable" class="table table-hover">
+                <colgroup>
+                    <col width="3%"/>
+                    <col width="3%"/>
+                    <col width="47%"/>
+                    <col width="20%"/>
+                    <col width="15%"/>
+                    <col width="12%"/>
+                </colgroup>
+                <thead>
                 <tr>
-                    <td><input type="checkbox" name="checkId" value="${b.id}"/></td>
-                    <td><a href="${ctx}/admin/article/list" class="balloon-button"
-                           title="${b.commentNum}评论">${b.commentNum}</a></td>
-                    <td>
-                        <c:if test="${b.isDraft==true}">
-                            <small class="text-muted">[草稿]</small>
-                        </c:if>
-                        <a href="${ctx}/admin/article/edit?id=${b.id}">${b.title}</a>
-                        <a href="${ctx}/article/${b.id}" class="a-exlink" target="_blank" title="浏览文章"></a>
-                    </td>
-                    <td>${b.categoryNames}</td>
-                    <td>${b.user.username} / ${b.user.nickname}</td>
-                    <td>${b.relativeTime}</td>
+                    <th><input type="checkbox" id="selectAll"/></th>
+                    <th></th>
+                    <th>标题</th>
+                    <th>分类</th>
+                    <th>作者</th>
+                    <th>日期</th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                <c:forEach items="${blogs}" var="b" varStatus="v">
+                    <tr>
+                        <td><input type="checkbox" name="checkId" value="${b.id}"/></td>
+                        <td><a href="${ctx}/admin/article/list" class="balloon-button"
+                               title="${b.commentNum}评论">${b.commentNum}</a></td>
+                        <td>
+                            <c:if test="${b.isDraft==true}">
+                                <small class="text-muted">[草稿]</small>
+                            </c:if>
+                            <a href="${ctx}/admin/article/edit?id=${b.id}">${b.title}</a>
+                            <a href="${ctx}/article/${b.id}" class="a-exlink" target="_blank" title="浏览文章"></a>
+                        </td>
+                        <td>${b.categoryNames}</td>
+                        <td>${b.user.username} / ${b.user.nickname}</td>
+                        <td>${b.relativeTime}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
 
-    <p:page pn="${page.pn}" ps="${page.ps}" rct="${page.rct}"/>
+        <p:page pn="${page.pn}" ps="${page.ps}" rct="${page.rct}"/>
+    </form>
 </div>
 
 <script type="text/javascript">
@@ -115,7 +115,7 @@
             $('#dataTable input[name="checkId"]:checked').each(function (i) {
                 ids[i] = $(this).val();
             });
-            if(ids.length <= 0){
+            if (ids.length <= 0) {
                 return;
             }
             if (confirm('确定这么干？')) {

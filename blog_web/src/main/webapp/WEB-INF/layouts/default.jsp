@@ -26,20 +26,19 @@
 
     <title><sitemesh:title/></title>
     <sitemesh:head/>
+    <link rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico">
 
-    <%--
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+    <%--
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.grey-orange.min.css">
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.cyan-light_blue.min.css"/>
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.pink-deep_purple.min.css" />
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.cyan-teal.min.css" />
     --%>
-    <link rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico">
-    <link rel="stylesheet" href="${ctx}/static/mdl/fonsts/fonts1.css">
-    <link rel="stylesheet" href="${ctx}/static/mdl/fonsts/fonts2.css">
-    <link rel="stylesheet" href="${ctx}/static/mdl/material.grey-orange.min.css">
+    <link rel="stylesheet" href="${ctx}/static/mdl/material.css">
 
     <link rel="stylesheet" href="${ctx}/static/mdl/styles.css">
     <link rel="stylesheet" href="${ctx}/static/editor.md/css/editormd.preview.css">
@@ -75,125 +74,23 @@
 <script src="${ctx}/static/editor.md/lib/sequence-diagram.min.js"></script>
 <script src="${ctx}/static/editor.md/lib/flowchart.min.js"></script>
 <script src="${ctx}/static/editor.md/lib/jquery.flowchart.min.js"></script>
-<script src="${ctx}/static/editor.md/editormd.js"></script>
+<script src="${ctx}/static/editor.md/editormd.min.js"></script>
+<script src="${ctx}/static/js/index/index.js" type="text/javascript"></script>
 </body>
-
 <script type="text/javascript">
-
-    /*$(window).scroll(function () {
-     var isHidden = $('#back-to-top').is(':hidden');
-     var height = document.body.offsetHeight;
-     var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-     console.log(scrollTop + '==' + (height - 200));
-     if (scrollTop <= 200) {
-     $('#back-to-top').animate({
-     opacity: "hide"
-     }, "slow");
-     } else if (scrollTop >= (height - 1000)) {
-     if (isHidden == true) {
-     $('#back-to-top').animate({
-     opacity: "show"
-     }, "slow");
-     }
-     } else {
-     scroll(function (direction) {
-     if ('down' == direction) {
-     if (isHidden == false) {
-     $('#back-to-top').animate({
-     opacity: "hide"
-     }, "slow");
-     }
-     } else {
-     if (isHidden == true) {
-     $('#back-to-top').animate({
-     opacity: "show"
-     }, "slow");
-     }
-     }
-     });
-     }
-     });*/
-    scroll(function (direction) {
-        var isHidden = $('#back-to-top').is(':hidden');
-        var height = document.body.offsetHeight;
-        var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-        console.log(scrollTop + '==' + (height - 200));
-        if (scrollTop <= 200) {
-            $('#back-to-top').animate({
-                opacity: "hide"
-            }, "slow");
-        } else if (scrollTop >= (height - 1000)) {
-            if (isHidden == true) {
+    /*(function () {
+        $(window).scroll(function () {
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            if (scrollTop <= 200) {
+                $('#back-to-top').animate({
+                    opacity: "hide"
+                }, "slow");
+            } else {
                 $('#back-to-top').animate({
                     opacity: "show"
                 }, "slow");
             }
-        } else {
-            if ('down' == direction) {
-                if (isHidden == false) {
-                    $('#back-to-top').animate({
-                        opacity: "hide"
-                    }, "slow");
-                }
-            } else {
-                if (isHidden == true) {
-                    $('#back-to-top').animate({
-                        opacity: "show"
-                    }, "slow");
-                }
-            }
-        }
-    });
-    function scroll(fn) {
-        var beforeScrollTop = document.body.scrollTop, fn = fn || function () {
-                };
-        window.addEventListener("scroll", function () {
-            var afterScrollTop = document.body.scrollTop,
-                    delta = afterScrollTop - beforeScrollTop;
-            if (delta === 0) return false;
-            fn(delta > 0 ? "down" : "up");
-            beforeScrollTop = afterScrollTop;
-        }, false);
-    }
-
-    $(function () {
-        $('#back-to-top').click(function () {
-            $('html, body').animate({
-                scrollTop: 0
-            }, 500);
         });
-        $('.editormd-content').each(function () {
-            var divId = $(this).attr('id');
-            //var bId = $(this).attr('bId');
-            //var content = $('#content-' + bId).text();
-            var editormdContent = editormd.markdownToHTML(divId, {
-                htmlDecode: "style,script,iframe",
-                tocm: true,  // Using [TOCM]
-                emoji: true,
-                taskList: true,
-                tex: true,  // 默认不解析
-                flowChart: true,  // 默认不解析
-                sequenceDiagram: true   // 默认不解析
-            });
-
-            //console.log(editormdContent.getHTML());
-            /*editormd.markdownToHTML(divId, {
-             markdown: content,//+"\r\n" + $("#append-test").text(),
-             //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
-             htmlDecode: "style,script,iframe",  // you can filter tags decode
-             //toc             : false,
-             tocm: true,    // Using [TOCM]
-             //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
-             //gfm             : false,
-             //tocDropdown     : true,
-             markdownSourceCode: false, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
-             emoji: true,
-             taskList: true,
-             tex: true,  // 默认不解析
-             flowChart: true,  // 默认不解析
-             sequenceDiagram: true  // 默认不解析
-             });*/
-        });
-    });
+    })();*/
 </script>
 </html>
