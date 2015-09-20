@@ -16,6 +16,14 @@ body .demo-blog {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
+ a:hover {
+    text-decoration: underline;
+}
+
 .demo-blog .demo-blog__posts {
     max-width: 900px;
     padding: 0;
@@ -105,20 +113,12 @@ body .demo-blog {
     align-items: center;
 }
 
-.on-the-road-again .mdl-card__supporting-text .text-category-tag {
+.text-category-tag {
     margin-left: 18px;
 }
 
 .text-category-tag div {
     padding-bottom: 3px;
-}
-
-.text-category-tag a {
-    text-decoration: none;
-}
-
-.text-category-tag a:hover {
-    text-decoration: underline;
 }
 
 .demo-blog .mdl-card__supporting-text .text-more {
@@ -400,10 +400,15 @@ body .demo-blog {
     font-weight: inherit;
 }
 
+.demo-blog .mdl-card h2 {
+    margin: 0 0 10px 0;
+}
+
 .demo-blog .mdl-card h3 {
     margin: 0;
 }
 
+.demo-blog .mdl-card h2 a,
 .demo-blog .mdl-card h3 a {
     text-decoration: none;
 }
@@ -709,4 +714,7 @@ body .demo-blog {
 
 .footer-div {
     margin-top: 50px;
+}
+.mdl-mega-footer .mdl-mega-footer__link-list li{
+    margin: 4px 0;
 }

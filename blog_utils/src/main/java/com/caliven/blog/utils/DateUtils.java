@@ -1,5 +1,8 @@
 package com.caliven.blog.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,13 +30,39 @@ public class DateUtils {
     }
 
     public static String getEnglishDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
     }
 
     public static String getChinaDate(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.CHINA);
         return sdf.format(date);
+    }
+
+    public static Date getEnglishDate(String date) {
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Date getChinaDate(String date) {
+        if (StringUtils.isEmpty(date)) {
+            return null;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.CHINA);
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

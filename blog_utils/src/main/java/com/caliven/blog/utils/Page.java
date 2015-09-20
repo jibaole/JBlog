@@ -6,6 +6,12 @@ package com.caliven.blog.utils;
  * @author caliven
  */
 public class Page {
+
+    /**
+     * 网站首页显示条数
+     */
+    public static final int WEB_PAGE_SIZE = 3;
+
     /**
      * 当前页
      */

@@ -20,7 +20,7 @@
             </div>
             <div class="col-xs-7 col-sm-4 text-right">
                 <div class="input-group">
-                    <input type="hidden" id="categroyId" name="categroyId" value="${blog.categroyId}"/>
+                    <input type="hidden" id="categroyId" name="categroyId" value="${blog.categroyTagId}"/>
 
                     <input type="text" class="form-control" name="title" value="${blog.title}" placeholder="输入关键字..."/>
 
@@ -30,11 +30,11 @@
                                 class="caret"></span>
                         </button>
                         <ul id="dropdown-menu" class="dropdown-menu">
-                            <li <c:if test="${blog.categroyId==null}">class="active"</c:if>><a href="#" val="">所有分类</a>
+                            <li <c:if test="${blog.categroyTagId==null}">class="active"</c:if>><a href="#" val="">所有分类</a>
                             </li>
                             <c:forEach items="${treeList}" var="c" varStatus="v">
                                 <c:if test="${c.parentId != 0}">
-                                    <li <c:if test="${c.id==blog.categroyId}">class="active"</c:if>>
+                                    <li <c:if test="${c.id==blog.categroyTagId}">class="active"</c:if>>
                                         <a href="#" val="${c.id}">
                                             <c:choose>
                                                 <c:when test="${c.level==2}">&nbsp;&nbsp;</c:when>

@@ -11,7 +11,7 @@
             <h1 class="mdl-mega-footer__heading">文章归档</h1>
             <ul class="mdl-mega-footer__link-list">
                 <c:forEach items="${last12Months}" var="month">
-                    <li><a href="#">${month}</a></li>
+                    <li><a href="${ctx}/months/${month}/1">${month}</a></li>
                 </c:forEach>
             </ul>
         </div>
@@ -22,7 +22,7 @@
             <h1 class="mdl-mega-footer__heading">分类</h1>
             <ul class="mdl-mega-footer__link-list">
                 <c:forEach items="${categoryList}" var="c">
-                    <li><a href="#">${c.name}</a></li>
+                    <li><a href="${ctx}/categorys/${c.id}/1">${c.name}（${c.blogNum}）</a></li>
                 </c:forEach>
             </ul>
         </div>
@@ -33,7 +33,7 @@
             <h1 class="mdl-mega-footer__heading">标签</h1>
             <ul class="mdl-mega-footer__link-list">
                 <c:forEach items="${tagList}" var="t">
-                    <li><a href="#">${t.name}</a></li>
+                    <li><a href="${ctx}/tags/${c.id}/1">${t.name}</a></li>
                 </c:forEach>
             </ul>
         </div>
@@ -44,7 +44,7 @@
             <h1 class="mdl-mega-footer__heading">最近文章</h1>
             <ul class="mdl-mega-footer__link-list">
                 <c:forEach items="${rencentBlog}" var="b">
-                    <li><a href="${ctx}/index/detail2/${b.id}">${b.title}</a></li>
+                    <li><a href="${ctx}/article/${b.id}">${b.title}</a></li>
                 </c:forEach>
             </ul>
         </div>

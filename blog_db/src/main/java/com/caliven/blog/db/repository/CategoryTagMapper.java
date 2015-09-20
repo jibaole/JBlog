@@ -51,6 +51,15 @@ public interface CategoryTagMapper {
     List<CategoryTag> selectCategoryByParams(@Param("category") CategoryTag ct, @Param("page") Page page);
 
     /**
+     * 通过缩略名查询 id
+     *
+     * @param slug
+     * @param type
+     * @return
+     */
+    List<Integer> selectIdBySlug(@Param("userId") Integer userId, @Param("slug") String slug, @Param("type") Integer type);
+
+    /**
      * 查询总数
      *
      * @param ct

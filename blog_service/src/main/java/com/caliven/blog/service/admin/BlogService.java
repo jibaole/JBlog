@@ -133,29 +133,11 @@ public class BlogService {
             if (blog != null) {
                 blog.setIsDeleted(true);
                 blogMapper.updateByIdSelective(blog);
+                // 删除分类、标签关联
+                blogRelCategoryMapper.deleteByBlogId(id);
             }
         }
     }
-
-    /**
-     * 移除字符串中包含HTML的标签
-     *
-     * @param content
-     * @return
-     */
-    public static String removeHTML(String content) {
-        int before = content.indexOf('<');
-        int behind = content.indexOf('>');
-        if (before != -1 || behind != -1) {
-            behind += 1;
-            content = content.substring(0, before).trim()
-                    + content.substring(behind, content.length()).trim();
-            content = removeHTML(content);
-        }
-        content = content.replaceAll(" ", "").replaceAll("　", "");//.replaceAll("&nbsp;","");
-        return content;
-    }
-
 
     /**
      * 后台查询所有博文
@@ -294,8 +276,42 @@ public class BlogService {
      * @return
      */
     public List<Blog> findsRecentBlog(Integer userId) {
-        return blogMapper.selectRecentBlog(userId);
+        List<Blog> retList = new ArrayList<>();
+        List<Blog> list = blogMapper.selectRecentBlog(userId);
+        for (Blog blog : list) {
+            String title = blog.getTitle();
+            if (StringUtils.isNotEmpty(title)) {
+                if (title.length() > 20) {
+                    blog.setTitle(title.substring(0, 20) + "...");
+                }
+            }
+            retList.add(blog);
+        }
+        return retList;
     }
 
 
+    /**
+     * 通过类别id或标签id查询
+     *
+     * @param userId
+     * @param ctId
+     * @param page
+     * @return
+     */
+    public List<Blog> findsByCategoryTagId(Integer userId, Integer ctId, Page page) {
+        if (userId == null || ctId == null) {
+            return null;
+        }
+        Blog blog = new Blog();
+        blog.setUserId(userId);
+        blog.setCategroyTagId(ctId);
+        page.setRct(blogMapper.selectCountByParams(blog, false));
+        List<Blog> blogList = blogMapper.selectByParams(blog, page, false);
+        List<Blog> retList = new ArrayList<>();
+        for (Blog b : blogList) {
+            retList.add(this.setBlogValue(b));
+        }
+        return retList;
+    }
 }

@@ -20,13 +20,13 @@
     </div>
     <div class="demo-blog__posts mdl-grid">
 
-        <div class="mdl-card <c:if test="${blog.bannerImgId==null}">amazing</c:if> mdl-shadow--4dp mdl-cell mdl-cell--12-col">
-            <div class="<c:if test="${blog.bannerImgId==null}">mdl-card__title</c:if><c:if test="${blog.bannerImgId!=null}">mdl-card__media mdl-card-banner-img${blog.bannerImgId}</c:if> mdl-color-text--grey-50">
-                <h3 <c:if test="${blog.bannerImgId==null}">class="quote"</c:if>>${blog.title}</h3>
+        <div class="mdl-card <c:if test="${blog!=null && blog.bannerImgId==null}">amazing</c:if> mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+            <div class="<c:if test="${blog==null}">mdl-card__media mdl-card-banner-img</c:if><c:if test="${blog!=null && blog.bannerImgId==null}">mdl-card__title</c:if><c:if test="${blog.bannerImgId!=null}">mdl-card__media mdl-card-banner-img${blog.bannerImgId}</c:if> mdl-color-text--grey-50">
+                <h3 <c:if test="${blog!=null && blog.bannerImgId==null}">class="quote"</c:if>>${blog.title}</h3>
             </div>
             <c:if test="${blog == null}">
                 <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
-                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text">不存的文章！</div>
+                    不存的文章！<a href="${ctx}/">首页</a>
                 </div>
             </c:if>
             <c:if test="${blog != null}">

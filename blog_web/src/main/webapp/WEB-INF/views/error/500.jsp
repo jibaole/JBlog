@@ -1,21 +1,16 @@
-<%@ page contentType="text/html;charset=UTF-8" isErrorPage="true" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="org.slf4j.Logger,org.slf4j.LoggerFactory" %>
-<%	
-	//设置返回码200，避免浏览器自带的错误页面
-	response.setStatus(200);
-	//记录日志
-	Logger logger = LoggerFactory.getLogger("500.jsp");
-	logger.error(exception.getMessage(), exception);
-%>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-	<title>500 - 系统内部错误</title>
+	<title>页面不存在 | 闲想录</title>
+	<link rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico">
 </head>
 
 <body>
-	<h2>500 - 系统发生内部错误.</h2>
+<script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8"
+		homePageUrl="${ctx}/" homePageName="回到主页"></script>
 </body>
 </html>

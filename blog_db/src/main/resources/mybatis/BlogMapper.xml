@@ -38,47 +38,7 @@
     <sql id="Blob_Column_List">b.content</sql>
     <sql id="User_Column_List">u.id, u.username, u.nickname, u.email</sql>
 
-    <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="map">
-        select count(1)
-        from blog b
-        JOIN user u on b.user_id = u.id
-        <!-- 未删除、且类型为博文 -->
-        where b.is_deleted = 0 and b.type = 1
-
-        <if test="isAll == false">
-            <!-- 前台显示查询 -->
-            <!-- 创建时间小于等于当前时间的才查询出来 -->
-            <![CDATA[ and b.created_date <= now() ]]>
-        </if>
-        <if test="blog.userId != null">
-            and b.user_id = #{blog.userId, jdbcType=INTEGER}
-        </if>
-        <if test="blog.title != null">
-            and b.title like CONCAT('%',#{blog.title,jdbcType=VARCHAR},'%')
-        </if>
-        <if test="blog.status != null">
-            and b.status = #{blog.status, jdbcType=INTEGER}
-        </if>
-        <if test="blog.categroyId != null">
-            and b.id in(
-            select r.blog_id from blog_rel_category r
-            where r.category_tag_id = #{blog.categroyId, jdbcType=INTEGER}
-            )
-        </if>
-    </select>
-
-    <select id="selectByParams" resultMap="ResultMapWithBLOBs" parameterType="map">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        ,
-        <include refid="User_Column_List"/>
-        from blog b
-        JOIN user u on b.user_id = u.id
-        <!-- 未删除、且类型为博文 -->
-        where b.is_deleted = 0 and b.type = 1
-
+    <sql id="Query_By_Params_Sql">
         <if test="isAll == false">
             <!-- 前台显示查询 -->
             <!-- 创建时间小于等于当前时间的才查询出来 -->
@@ -96,12 +56,38 @@
         <if test="blog.status != null">
             and b.status = #{blog.status, jdbcType=INTEGER}
         </if>
-        <if test="blog.categroyId != null">
+        <if test="blog.categroyTagId != null">
             and b.id in(
             select r.blog_id from blog_rel_category r
-            where r.category_tag_id = #{blog.categroyId, jdbcType=INTEGER}
+            where r.category_tag_id = #{blog.categroyTagId, jdbcType=INTEGER}
             )
         </if>
+        <if test="blog.createdDate != null">
+            and date_format(b.created_date,'%Y-%m-%d') = date_format(#{blog.createdDate, jdbcType=TIMESTAMP},'%Y-%m-%d')
+        </if>
+    </sql>
+
+    <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="map">
+        select count(1)
+        from blog b
+        JOIN user u on b.user_id = u.id
+        <!-- 未删除、且类型为博文 -->
+        where b.is_deleted = 0 and b.type = 1
+        <include refid="Query_By_Params_Sql"/>
+    </select>
+
+    <select id="selectByParams" resultMap="ResultMapWithBLOBs" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="User_Column_List"/>
+        from blog b
+        JOIN user u on b.user_id = u.id
+        <!-- 未删除、且类型为博文 -->
+        where b.is_deleted = 0 and b.type = 1
+        <include refid="Query_By_Params_Sql"/>
         order by b.created_date desc
         limit #{page.offset, jdbcType=INTEGER}, #{page.limit, jdbcType=INTEGER}
     </select>

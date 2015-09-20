@@ -55,7 +55,7 @@ public class Blog {
     private List<CategoryVo> categorys;
     private List<CategoryTag> categoryList;
     private List<CategoryTag> tagList;
-    private Integer categroyId;
+    private Integer categroyTagId;
     private String relativeTime;
     private String publishTime;
     private String categoryNames;
@@ -245,12 +245,12 @@ public class Blog {
         this.tagList = tagList;
     }
 
-    public Integer getCategroyId() {
-        return categroyId;
+    public Integer getCategroyTagId() {
+        return categroyTagId;
     }
 
-    public void setCategroyId(Integer categroyId) {
-        this.categroyId = categroyId;
+    public void setCategroyTagId(Integer categroyTagId) {
+        this.categroyTagId = categroyTagId;
     }
 
     public String getRelativeTime() {

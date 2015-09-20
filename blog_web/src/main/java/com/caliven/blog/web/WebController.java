@@ -10,11 +10,11 @@ import com.caliven.blog.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +39,7 @@ public class WebController {
         List<Blog> rencentBlog = blogService.findsRecentBlog(userId);
         List<CategoryTag> tagList = categoryTagService.findsTag(userId);
         List<CategoryTag> categoryList = categoryTagService.findsAllCategoryByUserId(userId);
+        categoryList.remove(0);
         String[] last12Months = DateUtils.getLast12Months();
         model.addAttribute("last12Months", last12Months);
 
@@ -70,7 +71,7 @@ public class WebController {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
-        this.searchBlog(model, new Blog(), new Page(1, 3));
+        this.searchBlog(model, new Blog(), new Page(1, Page.WEB_PAGE_SIZE));
         return "web-mdl/index";
     }
 
@@ -87,7 +88,7 @@ public class WebController {
         if (pn == null) {
             pn = 1;
         }
-        Page page = new Page(pn, 3);
+        Page page = new Page(pn, Page.WEB_PAGE_SIZE);
         this.searchBlog(model, blog, page);
         return "web-mdl/index";
     }
@@ -111,6 +112,82 @@ public class WebController {
             model.addAttribute("nextBlog", nextBlog);
         }
         return "web-mdl/detail";
+    }
+
+    /**
+     * 类别、标签查询
+     *
+     * @param model
+     * @param ctId
+     * @param pn
+     */
+    private void searchByCategoryTag(Model model, Integer ctId, Integer pn) {
+        if (pn == null) {
+            pn = 1;
+        }
+        // 前台默认显示管理员的数据
+        Integer userId = ShiroUtils.getAdminId();
+        Page page = new Page(pn, Page.WEB_PAGE_SIZE);
+        List<Blog> blogs = blogService.findsByCategoryTagId(userId, ctId, page);
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("page", page);
+    }
+
+    /**
+     * 分类归档查询
+     *
+     * @param model
+     * @param cId
+     * @param pn
+     * @return
+     */
+    @RequestMapping(value = "categorys/{cId}/{pn}", method = RequestMethod.GET)
+    public String categorys(Model model, @PathVariable("cId") Integer cId, @PathVariable("pn") Integer pn) {
+        this.searchByCategoryTag(model, cId, pn);
+        model.addAttribute("pageType", 1);// 用于区分分页 url
+        model.addAttribute("ctId", cId);
+        return "web-mdl/index";
+    }
+
+    /**
+     * 标签归档查询
+     *
+     * @param model
+     * @param tId
+     * @param pn
+     * @return
+     */
+    @RequestMapping(value = "tags/{tId}/{pn}", method = RequestMethod.GET)
+    public String tags(Model model, @PathVariable("tId") Integer tId, @PathVariable("pn") Integer pn) {
+        this.searchByCategoryTag(model, tId, pn);
+        model.addAttribute("pageType", 2);// 用于区分分页 url
+        model.addAttribute("ctId", tId);
+        return "web-mdl/index";
+    }
+
+    /**
+     * 月份归档查询
+     *
+     * @param model
+     * @param month
+     * @param pn
+     * @return
+     */
+    @RequestMapping(value = "months/{month}/{pn}", method = RequestMethod.GET)
+    public String months(Model model, @PathVariable("month") String month, @PathVariable("pn") Integer pn) {
+        Date date = DateUtils.getEnglishDate(month);
+        if (date != null) {
+            if (pn == null) {
+                pn = 1;
+            }
+            Blog blog = new Blog();
+            blog.setCreatedDate(date);
+            Page page = new Page(pn, Page.WEB_PAGE_SIZE);
+            this.searchBlog(model, blog, page);
+            model.addAttribute("month", month);
+        }
+        model.addAttribute("pageType", 3);// 用于区分分页 url
+        return "web-mdl/index";
     }
 
 }

@@ -17,12 +17,13 @@
         <result column="updated_date" property="updatedDate" jdbcType="TIMESTAMP"/>
     </resultMap>
     <sql id="Base_Column_List">
-      c.id, c.user_id, c.parent_id, c.`name`, c.slug, c.`type`, c.description, c.`count`, c.`order`,c.level, c.is_deleted, c.created_date, c.updated_date
+      c.id, c.user_id, c.parent_id, c.name, c.slug, c.type, c.description, c.count, c.order,c.level, c.is_deleted, c.created_date, c.updated_date
     </sql>
 
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>,
+        (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum
         from category_tag c
         where c.id = #{id,jdbcType=INTEGER}
     </select>
@@ -93,6 +94,20 @@
         limit #{page.offset, jdbcType=INTEGER}, #{page.limit, jdbcType=INTEGER}
     </select>
 
+    <select id="selectIdBySlug" resultType="java.lang.Integer" parameterType="map">
+        select c.id
+        from category_tag c
+        where c.is_deleted = 0
+        and c.user_id = #{userId,jdbcType=INTEGER}
+        <if test="slug != null">
+            and c.slug = #{slug,jdbcType=INTEGER}
+        </if>
+        <if test="type != null">
+            and c.type = #{type,jdbcType=INTEGER}
+        </if>
+        limit 1
+    </select>
+
     <select id="selectRootCategory" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -106,7 +121,8 @@
 
     <select id="selectTreeCategory" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>,
+        (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum
         from category_tag c
         where c.type = 1
         and c.is_deleted = 0
