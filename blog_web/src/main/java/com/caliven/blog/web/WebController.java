@@ -129,6 +129,10 @@ public class WebController {
         Integer userId = ShiroUtils.getAdminId();
         Page page = new Page(pn, Page.WEB_PAGE_SIZE);
         List<Blog> blogs = blogService.findsByCategoryTagId(userId, ctId, page);
+        CategoryTag ct = categoryTagService.findCategoryTagById(ctId);
+        if(ct != null){
+            model.addAttribute("ctName", ct.getName());
+        }
         model.addAttribute("blogs", blogs);
         model.addAttribute("page", page);
     }

@@ -45,15 +45,19 @@ public class BlogUtils {
 
 
     /**
-     * 获取1-12的随机数
+     * 获取1-20的随机数
      *
      * @return
      */
-    public static int gerRandom() {
+    public static Integer gerRandom() {
         int min = 1;
-        int max = 12;
+        int max = 20;
         Random random = new Random();
-        return random.nextInt(max) % (max - min + 1) + min;
+        int num = random.nextInt(max) % (max - min + 1) + min;
+        if (num >= 18) {
+            return null;
+        }
+        return num;
     }
 
     public static void main() {

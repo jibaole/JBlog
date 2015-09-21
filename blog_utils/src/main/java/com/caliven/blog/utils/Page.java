@@ -10,7 +10,7 @@ public class Page {
     /**
      * 网站首页显示条数
      */
-    public static final int WEB_PAGE_SIZE = 3;
+    public static final int WEB_PAGE_SIZE = 5;
 
     /**
      * 当前页

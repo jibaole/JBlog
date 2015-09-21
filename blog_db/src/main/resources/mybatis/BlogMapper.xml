@@ -63,7 +63,7 @@
             )
         </if>
         <if test="blog.createdDate != null">
-            and date_format(b.created_date,'%Y-%m-%d') = date_format(#{blog.createdDate, jdbcType=TIMESTAMP},'%Y-%m-%d')
+            and date_format(b.created_date,'%Y-%m') = date_format(#{blog.createdDate, jdbcType=TIMESTAMP},'%Y-%m')
         </if>
     </sql>
 

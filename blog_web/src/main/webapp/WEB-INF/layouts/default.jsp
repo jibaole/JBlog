@@ -2,6 +2,7 @@
 <%@ taglib prefix="sitemesh" uri="http://www.opensymphony.com/sitemesh/decorator" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="qn" value="http://7xlxpz.com1.z0.glb.clouddn.com"/>
 
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -38,7 +39,7 @@
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.pink-deep_purple.min.css" />
     <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.4/material.cyan-teal.min.css" />
     --%>
-    <link rel="stylesheet" href="${ctx}/static/mdl/material.css">
+    <link rel="stylesheet" href="${ctx}/static/mdl/material.grey-orange.min.css">
 
     <link rel="stylesheet" href="${ctx}/static/mdl/styles.css">
     <link rel="stylesheet" href="${ctx}/static/editor.md/css/editormd.preview.css">
@@ -78,19 +79,17 @@
 <script src="${ctx}/static/js/index/index.js" type="text/javascript"></script>
 </body>
 <script type="text/javascript">
-    /*(function () {
-        $(window).scroll(function () {
-            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-            if (scrollTop <= 200) {
-                $('#back-to-top').animate({
-                    opacity: "hide"
-                }, "slow");
-            } else {
-                $('#back-to-top').animate({
-                    opacity: "show"
-                }, "slow");
-            }
-        });
-    })();*/
+    $(window).scroll(function () {
+        var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (scrollTop <= 200) {
+            $('#back-to-top').animate({
+                opacity: "hide"
+            }, "slow");
+        } else {
+            $('#back-to-top').animate({
+                opacity: "show"
+            }, "slow");
+        }
+    });
 </script>
 </html>

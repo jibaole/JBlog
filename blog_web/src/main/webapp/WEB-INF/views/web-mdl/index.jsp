@@ -51,18 +51,37 @@
     </div>
 
     <c:if test="${blogs.size() <= 0}">
-        <div class="mdl-card mdl-cell--12-col">
-            <%--<div class="<c:if test="${blog.bannerImgId==null}">mdl-card__title</c:if><c:if test="${blog.bannerImgId!=null}">mdl-card__media mdl-card-banner-img${blog.bannerImgId}</c:if> mdl-color-text--grey-50">
-                <h3 <c:if test="${blog.bannerImgId==null}">class="quote"</c:if>>
-                    <a href="${ctx}/article/${blog.id}">${blog.title}</a>
-                </h3>
-            </div>--%>
-            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                抱歉，没有符合您的搜索条件。请换其它关键词再试。
+        <%-- 未查询到结果提示 div --%>
+        <div class="mdl-section mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+                <h5>抱歉，没有符合您的文章！以下是您可能感兴趣的最新文章，你可以&nbsp;<a href="javascript:history.go(-1);">返回上页</a>。</h5>
+            </div>
+            <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+                <section class="mdl-grid mdl-grid--no-spacing">
+                    <c:forEach items="${rencentBlog}" var="b">
+                        <div class="section__text mdl-cell mdl-cell--10-col-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+                            <a href="${ctx}/article/${b.id}">${b.title}</a>
+                        </div>
+                    </c:forEach>
+                </section>
             </div>
         </div>
     </c:if>
+
     <c:if test="${blogs.size() > 0}">
+        <c:if test="${pageType!=null}">
+            <%-- 归档查询结果提示 div --%>
+            <div class="mdl-cell something-else mdl-cell--12-col">
+                <div class="mdl-search-title mdl-card__title mdl-card__media mdl-color-text--grey-50">
+                    <h5>
+                        <c:if test="${pageType==1}">“ ${ctName} ” 分类归档结果如下</c:if>
+                        <c:if test="${pageType==2}">“ ${ctName} ” 标签归档结果如下</c:if>
+                        <c:if test="${pageType==3}">“ ${month} ” 月份归档结果如下</c:if>
+                    </h5>
+                </div>
+            </div>
+        </c:if>
+
         <c:forEach items="${blogs}" var="blog" varStatus="v">
             <div class="mdl-card <c:if test="${blog.bannerImgId==null}">amazing</c:if><c:if test="${blog.bannerImgId!=null}">on-the-road-again</c:if> mdl-cell mdl-cell--12-col">
                 <div class="<c:if test="${blog.bannerImgId==null}">mdl-card__title</c:if><c:if test="${blog.bannerImgId!=null}">mdl-card__media mdl-card-banner-img${blog.bannerImgId}</c:if> mdl-color-text--grey-50">

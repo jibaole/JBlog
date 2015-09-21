@@ -20,7 +20,7 @@ a {
     text-decoration: none;
 }
 
- a:hover {
+a:hover {
     text-decoration: underline;
 }
 
@@ -690,7 +690,7 @@ a {
 }
 
 .back-to-top {
-    display: none;
+    display: block;
     position: fixed;
     right: 0;
     bottom: 0;
@@ -699,7 +699,7 @@ a {
     z-index: 900;
 }
 
-/* 当宽度小于768px时，顶部操作栏显示，适配小于768的屏幕（如手机） */
+/* 当宽度小于768px时，显示，适配小于768的屏幕（如手机） */
 @media (max-width: 768px) {
     .back-to-top {
         display: none;
@@ -715,6 +715,32 @@ a {
 .footer-div {
     margin-top: 50px;
 }
-.mdl-mega-footer .mdl-mega-footer__link-list li{
+
+.mdl-mega-footer .mdl-mega-footer__link-list li {
     margin: 4px 0;
+}
+
+.mdl-section .mdl-card__supporting-text:not(:last-child) {
+    height: 64px;
+    min-height: 64px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.mdl-section .mdl-card__supporting-text h5 {
+    font-size: 14px;
+}
+
+.mdl-section section .section__text {
+    width: 100%;
+    padding: 5px 0 5px 15px;
+}
+
+.mdl-section section .section__text a {
+    font-size: inherit;
+    margin: 0.3em 0;
+}
+
+.mdl-search-title h5 {
+    margin: 15px 0;
 }

@@ -276,8 +276,8 @@ public class BlogService {
      * @return
      */
     public List<Blog> findsRecentBlog(Integer userId) {
-        List<Blog> retList = new ArrayList<>();
         List<Blog> list = blogMapper.selectRecentBlog(userId);
+        /*List<Blog> retList = new ArrayList<>();
         for (Blog blog : list) {
             String title = blog.getTitle();
             if (StringUtils.isNotEmpty(title)) {
@@ -287,7 +287,8 @@ public class BlogService {
             }
             retList.add(blog);
         }
-        return retList;
+        return retList;*/
+        return list;
     }
 
 

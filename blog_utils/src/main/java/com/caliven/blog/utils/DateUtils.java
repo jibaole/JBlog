@@ -30,7 +30,7 @@ public class DateUtils {
     }
 
     public static String getEnglishDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         return sdf.format(date);
     }
 
@@ -43,7 +43,7 @@ public class DateUtils {
         if (StringUtils.isEmpty(date)) {
             return null;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         try {
             return sdf.parse(date);
         } catch (ParseException e) {
