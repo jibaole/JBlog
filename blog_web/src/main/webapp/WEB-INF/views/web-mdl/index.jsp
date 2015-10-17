@@ -16,7 +16,7 @@
         <div class="mdl-card__media mdl-color-text--grey-50">
             <h3><a href="${ctx}/index/detail/12">Coffee Pic</a></h3>
         </div>
-        <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
+        <div class="mdl-card__supporting-text met   a mdl-color-text--grey-600">
             <div class="minilogo"></div>
             <div>
                 <strong>The Newist</strong>
