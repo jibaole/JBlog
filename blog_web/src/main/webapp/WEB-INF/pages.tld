@@ -18,7 +18,8 @@
         <tag-class>com.caliven.blog.utils.PageTag</tag-class>
         <!-- 标签主体的类型 -->
         <body-content>empty</body-content>
-        <!-- 总页数属性的描述信息 -->
+        
+        <!-- 当前页号属性的描述信息 -->
         <attribute>
             <!-- 属性名 -->
             <name>pn</name>
@@ -29,13 +30,15 @@
             <!-- 属性的数据类型 -->
             <type>int</type>
         </attribute>
-        <!-- 当前页号属性的描述信息 -->
+
+        <!-- 总页数属性的描述信息 -->
         <attribute>
             <name>ps</name>
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
             <type>int</type>
         </attribute>
+
         <!-- 总记录数属性的描述信息 -->
         <attribute>
             <name>rct</name>

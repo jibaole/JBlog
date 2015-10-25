@@ -6,12 +6,11 @@
 
 <html>
 <head>
-    <title>JBlog-撰写文章</title>
+    <title>闲想录-撰写文章</title>
 
     <link href="${ctx}/static/editor.md/css/editormd.min.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css"
-          rel="stylesheet"/>
-    <link href="${ctx}/static/bootstrap-plgin/select/css/bootstrap-select.css" type="text/css" rel="stylesheet"/>
+    <link href="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
+    <link href="${ctx}/static/bootstrap-plgin/select/css/bootstrap-select.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/styles/admin/common.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/styles/admin/article.css" type="text/css" rel="stylesheet"/>
 </head>
@@ -201,11 +200,8 @@
 <script src="${ctx}/static/js/jquery/upload/jquery.iframe-transport.js" type="text/javascript"></script>
 <script src="${ctx}/static/js/jquery/upload/jquery.fileupload.js" type="text/javascript"></script>
 
-<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.js"
-        type="text/javascript"></script>
-<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.zh-CN.js"
-        type="text/javascript"></script>
-
+<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
 
 <script src="${ctx}/static/js/admin/article-edit.js" type="text/javascript"></script>
 

@@ -1,6 +1,7 @@
 package com.caliven.blog.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Value;
 
 @JsonIgnoreProperties({"bytes"})
 public class FileMeta {
@@ -13,6 +14,7 @@ public class FileMeta {
     private String filePath;
 
     private byte[] bytes;
+
 
     public Integer getFileId() {
         return fileId;

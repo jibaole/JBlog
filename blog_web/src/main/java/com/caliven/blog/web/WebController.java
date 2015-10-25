@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 博客管理Controller，使用Restful风格的Urls
+ * 首页Controller
  *
  * @author caliven
  * @version v1.0
@@ -72,7 +72,7 @@ public class WebController {
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model) {
         this.searchBlog(model, new Blog(), new Page(1, Page.WEB_PAGE_SIZE));
-        return "web-mdl/index";
+        return "web/index";
     }
 
     /**
@@ -90,7 +90,7 @@ public class WebController {
         }
         Page page = new Page(pn, Page.WEB_PAGE_SIZE);
         this.searchBlog(model, blog, page);
-        return "web-mdl/index";
+        return "web/index";
     }
 
 
@@ -111,30 +111,7 @@ public class WebController {
             model.addAttribute("prevBlog", prevBlog);
             model.addAttribute("nextBlog", nextBlog);
         }
-        return "web-mdl/detail";
-    }
-
-    /**
-     * 类别、标签查询
-     *
-     * @param model
-     * @param ctId
-     * @param pn
-     */
-    private void searchByCategoryTag(Model model, Integer ctId, Integer pn) {
-        if (pn == null) {
-            pn = 1;
-        }
-        // 前台默认显示管理员的数据
-        Integer userId = ShiroUtils.getAdminId();
-        Page page = new Page(pn, Page.WEB_PAGE_SIZE);
-        List<Blog> blogs = blogService.findsByCategoryTagId(userId, ctId, page);
-        CategoryTag ct = categoryTagService.findCategoryTagById(ctId);
-        if(ct != null){
-            model.addAttribute("ctName", ct.getName());
-        }
-        model.addAttribute("blogs", blogs);
-        model.addAttribute("page", page);
+        return "web/detail";
     }
 
     /**
@@ -150,7 +127,7 @@ public class WebController {
         this.searchByCategoryTag(model, cId, pn);
         model.addAttribute("pageType", 1);// 用于区分分页 url
         model.addAttribute("ctId", cId);
-        return "web-mdl/index";
+        return "web/index";
     }
 
     /**
@@ -166,7 +143,7 @@ public class WebController {
         this.searchByCategoryTag(model, tId, pn);
         model.addAttribute("pageType", 2);// 用于区分分页 url
         model.addAttribute("ctId", tId);
-        return "web-mdl/index";
+        return "web/index";
     }
 
     /**
@@ -191,7 +168,30 @@ public class WebController {
             model.addAttribute("month", month);
         }
         model.addAttribute("pageType", 3);// 用于区分分页 url
-        return "web-mdl/index";
+        return "web/index";
+    }
+
+    /**
+     * 类别、标签查询
+     *
+     * @param model
+     * @param ctId
+     * @param pn
+     */
+    private void searchByCategoryTag(Model model, Integer ctId, Integer pn) {
+        if (pn == null) {
+            pn = 1;
+        }
+        // 前台默认显示管理员的数据
+        Integer userId = ShiroUtils.getAdminId();
+        Page page = new Page(pn, Page.WEB_PAGE_SIZE);
+        List<Blog> blogs = blogService.findsByCategoryTagId(userId, ctId, page);
+        CategoryTag ct = categoryTagService.findCategoryTagById(ctId);
+        if (ct != null) {
+            model.addAttribute("ctName", ct.getName());
+        }
+        model.addAttribute("blogs", blogs);
+        model.addAttribute("page", page);
     }
 
 }

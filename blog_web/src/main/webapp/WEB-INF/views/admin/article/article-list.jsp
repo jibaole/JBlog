@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>JBlog-博文管理</title>
+    <title>闲想录-博文管理</title>
 </head>
 
 <body>

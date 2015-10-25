@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <title>登陆到JBlog</title>
+    <title>登陆到闲想录</title>
     <script language="javascript">
         var _ctx = '${ctx}';
     </script>

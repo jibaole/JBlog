@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>JBlog-控制台</title>
+    <title>闲想录-控制台</title>
 </head>
 
 <body>

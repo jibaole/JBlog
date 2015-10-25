@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>JBlog-增加用户</title>
+    <title>闲想录-增加用户</title>
     <script src="${ctx}/static/js/plugin/holder.min.js" type="text/javascript"></script>
 </head>
 

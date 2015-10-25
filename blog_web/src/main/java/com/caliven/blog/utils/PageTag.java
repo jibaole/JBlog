@@ -10,15 +10,24 @@ import javax.servlet.jsp.tagext.TagSupport;
 /**
  * 分页标签类
  *
- * @author Caliven on 2015/8/11.
+ * @author Caliven
  */
 public class PageTag extends TagSupport {
 
     private static final long serialVersionUID = 2925244112086923329L;
 
-    private int pn;     //每页要显示的条数
-    private int ps = 1;     //当前页
-    private int rct;        //总记录数
+    /**
+     * 当前页
+     */
+    private int pn = 1;
+    /**
+     * 每页要显示的条数
+     */
+    private int ps = 10;
+    /**
+     * 总记录数
+     */
+    private int rct;
 
     public int doStartTag() throws JspException {
         StringBuilder sb = new StringBuilder();
@@ -34,27 +43,6 @@ public class PageTag extends TagSupport {
             if (pn < 1) {
                 pn = 1;
             }
-
-            /*
-            String name;  //参数名
-            String value; //参数值
-            //获取请求中的所有参数
-            HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-            Enumeration<String> enumeration = request.getParameterNames();
-            //把请求中的所有参数当作隐藏表单域
-            while (enumeration.hasMoreElements()) {
-                name = enumeration.nextElement();
-                value = request.getParameter(name);
-                // 过滤页号
-                if (name.equals("pn")) {
-                    if (null != value && !"".equals(value)) {
-                        pn = Integer.parseInt(value);
-                    }
-                    continue;
-                }
-                sb.append("<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\">");
-            }
-            */
 
             // 当前页参数隐藏域
             sb.append("<input type=\"hidden\" id=\"pn\" name=\"pn\" value=\"" + pn + "\">");

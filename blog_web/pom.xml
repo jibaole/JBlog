@@ -142,11 +142,11 @@
             </build>
         </profile>
         <profile>
-            <id>pro</id>
+            <id>prod</id>
             <build>
                 <resources>
                     <resource>
-                        <directory>src/main/resources/env/pro</directory>
+                        <directory>src/main/resources/env/prod</directory>
                         <filtering>true</filtering>
                     </resource>
                 </resources>

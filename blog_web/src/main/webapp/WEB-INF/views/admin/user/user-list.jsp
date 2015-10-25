@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>JBlog-用户管理</title>
+    <title>闲想录-用户管理</title>
 </head>
 
 <body>

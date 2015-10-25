@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>JBlog-分类管理</title>
+    <title>闲想录-分类管理</title>
 </head>
 
 <body>

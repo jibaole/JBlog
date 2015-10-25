@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>JBlog-撰写文章</title>
+    <title>闲想录-撰写文章</title>
 
 <%--
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -18,7 +18,7 @@
           rel="stylesheet"/>
     <link href="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css"
           rel="stylesheet"/>
-    <link href="${ctx}/static/bootstrap-plgin/select/css/bootstrap-select.css" type="text/css" rel="stylesheet"/>
+    <link href="${ctx}/static/bootstrap-plgin/select/css/bootstrap-select.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/styles/admin/article.css" type="text/css" rel="stylesheet"/>
 </head>
 

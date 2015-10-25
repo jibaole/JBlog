@@ -2458,7 +2458,11 @@
   -webkit-text-size-adjust: 100%;
   color: #333;
   overflow: hidden;
+  /*
   font-family: "Microsoft YaHei", Helvetica, "Meiryo UI", "Malgun Gothic", "Segoe UI", "Trebuchet MS", "Monaco", monospace, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif;
+  font-family: caecilia, times, serif;
+  */
+  font-family: gotham, helvetica, arial, sans-serif;
   font-size: 16px;
   line-height: 1.6;
   word-wrap: break-word;
@@ -2892,6 +2896,7 @@
   font-size: 85%;
   background-color: rgba(0, 0, 0, 0.04);
   border-radius: 3px;
+  color: #c7254e;
 }
 
 .markdown-body code:before,

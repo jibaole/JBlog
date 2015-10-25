@@ -1,5 +1,5 @@
 body::before {
-    background-image: url('bg/1.jpg');
+    background-image: url('images/bg.jpg');
     background-size: cover;
     background-attachment: fixed;
     content: '';
@@ -13,7 +13,20 @@ body::before {
 }
 
 body .demo-blog {
-    font-family: 'Roboto', 'Helvetica', sans-serif;
+    /*font-family: 'Roboto', 'Helvetica', sans-serif;*/
+    font-family: caecilia, times, serif;
+}
+h3, h4 {
+    /*font-family: "Roboto", "Helvetica", "Arial", sans-serif;*/
+    font-family: caecilia, times, serif;
+}
+h3{
+    font-size: 30px;
+}
+
+.markdown-body{
+    font-family: caecilia, times, serif;
+
 }
 
 a {
@@ -231,7 +244,7 @@ a:hover {
 }
 
 .demo-blog .coffee-pic .mdl-card__media {
-    background-image: url('images/coffee.jpg');
+    background-image: url('bg/9.jpg');
 }
 
 .demo-blog .something-else .mdl-card__media {
@@ -510,7 +523,8 @@ a:hover {
  * User agent stylesheet kept overwriting the font in FF only.
  */
 .demo-blog--blogpost .comments > form .mdl-textfield .mdl-textfield__input {
-    font-family: 'Roboto', 'Helvetica', sans-serif;
+    /*font-family: 'Roboto', 'Helvetica', sans-serif;*/
+    font-family: caecilia, times, serif;
 }
 
 .demo-blog--blogpost .comments > form .mdl-textfield input,

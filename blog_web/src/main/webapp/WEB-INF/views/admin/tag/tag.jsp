@@ -4,7 +4,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
-    <title>JBlog-标签管理</title>
+    <title>闲想录-标签管理</title>
     <link href="${ctx}/static/styles/admin/tag.css" type="text/css" rel="stylesheet"/>
 </head>
 

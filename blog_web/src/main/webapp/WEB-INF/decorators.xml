@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <decorators defaultdir="/WEB-INF/layouts/">
+
     <!-- 过滤无需装饰的元素 -->
     <excludes>
         <pattern>/static/**</pattern>
         <pattern>/login</pattern>
-        <pattern>/register</pattern>
         <pattern>/admin/file/upload-single*</pattern>
-        <pattern>/admin/file/get/**</pattern>
+        <pattern>/admin/file/show/**</pattern>
     </excludes>
 
-    <!-- 后台页面装饰 -->
-    <decorator name="admin-default" page="admin-default.jsp">
-        <pattern>/admin/*</pattern>
-    </decorator>
-    <!-- 前端页面装饰 -->
-    <decorator name="web-default" page="web-default.jsp">
-        <pattern>/index/list*</pattern>
-        <pattern>/index/detail/**</pattern>
-    </decorator>
-
+    <!-- 前端首页装饰 -->
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>
         <pattern>/article/**</pattern>
+    </decorator>
+
+    <!-- 后台控制管理页装饰 -->
+    <decorator name="dashboard" page="dashboard.jsp">
+        <pattern>/admin/*</pattern>
     </decorator>
 
 </decorators>

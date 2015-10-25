@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>JBlog-撰写文章</title>
+    <title>闲想录-撰写文章</title>
     <link href="${ctx}/static/bootstrap/markdown/css/bootstrap-markdown.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/bootstrap/select/css/bootstrap-select.css" type="text/css" rel="stylesheet"/>

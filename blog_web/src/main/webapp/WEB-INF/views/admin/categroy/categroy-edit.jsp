@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>JBlog-增加用户</title>
+    <title>闲想录-增加用户</title>
     <link href="${ctx}/static/bootstrap/select/css/bootstrap-select.css" type="text/css" rel="stylesheet"/>
 </head>
 

@@ -1,11 +1,9 @@
 /**
  * Created by Caliven on 2015/7/11.
  */
-
 var articleEditor;
 $(function () {
     //setInterval(autosave, 60000);
-
     articleEditor = editormd("article-editormd", {
         width: "100%",
         height: 740,
