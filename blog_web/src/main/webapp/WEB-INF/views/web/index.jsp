@@ -25,9 +25,9 @@
         </div>--%>
     </div>
     <div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop">
-        <button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent">
+        <button id="play-music" onclick="play(this);" title="双击空白区域可停止播放"
+                class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent">
             <i class="material-icons mdl-color-text--white" role="presentation">play_arrow</i>
-            <span class="visuallyhidden">add</span>
         </button>
         <div class="mdl-card__media mdl-color--white mdl-color-text--grey-600">
             <h2><a href="${ctx}/">闲想录</a></h2>源于技术不止于技术

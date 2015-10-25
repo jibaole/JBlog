@@ -23,32 +23,11 @@ jQuery(document).ready(function () {
                 // 注销Bootstrap popover弹出框
                 $(this).popover('destroy');
             }
+            var username = $.trim($('#username').val());
+            var password = $.trim($('#password').val());
+            if ('' != username && '' != password) {
+                $('#login-btn').text('登录中...').attr('disabled', true);
+            }
         });
     });
 });
-
-/**
- * 异步提交登录
- */
-/*
-function login(){
-    var flag = false;
-    $('#login-form').find('input[type="text"], input[type="password"]').each(function(){
-        if ($.trim($(this).val()) == "") {
-            flag = true;
-            $(this).addClass('input-error');
-            // 显示Bootstrap popover弹出框
-            $(this).popover('show');
-        }else{
-            $(this).removeClass('input-error');
-            // 注销Bootstrap popover弹出框
-            $(this).popover('destroy');
-        }
-    });
-    if(!flag){
-        $('#login-form').ajaxSubmit(function(result){
-            alert(result);
-        });
-    }
-}
-*/

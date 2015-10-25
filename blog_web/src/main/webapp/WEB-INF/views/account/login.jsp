@@ -50,22 +50,14 @@
                 <div class="col-sm-6 col-sm-offset-3 form-box">
                     <div class="form-top">
                         <div class="form-top-left">
-                            <h3>【技术与人文】</h3>
-                            <%
-                                String error = (String) request.getAttribute(FormAuthenticationFilter.DEFAULT_ERROR_KEY_ATTRIBUTE_NAME);
-                                if (error != null) {
-                            %>
-                            <div class="alert alert-error input-medium controls">
-                                <button class="close" data-dismiss="alert">×</button>
-                                登录失败，请重试.
-                            </div>
-                            <%
-                                }
-                            %>
+                            <h3>【闲想录】</h3>
+                            <p class="alert alert-error">${error}</p>
                         </div>
+                        <%--
                         <div class="form-top-right">
                             <i class="fa fa-lock"></i>
                         </div>
+                        --%>
                     </div>
                     <div class="form-bottom">
                         <form id="login-form" action="${ctx}/login" method="post" class="login-form">
@@ -82,12 +74,12 @@
                             <div class="form-group">
                                 <label><input type="checkbox" name="rememberMe"/> 记住我</label>
                             </div>
-                            <button type="submit" class="btn">即刻探索</button>
-                            </button>
+                            <button type="submit" class="btn">登录</button>
                         </form>
                     </div>
                 </div>
             </div>
+            <%--
             <div class="row">
                 <div class="col-sm-6 col-sm-offset-3 social-login">
                     <h4>或</h4>
@@ -105,12 +97,12 @@
                     </div>
                 </div>
             </div>
+            --%>
         </div>
     </div>
 </div>
 
 <script src="${ctx}/static/js/jquery/jquery.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/jquery/jquery.form.js" type="text/javascript"></script>
 <script src="${ctx}/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="${ctx}/static/js/jquery/jquery.backstretch.min.js" type="text/javascript"></script>
 <script src="${ctx}/static/js/account/login.js" type="text/javascript"></script>
