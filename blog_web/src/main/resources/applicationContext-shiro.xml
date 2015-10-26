@@ -21,14 +21,15 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/admin/index"/>
-        <property name="unauthorizedUrl" value="/login"/>
+        <property name="successUrl" value="/dashboard"/>
+        <property name="unauthorizedUrl" value="/"/>
         <property name="filterChainDefinitions">
             <value>
                 /login = authc
                 /logout = logout
                 /static/** = anon
                 /admin/file/show/** = anon
+                /dashboard/** = roles[admin]
                 /admin/** = roles[admin]
                 /** = anon
             </value>

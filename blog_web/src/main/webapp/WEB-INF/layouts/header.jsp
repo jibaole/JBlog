@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="${ctx}/admin/index">闲想录</a>
+            <a class="navbar-brand" href="${ctx}/dashboard">闲想录</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -24,7 +24,7 @@
                         控制台 <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="${ctx}/admin/index">概要</a></li>
+                        <li><a href="${ctx}/dashboard">概要</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">个人设置</a></li>
                     </ul>
@@ -39,7 +39,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="${ctx}/admin/article/edit">撰写文章</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/index">创建页面</a></li>
+                        <li><a href="${ctx}/dashboard">创建页面</a></li>
                     </ul>--%>
                 </li>
                 <li class="dropdown <c:if test="${navbar == 3}">dropdown-select</c:if>">
@@ -50,7 +50,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="${ctx}/admin/article/list">文章</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/index">独立页面</a></li>
+                        <li><a href="${ctx}/dashboard">独立页面</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="${ctx}/admin/category/list">分类</a></li>
                         <li role="separator" class="divider"></li>

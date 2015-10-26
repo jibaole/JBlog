@@ -17,6 +17,7 @@
 
     <!-- 后台控制管理页装饰 -->
     <decorator name="dashboard" page="dashboard.jsp">
+        <pattern>/dashboard**</pattern>
         <pattern>/admin/*</pattern>
     </decorator>
 

@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
-    <title>登陆到闲想录</title>
+    <title>登录 | 闲想录</title>
     <script language="javascript">
         var _ctx = '${ctx}';
     </script>
@@ -50,8 +50,8 @@
                 <div class="col-sm-6 col-sm-offset-3 form-box">
                     <div class="form-top">
                         <div class="form-top-left">
-                            <h3>【闲想录】</h3>
-                            <p class="alert alert-error">${error}</p>
+                            <h3><a href="${ctx}/" title="回首页">【闲想录】</a></h3>
+                            <p class="alert-error">${error}</p>
                         </div>
                         <%--
                         <div class="form-top-right">

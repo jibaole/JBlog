@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * 后台管理Controller
+ * 后台管理控制台Controller
  * Created by Caliven on 2015/6/23.
  */
 @Controller
-@RequestMapping(value = "/admin")
-public class AdminController {
+@RequestMapping(value = "/dashboard")
+public class DashboardController {
 
     @Autowired
     private AdminIndexService adminIndexService;
@@ -30,12 +30,12 @@ public class AdminController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "index", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("num", adminIndexService.findNumber());
         model.addAttribute("blogs", adminIndexService.findsRecentBlog());
         model.addAttribute("comments", adminIndexService.findsRecentComment());
-        return "admin/index";
+        return "admin/dashboard";
     }
 
     /**
@@ -56,11 +56,11 @@ public class AdminController {
 
     @RequestMapping(value = "message", method = RequestMethod.GET)
     public String message(Model model) {
-        return "admin/index";
+        return "admin/dashboard";
     }
 
     @RequestMapping(value = "setting", method = RequestMethod.GET)
     public String setting(Model model) {
-        return "admin/index";
+        return "admin/dashboard";
     }
 }

@@ -40,8 +40,6 @@
                 <li class="mdl-menu__item mdl-js-ripple-effect">关于我</li>
                 <li class="mdl-menu__item mdl-js-ripple-effect">分类</li>
                 <li class="mdl-menu__item mdl-js-ripple-effect">标签</li>
-                <li class="mdl-menu__item mdl-js-ripple-effect" onclick="javascript:location.href='${ctx}/login'">登录
-                </li>
             </ul>
             <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
                 <i class="material-icons" role="presentation">more_vert</i>
