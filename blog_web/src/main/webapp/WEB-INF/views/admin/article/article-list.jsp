@@ -2,10 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="p" uri="http://caliven.com/tags/page" %>
+<c:set var="navbar" value="3" scope="request"/>
 
 <html>
 <head>
-    <title>闲想录-博文管理</title>
+    <title>文章管理</title>
 </head>
 
 <body>

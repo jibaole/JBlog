@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="org.apache.shiro.web.filter.authc.FormAuthenticationFilter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
@@ -11,19 +10,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <title>登录 | 闲想录</title>
-    <script language="javascript">
-        var _ctx = '${ctx}';
-    </script>
+    <script language="javascript">var _ctx = '${ctx}';</script>
 
-    <link href="${ctx}/static/images/favicon/favicon.ico" rel="shortcut icon" />
-    <link href="${ctx}/static/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/styles/account/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/styles/account/css/form-elements.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/styles/account/css/style.css" type="text/css" rel="stylesheet"/>
+    <link type="image/x-icon" rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico" />
+    <link  type="text/css" rel="stylesheet" href="${ctx}/static/bootstrap/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${ctx}/static/styles/account/font-awesome/css/font-awesome.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${ctx}/static/styles/account/css/form-elements.css"/>
+    <link type="text/css" rel="stylesheet" href="${ctx}/static/styles/account/css/style.css"/>
 
     <!--[if lt IE 9]>
-    <script src="${ctx}/static/js/plugin/html5shiv.min.js" type="text/javascript"></script>
-    <script src="${ctx}/static/js/plugin/respond.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${ctx}/static/js/plugin/html5shiv.min.js"></script>
+    <script type="text/javascript" src="${ctx}/static/js/plugin/respond.min.js"></script>
     <![endif]-->
 </head>
 
@@ -102,12 +99,12 @@
     </div>
 </div>
 
-<script src="${ctx}/static/js/jquery/jquery.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/jquery/jquery.backstretch.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/account/login.js" type="text/javascript"></script>
+<script type="text/javascript" src="${ctx}/static/js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/jquery/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="${ctx}/static/js/account/login.js"></script>
 <!--[if lt IE 10]>
-<script src="${ctx}/static/js/account/placeholder.js" type="text/javascript"></script>
+<script type="text/javascript" src="${ctx}/static/js/account/placeholder.js"></script>
 <![endif]-->
 </body>
 </html>

@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>闲想录-评论管理</title>
+    <title>评论管理</title>
     <link href="${ctx}/static/styles/admin/comment.css" type="text/css" rel="stylesheet"/>
 </head>
 

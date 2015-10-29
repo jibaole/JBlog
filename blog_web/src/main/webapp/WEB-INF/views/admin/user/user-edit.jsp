@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="navbar" value="6" scope="request"/>
+
 <html>
 <head>
-    <title>闲想录-增加用户</title>
+    <title>新增用户</title>
     <script src="${ctx}/static/js/plugin/holder.min.js" type="text/javascript"></script>
 </head>
 

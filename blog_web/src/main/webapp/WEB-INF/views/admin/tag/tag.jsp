@@ -2,9 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<c:set var="navbar" value="5" scope="request"/>
+
 <html>
 <head>
-    <title>闲想录-标签管理</title>
+    <title>标签管理</title>
     <link href="${ctx}/static/styles/admin/tag.css" type="text/css" rel="stylesheet"/>
 </head>
 

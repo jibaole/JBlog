@@ -2,10 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<c:set var="navbar" value="1" scope="request"/>
 
 <html>
 <head>
-    <title>闲想录-控制台</title>
+    <title>控制台</title>
 </head>
 
 <body>
@@ -59,43 +60,46 @@
                         <tr>
                             <td><fmt:formatDate value="${blog.createdDate}" pattern="yyyy-MM-dd"
                                                 dateStyle="default"/></td>
-                            <td title="${blog.title}"><a href="${ctx}/admin/article/edit?id=${blog.id}">${blog.title}</a></td>
-                            <td title="${blog.user.nickname}"><a href="${ctx}/admin/user/edit?id=${blog.user.id}">${blog.user.nickname}</a></td>
+                            <td title="${blog.title}"><a
+                                    href="${ctx}/admin/article/edit?id=${blog.id}">${blog.title}</a></td>
+                            <td title="${blog.user.nickname}"><a
+                                    href="${ctx}/admin/user/edit?id=${blog.user.id}">${blog.user.nickname}</a></td>
                         </tr>
                     </c:forEach>
                     </tbody>
                 </table>
             </div>
-        </div><%--
-        <div class="col-xs-12 col-sm-6">
-            <h4 class="sub-header">【最近得到的回复】</h4>
+        </div>
+        <%--
+                <div class="col-xs-12 col-sm-6">
+                    <h4 class="sub-header">【最近得到的回复】</h4>
 
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    <colgroup>
-                        <col width="45%"/>
-                        <col width="20%"/>
-                        <col width="25%"/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>内容</th>
-                        <th>作者</th>
-                        <th>时间</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${comments}" var="comment" varStatus="v">
-                        <tr>
-                            <td>${comment.content}</td>
-                            <td>${comment.author}</td>
-                            <td><fmt:formatDate value="${comment.createdDate}" pattern="yyyy-MM-dd" dateStyle="default"/></td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-        </div>--%>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <colgroup>
+                                <col width="45%"/>
+                                <col width="20%"/>
+                                <col width="25%"/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>内容</th>
+                                <th>作者</th>
+                                <th>时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${comments}" var="comment" varStatus="v">
+                                <tr>
+                                    <td>${comment.content}</td>
+                                    <td>${comment.author}</td>
+                                    <td><fmt:formatDate value="${comment.createdDate}" pattern="yyyy-MM-dd" dateStyle="default"/></td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>--%>
     </div>
 </div>
 

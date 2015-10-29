@@ -25,11 +25,6 @@ public class CategoryController {
     @Autowired
     private CategoryTagService categoryTagService;
 
-    @ModelAttribute
-    private void initNavbar(Model model) {
-        model.addAttribute("navbar", 3);
-    }
-
     /**
      * 列表
      *

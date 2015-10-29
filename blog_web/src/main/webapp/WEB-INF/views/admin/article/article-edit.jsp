@@ -3,10 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<c:set var="navbar" value="2" scope="request"/>
 
 <html>
 <head>
-    <title>闲想录-撰写文章</title>
+    <title>撰写文章</title>
 
     <link href="${ctx}/static/editor.md/css/editormd.min.css" type="text/css" rel="stylesheet"/>
     <link href="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
@@ -44,7 +45,8 @@
                 </div>
                 <div class="form-group">
                     <div id="article-editormd">
-                        <textarea id="content" name="content" style="display:none;"><c:out value="${blog.content}" escapeXml="true"/></textarea>
+                        <textarea id="content" name="content" style="display:none;"><c:out value="${blog.content}"
+                                                                                           escapeXml="true"/></textarea>
                     </div>
                 </div>
 
@@ -200,8 +202,10 @@
 <script src="${ctx}/static/js/jquery/upload/jquery.iframe-transport.js" type="text/javascript"></script>
 <script src="${ctx}/static/js/jquery/upload/jquery.fileupload.js" type="text/javascript"></script>
 
-<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
+<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.js"
+        type="text/javascript"></script>
+<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.zh-CN.js"
+        type="text/javascript"></script>
 
 <script src="${ctx}/static/js/admin/article-edit.js" type="text/javascript"></script>
 

@@ -26,10 +26,6 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @ModelAttribute
-    private void initNavbar(Model model) {
-        model.addAttribute("navbar", 3);
-    }
 
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(Model model, Comment comment, Page page) {

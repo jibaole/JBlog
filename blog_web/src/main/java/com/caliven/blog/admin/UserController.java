@@ -25,11 +25,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ModelAttribute
-    private void initNavbar(Model model) {
-        model.addAttribute("navbar", 3);
-    }
-
     /**
      * 列表
      *

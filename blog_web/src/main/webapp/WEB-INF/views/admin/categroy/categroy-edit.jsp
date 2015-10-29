@@ -1,9 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="navbar" value="4" scope="request"/>
 
 <html>
 <head>
-    <title>闲想录-增加用户</title>
+    <title>新增类别</title>
     <link href="${ctx}/static/bootstrap/select/css/bootstrap-select.css" type="text/css" rel="stylesheet"/>
 </head>
 

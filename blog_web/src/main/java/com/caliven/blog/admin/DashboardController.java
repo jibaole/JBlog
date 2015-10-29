@@ -19,10 +19,12 @@ public class DashboardController {
     @Autowired
     private AdminIndexService adminIndexService;
 
+    /*
     @ModelAttribute
     private void initNavbar(Model model) {
         model.addAttribute("navbar", 1);
     }
+    */
 
     /**
      * 后台控制台首页

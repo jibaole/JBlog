@@ -35,10 +35,6 @@ public class ArticleController {
     @Autowired
     private BlogRelCategoryService blogRelCategoryService;
 
-    @ModelAttribute
-    private void initNavbar(Model model) {
-        model.addAttribute("navbar", 3);
-    }
 
     /**
      * 博文列表

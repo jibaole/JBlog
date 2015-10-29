@@ -3,10 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="p" uri="http://caliven.com/tags/page" %>
+<c:set var="navbar" value="4" scope="request"/>
 
 <html>
 <head>
-    <title>闲想录-分类管理</title>
+    <title>分类管理</title>
 </head>
 
 <body>

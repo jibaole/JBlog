@@ -5,7 +5,7 @@
 
 <html>
 <head>
-    <title>闲想录-撰写文章</title>
+    <title>撰写文章</title>
 
 <%--
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">

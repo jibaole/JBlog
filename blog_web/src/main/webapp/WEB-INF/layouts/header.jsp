@@ -31,37 +31,23 @@
                 </li>
                 <li class="dropdown <c:if test="${navbar == 2}">dropdown-select</c:if>">
                     <a href="${ctx}/admin/article/edit">撰写文章</a>
-                    <%--
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">
-                        撰写 <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="${ctx}/admin/article/edit">撰写文章</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/dashboard">创建页面</a></li>
-                    </ul>--%>
                 </li>
                 <li class="dropdown <c:if test="${navbar == 3}">dropdown-select</c:if>">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                       aria-haspopup="true" aria-expanded="false">
-                        管理 <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="${ctx}/admin/article/list">文章</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/dashboard">独立页面</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/category/list">分类</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/tag/list">标签</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/file/list">文件</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/user/list">用户</a></li>
-                    </ul>
+                    <a href="${ctx}/admin/article/list">文章</a>
                 </li>
                 <li class="dropdown <c:if test="${navbar == 4}">dropdown-select</c:if>">
+                    <a href="${ctx}/admin/category/list">分类</a>
+                </li>
+                <li class="dropdown <c:if test="${navbar == 5}">dropdown-select</c:if>">
+                    <a href="${ctx}/admin/tag/list">标签</a>
+                </li>
+                <li class="dropdown <c:if test="${navbar == 6}">dropdown-select</c:if>">
+                    <a href="${ctx}/admin/user/list">用户</a>
+                </li>
+                <li class="dropdown <c:if test="${navbar == 7}">dropdown-select</c:if>">
+                    <a href="${ctx}/admin/file/list">文件</a>
+                </li>
+                <li class="dropdown <c:if test="${navbar == 8}">dropdown-select</c:if>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                        aria-haspopup="true" aria-expanded="false">
                         设置 <span class="caret"></span>
@@ -73,7 +59,7 @@
                         <li role="separator" class="divider"></li>
                         <li><a href="${ctx}/admin/comment/list">阅读</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="${ctx}/admin/category/clist">永久衔接</a></li>
+                        <li><a href="${ctx}/ad  min/category/clist">永久衔接</a></li>
                     </ul>
                 </li>
             </ul>
@@ -82,9 +68,6 @@
                 <li><a href="${ctx}/logout">登出</a></li>
                 <li><a href="${ctx}/" target="_blank">网站</a></li>
             </ul>
-            <%--<form class="navbar-form navbar-right">
-                <input type="text" class="form-control" placeholder="Search...">
-            </form>--%>
         </div>
     </div>
 </nav>
