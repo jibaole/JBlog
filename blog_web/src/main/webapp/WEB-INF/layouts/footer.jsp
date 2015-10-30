@@ -33,7 +33,7 @@
             <h1 class="mdl-mega-footer__heading">标签</h1>
             <ul class="mdl-mega-footer__link-list">
                 <c:forEach items="${tagList}" var="t">
-                    <li><a href="${ctx}/tags/${c.id}/1">${t.name}</a></li>
+                    <li><a href="${ctx}/tags/${t.id}/1">${t.name}</a></li>
                 </c:forEach>
             </ul>
         </div>
