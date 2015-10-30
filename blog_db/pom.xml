@@ -103,31 +103,31 @@
         <!-- SECURITY end -->
 
         <!-- TIMER(定时器) strat-->
-        <dependency>
+        <!--<dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- TIMER(定时器) end-->
 
         <!-- NOSQL begin -->
         <!-- jedis -->
-        <dependency>
+        <!--<dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- mybatis-redis -->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.mybatis.caches</groupId>
             <artifactId>mybatis-redis</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- NOSQL end -->
 
         <!-- CACHE begin -->
         <!-- memcached -->
-        <dependency>
+        <!--<dependency>
             <groupId>net.spy</groupId>
             <artifactId>spymemcached</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- ehcache -->
         <dependency>

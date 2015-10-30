@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**

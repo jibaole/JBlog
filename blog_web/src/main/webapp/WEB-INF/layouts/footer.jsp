@@ -60,6 +60,10 @@
                 © 2015&nbsp;Caliven.com&nbsp;All Rights Reserved.&nbsp;
                 <a href="http://www.miibeian.gov.cn" target="_blank">沪ICP备15025543号-1</a>
             </li>
+            <li>
+                <%--CNZZ统计--%>
+                &nbsp;&nbsp;<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256666242'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256666242%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+            </li>
         </ul>
     </div>
 </footer>

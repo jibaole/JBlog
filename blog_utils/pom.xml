@@ -48,27 +48,27 @@
 
 
         <!-- joda日期工具包 -->
-        <dependency>
+       <!-- <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time-jsptags</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- joda for jackson -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- GENERAL UTILS end -->
 
         <!-- OTHER TOOLS begin -->
         <!-- pojo copy -->
-        <dependency>
+        <!--<dependency>
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- OTHER TOOLS end -->
     </dependencies>
 </project>

@@ -20,8 +20,8 @@ $(function () {
             emoji: true,
             taskList: true,
             tex: true,
-            flowChart: true,
-            sequenceDiagram: true
+            flowChart: false,
+            sequenceDiagram: false
         });
     });
 

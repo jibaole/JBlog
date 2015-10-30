@@ -1,5 +1,5 @@
 body::before {
-    background-image: url('images/bg.jpg');
+    background-image: url('http://sass-lang.com/assets/img/textures/grey-prism-63478a91.svg');
     background-size: cover;
     background-attachment: fixed;
     content: '';

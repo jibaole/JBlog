@@ -79,6 +79,12 @@
     <!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 与 artifactId 即可 -->
     <dependencyManagement>
         <dependencies>
+            <!-- 七牛上传sdk -->
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>[7.0.0, 7.0.99]</version>
+            </dependency>
             <!-- SPRING strat -->
             <!-- spring-core -->
             <dependency>
@@ -221,35 +227,35 @@
             <!-- SECURITY end -->
 
             <!-- TIMER(定时器) strat-->
-            <dependency>
+            <!--<dependency>
                 <groupId>org.quartz-scheduler</groupId>
                 <artifactId>quartz</artifactId>
                 <version>${quartz.version}</version>
-            </dependency>
+            </dependency>-->
             <!-- TIMER(定时器) end-->
 
             <!-- NOSQL begin -->
             <!-- jedis -->
-            <dependency>
+            <!--<dependency>
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
-            </dependency>
+            </dependency>-->
             <!-- mybatis-redis -->
-            <dependency>
+            <!--<dependency>
                 <groupId>org.mybatis.caches</groupId>
                 <artifactId>mybatis-redis</artifactId>
                 <version>${mybatis-redis.version}</version>
-            </dependency>
+            </dependency>-->
             <!-- NOSQL end -->
 
             <!-- CACHE begin -->
             <!-- memcached -->
-            <dependency>
+            <!--<dependency>
                 <groupId>net.spy</groupId>
                 <artifactId>spymemcached</artifactId>
                 <version>${spymemcached.version}</version>
-            </dependency>
+            </dependency>-->
 
             <!-- ehcache -->
             <dependency>
@@ -373,7 +379,7 @@
                 <version>${guava.version}</version>
             </dependency>
             <!-- joda日期工具包 -->
-            <dependency>
+            <!--<dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
                 <version>${joda-time.version}</version>
@@ -382,13 +388,13 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time-jsptags</artifactId>
                 <version>${joda-time-jsptags.version}</version>
-            </dependency>
+            </dependency>-->
             <!-- joda for jackson -->
-            <dependency>
+            <!--<dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
                 <artifactId>jackson-datatype-joda</artifactId>
                 <version>${jackson.version}</version>
-            </dependency>
+            </dependency>-->
             <!-- GENERAL UTILS end -->
 
             <!-- OTHER TOOLS begin -->
@@ -398,7 +404,7 @@
                 它可以灵活的处理复杂类型之间的映射。不但可以进行简单的属性映射、复杂的类型映射、
                 双向映射、递归映射等，并且可以通过XML配置文件进行灵活的配置。
             -->
-            <dependency>
+            <!--<dependency>
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
@@ -408,7 +414,7 @@
                         <artifactId>slf4j-log4j12</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
+            </dependency>-->
             <!-- httpclient -->
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -445,7 +451,7 @@
                 </exclusions>
             </dependency>
             <!-- template engine -->
-            <dependency>
+            <!--<dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
                 <version>${freemarker.version}</version>
@@ -454,11 +460,11 @@
                 <groupId>velocity</groupId>
                 <artifactId>velocity</artifactId>
                 <version>${velocity.version}</version>
-            </dependency>
+            </dependency>-->
 
             <!-- commons-pool -->
             <!-- email -->
-            <dependency>
+           <!-- <dependency>
                 <groupId>javax.mail</groupId>
                 <artifactId>mail</artifactId>
                 <version>${javax-mail.version}</version>
@@ -467,7 +473,7 @@
                 <groupId>javax.activation</groupId>
                 <artifactId>activation</artifactId>
                 <version>${javax-activation.version}</version>
-            </dependency>
+            </dependency>-->
             <!-- OTHER TOOLS end -->
 
             <!-- TEST begin -->
