@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="p" uri="http://caliven.com/tags/page" %>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 <c:set var="navbar" value="6" scope="request"/>
 
 <html>
@@ -28,18 +28,25 @@
                     <input type="hidden" id="roles" name="roles" value="${search.roles}"/>
 
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false"><span id="roleName">${roleName}</span> <span
-                                class="caret"></span>
-                        </button>
-                        <ul id="dropdown-menu" class="dropdown-menu">
-                            <li <c:if test="${search.roles==1}">class="active"</c:if>><a href="#" val="1">管理员</a></li>
-                            <li <c:if test="${search.roles==2}">class="active"</c:if>><a href="#" val="2">贡献者</a></li>
-                            <li <c:if test="${search.roles==3}">class="active"</c:if>><a href="#" val="3">编辑</a></li>
-                            <li <c:if test="${search.roles==4}">class="active"</c:if>><a href="#" val="4">关注者</a></li>
-                            <li <c:if test="${search.roles==null}">class="active"</c:if>><a href="#" val="">所有角色</a>
-                            </li>
-                        </ul>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"><span
+                                    id="roleName">${roleName}</span> <span
+                                    class="caret"></span>
+                            </button>
+                            <ul id="dropdown-menu" class="dropdown-menu">
+                                <li <c:if test="${search.roles==1}">class="active"</c:if>><a href="#" val="1">管理员</a>
+                                </li>
+                                <li <c:if test="${search.roles==2}">class="active"</c:if>><a href="#" val="2">贡献者</a>
+                                </li>
+                                <li <c:if test="${search.roles==3}">class="active"</c:if>><a href="#" val="3">编辑</a>
+                                </li>
+                                <li <c:if test="${search.roles==4}">class="active"</c:if>><a href="#" val="4">关注者</a>
+                                </li>
+                                <li <c:if test="${search.roles==null}">class="active"</c:if>><a href="#" val="">所有角色</a>
+                                </li>
+                            </ul>
+                        </div>
                         <button class="btn btn-info" type="submit">筛选</button>
                     </div>
                 </div>

@@ -127,10 +127,13 @@ public class CategoryTagService {
      * @param parentId
      */
     private void batchDelCategory(Integer parentId) {
+        CategoryTag delCategroy;
         List<CategoryTag> list = this.findsTreeCategroyByParentId(null, parentId);
         for (CategoryTag categroy : list) {
-            categroy.setIsDeleted(true);
-            categoryTagMapper.updateByIdSelective(categroy);
+            delCategroy = new CategoryTag();
+            delCategroy.setIsDeleted(true);
+            delCategroy.setId(categroy.getId());
+            categoryTagMapper.updateByIdSelective(delCategroy);
             blogRelCategoryMapper.deleteByCategoryTagId(categroy.getId());
         }
     }

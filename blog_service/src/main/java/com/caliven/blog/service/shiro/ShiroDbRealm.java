@@ -2,7 +2,7 @@ package com.caliven.blog.service.shiro;
 
 import com.caliven.blog.db.entity.User;
 import com.caliven.blog.service.account.AccountService;
-import com.caliven.blog.utils.BlogUtils;
+import com.caliven.blog.utils.SHA1Utils;
 import com.caliven.blog.utils.Encodes;
 import com.google.common.base.Objects;
 import org.apache.shiro.authc.*;
@@ -64,8 +64,8 @@ public class ShiroDbRealm extends AuthorizingRealm {
      */
     @PostConstruct
     public void initCredentialsMatcher() {
-        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(BlogUtils.HASH_ALGORITHM);
-        matcher.setHashIterations(BlogUtils.HASH_INTERATIONS);
+        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(SHA1Utils.HASH_ALGORITHM);
+        matcher.setHashIterations(SHA1Utils.HASH_INTERATIONS);
         setCredentialsMatcher(matcher);
     }
 

@@ -1,0 +1,114 @@
+.mdl-archives {
+    max-width: 960px;
+    width: calc(100% - 16px);
+    margin: 0 auto;
+    padding-top: 75px;
+    padding-bottom: 70px;
+}
+
+.mdl-archives .mdl-layout__tab-panel {
+    padding: 8px;
+}
+
+.mdl-archives .mdl-color--primary {
+    background-color: rgb(255, 64, 129) !important;
+}
+
+.mdl-archives .mdl-color--primary div {
+    padding-top: 24px;
+    padding-left: 7px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.mdl-archives .mdl-card {
+    height: auto;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.mdl-archives .mdl-card > * {
+    height: auto;
+}
+
+.mdl-archives .mdl-card .mdl-card__supporting-text {
+    margin: 20px 40px;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    padding: 0;
+    color: inherit;
+}
+
+.mdl-archives.mdl-archives .mdl-card__supporting-text h4 {
+    margin-top: 0;
+    margin-left: 8px;
+    margin-bottom: 10px;
+}
+
+/*
+.mdl-archives section .section__circle {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-flex-grow: 0;
+    -ms-flex-positive: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 1;
+    -ms-flex-negative: 1;
+    flex-shrink: 1;
+}*/
+
+.mdl-archives section .section__text {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+/*.mdl-archives section .section__text h5 {
+    font-size: inherit;
+    margin: 0;
+    margin-bottom: 0.5em;
+}*/
+.mdl-archives section .section__text .item-div {
+    margin: 8px 0;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/*.mdl-archives section .section__text a {
+    text-decoration: none;
+}*/
+.mdl-archives section .section__circle-container > .section__circle-container__circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    margin: 18px 0;
+}
+
+.mdl-archives section.section--center .section__text {
+    padding: 10px 0;
+    margin: auto;
+}
+
+.mdl-archives section.section--center .section__text:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, .13);
+}
+
+/*
+.mdl-archives .mdl-card .mdl-card__supporting-text > h3:first-child {
+    margin-bottom: 24px;
+}*/

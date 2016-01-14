@@ -8,11 +8,7 @@
     <description>Spring公共配置</description>
 
     <!-- 使用annotation自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
-    <context:component-scan base-package="com.caliven.blog">
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-        <context:exclude-filter type="annotation"
-                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
-    </context:component-scan>
+    <context:component-scan base-package="com.caliven.blog"/>
 
     <!-- MyBatis 配置 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -34,8 +30,8 @@
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
             <list>
-                <value>classpath:env/dev/application.properties</value>
-                <value>classpath:env/dev/file.properties</value>
+                <value>classpath*:application.properties</value>
+                <value>classpath*:file.properties</value>
             </list>
         </property>
         <property name="fileEncoding" value="utf-8"/>

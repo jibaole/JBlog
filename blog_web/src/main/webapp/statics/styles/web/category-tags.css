@@ -1,0 +1,115 @@
+.mdl-tags {
+    max-width: 960px;
+    width: calc(100% - 16px);
+    margin: 0 auto;
+    padding-top: 75px;
+    padding-bottom: 70px;
+}
+
+.tags-div {
+    margin-left: 8px;
+}
+.tags-div h5{
+    margin: 0;
+    padding: 0 0 5px 5px;
+}
+
+.tags-div .tag {
+    cursor: pointer;
+    border-radius: 16px;
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    margin: 8px 8px 0 0;
+    padding: 0 12px;
+    float: left;
+    box-sizing: border-box;
+    max-width: 100%;
+    position: relative;
+    background: rgb(224, 224, 224);
+    color: rgb(66, 66, 66);
+    /*
+    margin: 0 3px 5px 0;
+    border-radius: 1.5em;
+    */
+}
+
+.tags-div .tag:hover {
+    background: rgb(16, 108, 200);
+    color: rgba(255, 255, 255, 0.87);
+}
+
+/*
+.tags-div .button-10 {
+    background-color: rgb(1, 136, 117) !important;
+}
+
+.tags-div .button-5 {
+    background-color: rgb(0, 175, 206) !important;
+}
+
+.tags-div .button-3 {
+    background-color: rgb(0, 146, 248) !important;
+}
+
+.tags-div .button-1 {
+    background-color: rgb(57, 166, 54) !important;
+}
+*/
+
+.mdl-tags .mdl-card {
+    height: auto;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.mdl-tags .mdl-card > * {
+    height: auto;
+}
+
+.mdl-tags .mdl-card .mdl-card__section__text {
+    margin: 8px 20px;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    padding: 0;
+    color: inherit;
+}
+
+/*
+.mdl-tags .mdl-card__supporting-text h4 {
+    margin-top: 0;
+    margin-left: 8px;
+    margin-bottom: 10px;
+}*/
+
+.mdl-tags .section__text {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+
+.mdl-tags .section__text .item-div {
+    margin: 8px 0;
+}
+
+.mdl-tags .section__text button .material-icons {
+    position: relative;
+    top: 8px;
+}
+
+.mdl-tags .section__text {
+    padding: 5px 0;
+    margin: auto;
+}
+
+.mdl-tags .section__text:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, .13);
+}

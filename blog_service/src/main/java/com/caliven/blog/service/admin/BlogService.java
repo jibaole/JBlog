@@ -7,9 +7,10 @@ import com.caliven.blog.db.repository.BlogMapper;
 import com.caliven.blog.db.repository.BlogRelCategoryMapper;
 import com.caliven.blog.db.repository.CategoryTagMapper;
 import com.caliven.blog.service.shiro.ShiroUtils;
-import com.caliven.blog.utils.BlogUtils;
 import com.caliven.blog.utils.Page;
 import com.caliven.blog.utils.RelativeDateFormat;
+import com.caliven.blog.utils.SHA1Utils;
+import com.qiniu.common.QiniuException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 博客管理Service
@@ -32,6 +31,8 @@ public class BlogService {
 
     @Autowired
     private BlogMapper blogMapper;
+    @Autowired
+    private BlogFileService blogFileService;
     @Autowired
     private CategoryTagMapper categoryTagMapper;
     @Autowired
@@ -68,11 +69,11 @@ public class BlogService {
         blog.setUserId(ShiroUtils.getCurrUserId());
         if (blog.getId() == null) {
             blog.setType(1);
-            blog.setBannerImgId(BlogUtils.gerRandom());
+            blog.setBannerImgId(SHA1Utils.gerRandom());
             blog.setIsDeleted(false);
             blogMapper.insertSelective(blog);
         } else {
-            blog.setBannerImgId(BlogUtils.gerRandom());
+            //blog.setBannerImgId(SHA1Utils.gerRandom());
             blogMapper.updateByIdSelective(blog);
         }
 
@@ -106,6 +107,18 @@ public class BlogService {
         return this.setBlogValue(blog);
     }
 
+
+    /**
+     * 查询有效的文章
+     *
+     * @param id
+     * @return
+     */
+    public Blog findEffectiveBlogById(Integer id) {
+        Blog blog = blogMapper.selectEffectiveById(id);
+        return this.setBlogValue(blog);
+    }
+
     /**
      * 查询上一篇或下一篇博文
      *
@@ -122,7 +135,7 @@ public class BlogService {
      *
      * @param ids
      */
-    public void delBlog(String ids) {
+    public void delBlog(String ids) throws QiniuException {
         String[] bIds = ids.split(",");
         for (int i = 0; i < bIds.length; i++) {
             if (StringUtils.isBlank(bIds[i])) {
@@ -135,6 +148,8 @@ public class BlogService {
                 blogMapper.updateByIdSelective(blog);
                 // 删除分类、标签关联
                 blogRelCategoryMapper.deleteByBlogId(id);
+                // 删除文件
+                blogFileService.batchDeleteFileByBlogId(id);
             }
         }
     }
@@ -314,5 +329,95 @@ public class BlogService {
             retList.add(this.setBlogValue(b));
         }
         return retList;
+    }
+
+    /**
+     * 查询关于页面文章
+     *
+     * @return
+     */
+    public Blog findAboutBlog() {
+        return blogMapper.selectAboutBlog();
+    }
+
+    /**
+     * 查询留言板页面文章
+     *
+     * @return
+     */
+    public Blog findMsgboardBlog() {
+        return blogMapper.selectMsgboardBlog();
+    }
+
+    /**
+     * 查询归档列表
+     *
+     * @return
+     */
+    public Map<String, List<Blog>> findsArchives() {
+        List<Blog> blogList = blogMapper.selectArchives();
+        if (blogList == null || blogList.isEmpty()) {
+            return null;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        Map<String, List<Blog>> archivesMap = new LinkedHashMap<>();
+        for (Blog blog : blogList) {
+            String yearMonth = sdf.format(blog.getCreatedDate());
+            if (archivesMap.get(yearMonth) == null) {
+                //没有则创建一个列表，并在列表添加一个元素
+                List<Blog> tempList = new ArrayList<>();
+                tempList.add(blog);
+                archivesMap.put(yearMonth, tempList);
+            } else {
+                //有则直接加在相应的列表末尾
+                archivesMap.get(yearMonth).add(blog);
+            }
+        }
+        return archivesMap;
+    }
+
+
+    /**
+     * 分类列表
+     *
+     * @return
+     */
+    public Map<CategoryTag, List<Blog>> findsCategory() {
+        return buildCtMap(categoryTagMapper.selectCategoryByUserId(ShiroUtils.getAdminId()));
+    }
+
+    /**
+     * 标签列表
+     *
+     * @return
+     */
+    public Map<CategoryTag, List<Blog>> findsTags() {
+        return buildCtMap(categoryTagMapper.selectTagByUserId(ShiroUtils.getAdminId()));
+
+    }
+
+    /**
+     * 组装map
+     *
+     * @param list
+     * @return
+     */
+    private Map<CategoryTag, List<Blog>> buildCtMap(List<CategoryTag> list) {
+        if (list == null || list.isEmpty()) {
+            return null;
+        }
+        List<Blog> blogList;
+        Map<CategoryTag, List<Blog>> tagsMap = new LinkedHashMap<>();
+        for (CategoryTag tag : list) {
+            if (tag.getBlogNum() <= 0) {
+                continue;
+            }
+            blogList = blogMapper.selectByTagId(tag.getId());
+            if (blogList == null || blogList.isEmpty()) {
+                continue;
+            }
+            tagsMap.put(tag, blogList);
+        }
+        return tagsMap;
     }
 }

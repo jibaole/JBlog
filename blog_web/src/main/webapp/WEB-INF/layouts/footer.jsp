@@ -2,7 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 
-<footer class="mdl-mega-footer footer-div">
+<footer class="mdl-mega-footer">
+    <%--<div class="mdl-mega-footer--top-section">
+        <div class="mdl-mega-footer--right-section">
+            <a class="mdl-typography--font-light" href="#top">
+                Back to Top<i class="material-icons">expand_less</i>
+            </a>
+        </div>
+    </div>--%>
     <div class="mdl-mega-footer__middle-section">
 
         <div class="mdl-mega-footer__drop-down-section">
@@ -33,7 +40,7 @@
             <h1 class="mdl-mega-footer__heading">标签</h1>
             <ul class="mdl-mega-footer__link-list">
                 <c:forEach items="${tagList}" var="t">
-                    <li><a href="${ctx}/tags/${t.id}/1">${t.name}</a></li>
+                    <li><a href="${ctx}/tags/${t.id}/1">${t.name}（${t.blogNum}）</a></li>
                 </c:forEach>
             </ul>
         </div>
@@ -41,7 +48,7 @@
         <div class="mdl-mega-footer__drop-down-section">
             <input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
 
-            <h1 class="mdl-mega-footer__heading">最近文章</h1>
+            <h1 class="mdl-mega-footer__heading">随机推荐</h1>
             <ul class="mdl-mega-footer__link-list">
                 <c:forEach items="${rencentBlog}" var="b">
                     <li><a href="${ctx}/article/${b.id}">${b.title}</a></li>
@@ -52,52 +59,60 @@
 
     <div class="mdl-mega-footer__bottom-section">
         <ul class="mdl-mega-footer__link-list">
-            <li>
-                Powered by <a href="http://www.caliven.com">Caliven</a>&nbsp;&nbsp;
-                Design by <a href="http://www.getmdl.io" target="_blank">Material Design Lite</a>
+            <li class="footer-tips">
+                本站部分文章、源码来源于网络收集整理，如侵犯到您的权益，请联系站长删除！Email：support@caliven.com
             </li>
+        </ul>
+        <ul class="mdl-mega-footer__link-list">
+            <li class="footer-tips">
+                Powered by <a href="http://www.caliven.com">Caliven</a>&nbsp;&nbsp;
+                Design by <a href="http://www.getmdl.io" target="_blank">Material Design Lite</a>&nbsp;&nbsp;
+                静态存储托管于<a href="http://www.qiniu.com" target="_blank">「七牛云存储」</a>
+            </li>
+        </ul>
+        <ul class="mdl-mega-footer__link-list">
             <li>
-                © 2015&nbsp;Caliven.com&nbsp;All Rights Reserved.&nbsp;
+                Copyright © 2015&nbsp;Caliven&nbsp;
+                本站采用<a href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank"
+                       title="署名-非商业性使用-相同方式共享 3.0 中国大陆">「CC BY-NC-SA 3.0CN」</a>授权发布.
                 <a href="http://www.miibeian.gov.cn" target="_blank">沪ICP备15025543号-1</a>
+                <%--
+                <script type="text/javascript" language="javascript">
+                    <!--
+                    document.write("本网页的最后更新时间为：" + document.lastModified);
+                    //-->
+                </script>
+                <script language="JavaScript">
+                    <!--
+                    var lastModified = document.lastModified;
+                    document.write("最后更新日期:" + (new Date(lastModified)).getYear()
+                            + "-" + ((new Date(lastModified)).getMonth() + 1)
+                            + "-" + (new Date(lastModified)).getDate() + "")
+                    //-->
+                </script>
+                本站已安全运行了:
+                <span class="smalltxt">
+                   <script type="text/javascript" language=javascript>
+                       <!--
+                       BirthDay = new Date("may 30,2015");
+                       today = new Date();
+                       timeold = (today.getTime() - BirthDay.getTime());
+                       sectimeold = timeold / 1000
+                       secondsold = Math.floor(sectimeold);
+                       msPerDay = 24 * 60 * 60 * 1000
+                       e_daysold = timeold / msPerDay
+                       daysold = Math.floor(e_daysold);
+                       document.write(daysold + "天!");
+                       //-->
+                   </script>
+                </span>
+                --%>
             </li>
             <li>
                 <%--CNZZ统计--%>
-                &nbsp;&nbsp;<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1256666242'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256666242%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+                <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1256666242'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1256666242%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
             </li>
         </ul>
     </div>
 </footer>
-
-<%--
-<footer class="mdl-mini-footer">
-    <div class="mdl-mini-footer--left-section">
-        <button class="mdl-mini-footer--social-btn social-btn social-btn__twitter">
-            <span class="visuallyhidden">Twitter</span>
-        </button>
-        <button class="mdl-mini-footer--social-btn social-btn social-btn__blogger">
-            <span class="visuallyhidden">Facebook</span>
-        </button>
-        <button class="mdl-mini-footer--social-btn social-btn social-btn__gplus">
-            <span class="visuallyhidden">Google Plus</span>
-        </button>
-    </div>
-    <div class="mdl-mini-footer--right-section">
-        <button class="mdl-mini-footer--social-btn social-btn__share">
-            <i class="material-icons" role="presentation">share</i>
-            <span class="visuallyhidden">share</span>
-        </button>
-    </div>
-</footer>--%>
-<%--
-<div class="blog-footer">
-	<p>
-		Powered by <a href="http://weibo.com/liuzhihuil" target="_blank">Caliven</a>&nbsp;&nbsp;
-		Design by <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>
-	</p>
-	<p style="font-size: 12px;">
-		© 2015&nbsp;Caliven.com&nbsp;All Rights Reserved.&nbsp; 
-		<a href="http://www.miibeian.gov.cn" target="_blank">沪ICP备15025543号-1</a>
-	</p>
-	<!-- <p>最后更新：2015年6月03日 19:23</p> -->
-</div>
---%>

@@ -14,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 后台博文Controller
@@ -46,7 +48,7 @@ public class ArticleController {
      */
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(Model model, Blog blog, Page page) {
-        searchBlog(model, blog, page);
+        this.searchBlog(model, blog, page);
         return "admin/article/article-list";
     }
 
@@ -61,11 +63,14 @@ public class ArticleController {
     public String audits(Model model, Page page) {
         Blog blog = new Blog();
         blog.setStatus(0);
-        searchBlog(model, blog, page);
+        this.searchBlog(model, blog, page);
         return "admin/article/article-list";
     }
 
     private void searchBlog(Model model, Blog blog, Page page) {
+        if (blog.getType() == null) {
+            blog.setType(1);
+        }
         Integer userId = ShiroUtils.getCurrUserId();
         List<CategoryTag> treeList = categoryTagService.findsAllCategoryByUserId(userId);
         List<Blog> list = blogService.findsAllBlog(blog, page);
@@ -138,7 +143,8 @@ public class ArticleController {
                        String tagIds, String tmpBlogId) {
         try {
             int blogId = blogService.saveBlog(blog, cateIds + "," + tagIds);
-            if (StringUtils.isNotBlank(tmpBlogId)) {
+            if (StringUtils.isNotBlank(tmpBlogId)
+                    && !String.valueOf(blogId).equals(tmpBlogId)) {
                 blogFileService.updateBlogId(tmpBlogId, String.valueOf(blogId));
             }
             return "redirect:/admin/article/list";
@@ -154,36 +160,44 @@ public class ArticleController {
 
     /**
      * 自动保存博文
+     *
      * @param blog
      * @param cateIds
      * @param tagIds
      * @param tmpBlogId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "autosave", method = RequestMethod.POST)
-    public @ResponseBody Object autosave(Blog blog, String cateIds, String tagIds, String tmpBlogId) {
-        Integer id = null;
-        String json = "{\"status\":true";
+    public Object autoSave(Blog blog, String cateIds, String tagIds, String tmpBlogId) {
+        Integer blogId = null;
+        Map<String, Object> map = new HashMap<>();
         try {
-            id = blogService.saveBlog(blog, cateIds + "," + tagIds);
-            if (StringUtils.isNotBlank(tmpBlogId)) {
-                blogFileService.updateBlogId(tmpBlogId, String.valueOf(id));
+            blogId = blogService.saveBlog(blog, cateIds + "," + tagIds);
+            if (StringUtils.isNotBlank(tmpBlogId)
+                    && !String.valueOf(blogId).equals(tmpBlogId)) {
+                blogFileService.updateBlogId(tmpBlogId, String.valueOf(blogId));
             }
+            map.put("status", true);
         } catch (Exception e) {
-            json = "{\"status\":false";
+            map.put("status", false);
         }
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss aaa");
-        json += ",\"id\":" + id + ",\"date\":\"" + sdf.format(new Date()) + "\"}";
-        return json;
+        map.put("id", blogId);
+        map.put("date", sdf.format(new Date()));
+        return map;
     }
 
     /**
      * 删除博文
+     *
      * @param ids
      * @return
      */
     @RequestMapping(value = "del", method = RequestMethod.GET)
-    public @ResponseBody Object del(String ids) {
+    public
+    @ResponseBody
+    Object del(String ids) {
         try {
             blogService.delBlog(ids);
             return "success";

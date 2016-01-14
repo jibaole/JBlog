@@ -2,13 +2,12 @@ package com.caliven.blog.service.account;
 
 import com.caliven.blog.db.entity.User;
 import com.caliven.blog.db.repository.UserMapper;
-import com.caliven.blog.utils.BlogUtils;
+import com.caliven.blog.utils.SHA1Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * 用户管理类
@@ -51,8 +50,8 @@ public class AccountService {
      * @param user
      */
     public void registerUser(User user) {
-        user.setPassword(BlogUtils.entryptPwd(user.getPassword()));
-        user.setSalt(BlogUtils.entryptSalt());
+        user.setPassword(SHA1Utils.entryptPwd(user.getPassword()));
+        user.setSalt(SHA1Utils.entryptSalt());
         //user.setRoles("user");
         user.setStatus(true);
         user.setCreatedDate(new Timestamp(System.currentTimeMillis()));

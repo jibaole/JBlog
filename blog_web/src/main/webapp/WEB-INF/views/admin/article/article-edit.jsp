@@ -1,36 +1,38 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 <c:set var="navbar" value="2" scope="request"/>
 
 <html>
 <head>
     <title>撰写文章</title>
 
-    <link href="${ctx}/static/editor.md/css/editormd.min.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/bootstrap-plgin/select/css/bootstrap-select.min.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/styles/admin/common.css" type="text/css" rel="stylesheet"/>
-    <link href="${ctx}/static/styles/admin/article.css" type="text/css" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="${qiniu}/statics/editor.md/css/editormd.min.css"/>
+    <link type="text/css" rel="stylesheet"
+          href="${qiniu}/statics/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${qiniu}/statics/bootstrap-plgin/select/css/bootstrap-select.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${qiniu}/statics/styles/admin/common.css"/>
+    <link type="text/css" rel="stylesheet" href="${qiniu}/statics/styles/admin/article.css"/>
 </head>
 
 <body>
 <div class="container">
-    <h3 class="page-header"><c:if test="${blog.id != null}">编辑</c:if><c:if test="${blog.id == null}">撰写新</c:if>文章</h3>
+    <h3 class="page-header">撰写文章<span id="menu-span" class="glyphicon glyphicon glyphicon-th-list" aria-hidden="true"
+                                      style="float: right;cursor: pointer;" title="显示右侧功能栏"></span></h3>
 
-    <form id="saveForm" action="${ctx}/admin/article/save" method="post"><!-- enctype="multipart/form-data" -->
+    <form id="saveForm" action="${ctx}/admin/article/save" method="post">
 
         <input type="hidden" id="blogId" name="id" value="${blog.id}"/>
         <input type="hidden" id="isDraft" name="isDraft" value="${blog.isDraft}"/>
-        <input type="hidden" id="tmpBlogId" name="tmpBlogId" value="${tmpBlogId}"/>
         <c:set var="tBlogId">
             <c:if test="${tmpBlogId==null || tmpBlogId==''}">${blog.id}</c:if>
             <c:if test="${tmpBlogId!=null && tmpBlogId!=''}">${tmpBlogId}</c:if>
         </c:set>
+        <input type="hidden" id="tmpBlogId" name="tmpBlogId" value="${tBlogId}"/>
+
         <div class="row">
-            <div class="col-sm-9">
+            <div id="article-left-div">
                 <c:if test="${error != null}">
                     <div class="alert alert-danger alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
@@ -48,14 +50,17 @@
                         <textarea id="content" name="content" style="display:none;"><c:out value="${blog.content}"
                                                                                            escapeXml="true"/></textarea>
                     </div>
+                    <textarea id="htmlContent" name="htmlContent" style="display:none;">
+                        <c:out value="${blog.htmlContent}" escapeXml="true"/>
+                    </textarea>
                 </div>
 
                 <div class="text-right">
-                    <button type="button" class="btn" onclick="setDraft(true);">保存草稿</button>
+                    <button type="button" class="btn" id="draft-btn">保存草稿</button>
                     <button type="submit" class="btn btn-primary" id="save-btn">发表文章</button>
                 </div>
             </div>
-            <div id="article-right-div" class="col-sm-3">
+            <div id="article-right-div" style="display:none;">
                 <div class="form-group">
                     <div class="btn-group btn-group-justified" role="group">
                         <div class="btn-group btn-group-sm" role="group">
@@ -64,7 +69,8 @@
                         </div>
                         <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-default" onclick="switchDiv(this, 2)">
-                                附件 <c:if test="${not empty files}"><span class="badge">${files.size()}</span></c:if>
+                                附件 <c:if test="${not empty files}"><span class="badge"
+                                                                         id="file-badge">${files.size()}</span></c:if>
                             </button>
                         </div>
                     </div>
@@ -83,7 +89,7 @@
                             <c:forEach items="${cateList}" var="c">
                                 <c:if test="${c.parentId != 0}">
                                     <div class="checkbox">
-                                        <label  <c:choose>
+                                        <label <c:choose>
                                             <c:when test="${c.level==2}">style="margin-left: 15px;"</c:when>
                                             <c:when test="${c.level==3}">style="margin-left: 25px;"</c:when>
                                             <c:when test="${c.level==4}">style="margin-left: 25px;"</c:when>
@@ -106,6 +112,15 @@
                                 <option value="${t.id}"
                                         data-content="<span class='label label-info'>${t.name}</span>">${t.name}</option>
                             </c:forEach>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>文章类型</label>
+                        <select id="type" name="type" class="form-control">
+                            <option value="1" <c:if test="${blog.type==1}">selected</c:if>>文章</option>
+                            <option value="2" <c:if test="${blog.type==2}">selected</c:if>>独立页面</option>
+                            <option value="3" <c:if test="${blog.type==3}">selected</c:if>>关于我页面</option>
+                            <option value="4" <c:if test="${blog.type==4}">selected</c:if>>留言板页面</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -138,7 +153,7 @@
                             <footer>
                                 <small>—</small>
                                 <br>
-                                <small>本文由 <a href="${ctx}/admin/user/edit?id=${user.id}">${user.username}</a> 撰写
+                                <small>本文由 <a href="${qiniu}/admin/user/edit?id=${user.id}">${user.username}</a> 撰写
                                 </small>
                                 <br>
                                 <small>最后更新于 ${relativeTime}</small>
@@ -157,23 +172,21 @@
                             <div style="position: absolute; top: 36px; left: 110px; width: 78px; height: 15px; overflow: hidden; z-index: 0;">
                                 <input id="fileupload" type="file"
                                        style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
-                                       name="files[]" data-url="${ctx}/admin/file/upload?blogId=${tBlogId}" multiple
+                                       name="files[]" data-url="${qiniu}/admin/qiniu/batch-upload?blogId=${tBlogId}"
+                                       multiple
                                        accept="image/gif,image/jpeg,image/png,image/tiff,image/bmp">
                             </div>
                         </div>
                         <ul id="uploaded-files">
                             <c:forEach items="${files}" var="f">
                                 <li id="file_${f.id}">
-                                    <a class="insert" target="_blank" href="###" title="点击插入文件">${f.fileRealName}</a>
+                                    <a class="insert" target="_blank" href="${f.filePath}"
+                                       title="${f.fileRealName}&nbsp;(${f.fileName})">${f.fileRealName}&nbsp;(${f.fileName})</a>
 
                                     <div class="info">
                                             ${f.fileSize} Kb&nbsp;&nbsp;
-                                        <a class="file" target="_blank" href="${ctx}/admin/file/edit/${f.id}"
-                                           title="编辑">
-                                            <i class="i-edit"></i>
-                                        </a>
-                                        <a class="delete" href="javascript:voif(0);"
-                                           onclick="delFile(${f.id},'${f.fileRealName}')" title="删除">
+                                        <a class="delete" href="javascript:;"
+                                           onclick="delFile(${f.id}, '${f.fileRealName}')" title="删除">
                                             <i class="i-del"></i>
                                         </a>
                                     </div>
@@ -183,31 +196,37 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </form>
 </div>
 
-<script src="${ctx}/static/js/jquery/jquery.form.js" type="text/javascript"></script>
+<script type="text/javascript" src="${qiniu}/statics/js/jquery/jquery.form.js"></script>
 
-<script src="${ctx}/static/editor.md/editormd.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="${qiniu}/statics/editor.md/editormd.min.js"></script>
 
-<script src="${ctx}/static/js/jquery/jquery.hotkeys.js" type="text/javascript"></script>
+<script type="text/javascript" src="${qiniu}/statics/js/jquery/jquery.hotkeys.js"></script>
 
-<script src="${ctx}/static/bootstrap-plgin/validator/js/bootstrapValidator.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="${qiniu}/statics/bootstrap-plgin/validator/js/bootstrapValidator.min.js"></script>
 
-<script src="${ctx}/static/bootstrap-plgin/select/js/bootstrap-select.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/bootstrap-plgin/select/js/i18n/defaults-zh_CN.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="${qiniu}/statics/bootstrap-plgin/select/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="${qiniu}/statics/bootstrap-plgin/select/js/i18n/defaults-zh_CN.min.js"></script>
 
-<script src="${ctx}/static/js/jquery/upload/vendor/jquery.ui.widget.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/jquery/upload/jquery.iframe-transport.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/jquery/upload/jquery.fileupload.js" type="text/javascript"></script>
+<script type="text/javascript" src="${qiniu}/statics/js/jquery/upload/vendor/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="${qiniu}/statics/js/jquery/upload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="${qiniu}/statics/js/jquery/upload/jquery.fileupload.js"></script>
 
-<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.js"
-        type="text/javascript"></script>
-<script src="${ctx}/static/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.zh-CN.js"
-        type="text/javascript"></script>
+<script type="text/javascript"
+        src="${qiniu}/statics/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript"
+        src="${qiniu}/statics/bootstrap-plgin/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
 
-<script src="${ctx}/static/js/admin/article-edit.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="${ctx}/statics/js/admin/article-edit.js"></script>
+<script type="text/javascript">
+    $(function () {
+        // 标签赋值
+        $('.selectpicker').val([${tagIds}]);
+    });
+</script>
 </body>
 </html>

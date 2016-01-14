@@ -5,8 +5,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<title>页面不存在 | 闲想录</title>
-	<link rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico">
+	<title>遇到错误</title>
+	<link rel="shortcut icon" href="${ctx}/statics/images/favicon/favicon.ico">
 </head>
 
 <body>

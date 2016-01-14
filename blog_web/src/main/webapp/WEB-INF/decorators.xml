@@ -3,22 +3,22 @@
 
     <!-- 过滤无需装饰的元素 -->
     <excludes>
-        <pattern>/static/**</pattern>
+        <pattern>/statics/**</pattern>
         <pattern>/login</pattern>
-        <pattern>/admin/file/upload-single*</pattern>
-        <pattern>/admin/file/show/**</pattern>
     </excludes>
 
     <!-- 前端首页装饰 -->
     <decorator name="index" page="index.jsp">
         <pattern>/*</pattern>
+<!--
         <pattern>/article/**</pattern>
+-->
     </decorator>
 
     <!-- 后台管理页装饰 -->
     <decorator name="admin" page="admin.jsp">
         <pattern>/dashboard**</pattern>
-        <pattern>/admin/*</pattern>
+        <pattern>/admin/**</pattern>
     </decorator>
 
 </decorators>

@@ -10,30 +10,25 @@
     <!-- 自动扫描且只扫描@Controller -->
     <context:component-scan base-package="com.caliven.blog" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-        <context:include-filter type="annotation"
-                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+        <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
+
     <mvc:annotation-driven/>
     <!--
-
-        <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
-            <mvc:message-converters register-defaults="true">
-                &lt;!&ndash; 将StringHttpMessageConverter的默认编码设为UTF-8 &ndash;&gt;
-                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
-                    <constructor-arg value="UTF-8"/>
-                </bean>
-                &lt;!&ndash; 将Jackson2HttpMessageConverter的默认格式化输出设为true &ndash;&gt;
-                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                    <property name="prettyPrint" value="true"/>
-                </bean>
-            </mvc:message-converters>
-        </mvc:annotation-driven>
-    -->
-
-    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-
-    <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
-    <!--<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+    <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">
+        <mvc:message-converters register-defaults="true">
+            &lt;!&ndash; 将StringHttpMessageConverter的默认编码设为UTF-8 &ndash;&gt;
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+            &lt;!&ndash; 将Jackson2HttpMessageConverter的默认格式化输出设为true &ndash;&gt;
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="prettyPrint" value="true"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    &lt;!&ndash; REST中根据URL后缀自动判定Content-Type及相应的View &ndash;&gt;
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="ignoreAcceptHeader" value="true"/>
         <property name="defaultContentType" value="application/json"/>
         <property name="mediaTypes">
@@ -42,7 +37,11 @@
                 xml=application/xml
             </value>
         </property>
-    </bean>-->
+    </bean>
+    -->
+
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
     <!-- 定义JSP文件的位置 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -58,7 +57,7 @@
 
     <!-- 将Controller抛出的异常转到特定View, 保持SiteMesh的装饰效果 -->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="defaultErrorView" value="/error/404"/>
+        <property name="defaultErrorView" value="/error/500"/>
         <property name="exceptionMappings">
             <props>
                 <prop key="org.apache.shiro.authz.UnauthorizedException">/error/404</prop>

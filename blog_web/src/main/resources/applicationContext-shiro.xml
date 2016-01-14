@@ -27,7 +27,7 @@
             <value>
                 /login = authc
                 /logout = logout
-                /static/** = anon
+                /statics/** = anon
                 /admin/file/show/** = anon
                 /dashboard/** = roles[admin]
                 /admin/** = roles[admin]

@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -10,17 +9,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <title>登录 | 闲想录</title>
-    <script language="javascript">var _ctx = '${ctx}';</script>
+    <script language="javascript">var _ctx = '${ctx}';var _qiniu = '${qiniu}';</script>
 
-    <link type="image/x-icon" rel="shortcut icon" href="${ctx}/static/images/favicon/favicon.ico" />
-    <link  type="text/css" rel="stylesheet" href="${ctx}/static/bootstrap/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="${ctx}/static/styles/account/font-awesome/css/font-awesome.min.css"/>
-    <link type="text/css" rel="stylesheet" href="${ctx}/static/styles/account/css/form-elements.css"/>
-    <link type="text/css" rel="stylesheet" href="${ctx}/static/styles/account/css/style.css"/>
+    <link type="image/x-icon" rel="shortcut icon" href="${qiniu}/statics/images/favicon/favicon.ico" />
+    <link  type="text/css" rel="stylesheet" href="${qiniu}/statics/bootstrap/css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="${qiniu}/statics/styles/account/css/form-elements.css"/>
+    <link type="text/css" rel="stylesheet" href="${qiniu}/statics/styles/account/css/style.css"/>
 
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="${ctx}/static/js/plugin/html5shiv.min.js"></script>
-    <script type="text/javascript" src="${ctx}/static/js/plugin/respond.min.js"></script>
+    <script type="text/javascript" src="${qiniu}/statics/js/plugin/html5shiv.min.js"></script>
+    <script type="text/javascript" src="${qiniu}/statics/js/plugin/respond.min.js"></script>
     <![endif]-->
 </head>
 
@@ -99,12 +97,9 @@
     </div>
 </div>
 
-<script type="text/javascript" src="${ctx}/static/js/jquery/jquery.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/jquery/jquery.backstretch.min.js"></script>
-<script type="text/javascript" src="${ctx}/static/js/account/login.js"></script>
-<!--[if lt IE 10]>
-<script type="text/javascript" src="${ctx}/static/js/account/placeholder.js"></script>
-<![endif]-->
+<script type="text/javascript" src="${qiniu}/statics/js/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="${qiniu}/statics/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${qiniu}/statics/js/jquery/jquery.backstretch.min.js"></script>
+<script type="text/javascript" src="${ctx}/statics/js/account/login.js"></script>
 </body>
 </html>

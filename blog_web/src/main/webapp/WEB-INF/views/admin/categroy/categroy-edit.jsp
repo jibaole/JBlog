@@ -1,11 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 <c:set var="navbar" value="4" scope="request"/>
 
 <html>
 <head>
     <title>新增类别</title>
-    <link href="${ctx}/static/bootstrap/select/css/bootstrap-select.css" type="text/css" rel="stylesheet"/>
+    <link href="${qiniu}/statics/bootstrap-plgin/select/css/bootstrap-select.min.css" type="text/css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -67,15 +67,13 @@
                         <select name="parentId" class="form-control selectpicker" data-live-search="true"
                                 title="请选择父级分类...">
                             <c:forEach items="${treeList}" var="c" varStatus="v">
-                                <option value="${c.id}"
-                                        <c:if test="${parentId == c.id || category.parentId == c.id}">selected</c:if>>
+                                <option value="${c.id}" <c:if test="${parentId == c.id || category.parentId == c.id}">selected</c:if>>
                                     <c:choose>
                                         <c:when test="${c.level==2}">&nbsp;&nbsp;</c:when>
                                         <c:when test="${c.level==3}">&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
                                         <c:when test="${c.level==4}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
                                         <c:when test="${c.level==5}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</c:when>
-                                    </c:choose>
-                                        ${c.name}
+                                    </c:choose>${c.name}
                                 </option>
                             </c:forEach>
                         </select>
@@ -102,9 +100,9 @@
     </div>
 </div>
 
-<script src="${ctx}/static/bootstrap/select/js/bootstrap-select.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/bootstrap/select/js/i18n/defaults-zh_CN.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/bootstrap/validator/js/bootstrapValidator.min.js" type="text/javascript"></script>
+<script src="${qiniu}/statics/bootstrap-plgin/select/js/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="${qiniu}/statics/bootstrap-plgin/select/js/i18n/defaults-zh_CN.min.js" type="text/javascript"></script>
+<script src="${qiniu}/statics/bootstrap-plgin/validator/js/bootstrapValidator.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
         $('#saveForm').bootstrapValidator({

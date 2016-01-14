@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro"%>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 <c:set var="navbar" value="6" scope="request"/>
 
 <html>
 <head>
     <title>新增用户</title>
-    <script src="${ctx}/static/js/plugin/holder.min.js" type="text/javascript"></script>
+    <script src="${qiniu}/statics/js/plugin/holder.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -70,7 +71,7 @@
                 </div>
                 <div class="description">电子邮箱地址将作为此用户的主要联系方式.<br>请不要与系统中现有的电子邮箱地址重复.</div>
 
-                <c:if test="${user.id == null}">
+                <shiro:hasRole name="admin">
                     <div class="form-group">
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon4"><strong>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</strong></span>
@@ -92,7 +93,7 @@
                         <span class="help-block" id="confirmPasswordMessage"/>
                     </div>
                     <div class="description">请确认你的密码, 与上面输入的密码保持一致.</div>
-                </c:if>
+                </shiro:hasRole>
 
                 <div class="form-group">
                     <div class="input-group">
@@ -141,7 +142,7 @@
     </div>
 </div>
 
-<script src="${ctx}/static/bootstrap/validator/js/bootstrapValidator.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/admin/user-edit.js" type="text/javascript"></script>
+<script src="${qiniu}/statics/bootstrap-plgin/validator/js/bootstrapValidator.min.js" type="text/javascript"></script>
+<script src="${ctx}/statics/js/admin/user-edit.js" type="text/javascript"></script>
 </body>
 </html>

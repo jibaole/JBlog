@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib prefix="p" uri="http://caliven.com/tags/page" %>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 <c:set var="navbar" value="4" scope="request"/>
 
 <html>

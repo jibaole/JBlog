@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>评论管理</title>
-    <link href="${ctx}/static/styles/admin/comment.css" type="text/css" rel="stylesheet"/>
+    <link href="${ctx}/statics/styles/admin/comment.css" type="text/css" rel="stylesheet"/>
 </head>
 
 <body>

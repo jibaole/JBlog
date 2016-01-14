@@ -1,0 +1,352 @@
+html > body:not(.docs-layout-header) {
+    font-family: caecilia, times, serif !important;
+    background-color: #f5f5f5
+}
+
+html > body .docs-layout-header {
+    font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
+    /*font-family: caecilia, Hiragino Sans GB, STHeiti, Microsoft Yahei, helvetica, arial, serif !important;*/
+    background-color: #f5f5f5
+}
+
+/*自定义css*/
+.blog-content {
+    padding: 30px;
+    /*padding: 80px 56px;*/
+    /*margin-bottom: 80px;*/
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00a8c6;
+}
+
+.blog-content ul{
+    line-height: 28px !important;
+}
+
+/*
+.blog-content a {
+    color: #ff4081 !important;
+}*/
+
+.docs-layout-content a {
+    text-decoration: none !important;
+}
+
+.blog-content a:hover {
+    text-decoration: underline !important;
+}
+
+.docs-layout.is-small-screen .blog-content {
+    padding: 15px;
+}
+
+.header-button {
+    position: absolute;
+    right: 40px;
+    top: 138px;
+    z-index: 999;
+}
+
+.docs-layout.is-small-screen .header-button {
+    display: none;
+}
+
+.jblog-index .docs-navigation .is-active,
+.jblog-other .docs-navigation .is-active {
+    opacity: 1;
+    /*border-bottom-color: #18ffff*/
+    /*
+    border-bottom-color: #E91E63
+    */
+    border-bottom-color: #ff4081
+}
+
+/*评论css*/
+.comments {
+    background-color: #EEE;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    padding: 32px;
+    box-sizing: border-box;
+}
+
+/*mdl css*/
+.docs-layout .docs-layout-header.mdl-layout__header {
+    height: 168px;
+    max-height: 50%;
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: center center;
+    box-shadow: none !important;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    padding: 40px;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    position: relative;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display: flex !important
+}
+
+/**logo\背景图片*/
+body.jblog-index .docs-layout-header.mdl-layout__header,
+body.jblog-other .docs-layout-header.mdl-layout__header {
+    background-color: #37474f;
+    background: url('http://7xo1lx.com1.z0.glb.clouddn.com/statics/images/bg/logo.svg'),
+    url('http://7xo1lx.com1.z0.glb.clouddn.com/statics/images/bg/header.jpg');
+    background-size: auto 118px, cover;
+    background-repeat: no-repeat, no-repeat;
+}
+
+/**大屏幕logo\背景图片位置*/
+body.jblog-index .docs-layout:not(.is-small-screen) .docs-layout-header.mdl-layout__header,
+body.jblog-other .docs-layout:not(.is-small-screen) .docs-layout-header.mdl-layout__header {
+    /*logo距离左边30px*/
+    background-position: 30px 0px, center center;
+}
+
+/**小屏幕logo\背景图片位置*/
+body.jblog-other .docs-layout.is-small-screen .docs-layout-header.mdl-layout__header {
+    background: url(''), url('http://7xo1lx.com1.z0.glb.clouddn.com/statics/images/bg/header.jpg');
+    background-position: center center, center center
+}
+
+body.jblog-index .docs-layout.is-small-screen .docs-layout-header.mdl-layout__header {
+    height: 240px;
+    background-position: center center, center center
+}
+
+@media (max-height: 600px) {
+    .jblog-index .docs-layout-header.mdl-layout__header {
+        background-size: auto 80px, cover;
+        background-position: center center, center center
+    }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),(min--moz-device-pixel-ratio: 2),(min-resolution: 2dppx),(min-resolution: 192dpi) {
+    .jblog-index .docs-layout-header {
+        background: url('http://7xo1lx.com1.z0.glb.clouddn.com/statics/images/bg/logo.svg'),
+        url('http://7xo1lx.com1.z0.glb.clouddn.com/statics/images/bg/header_2x.jpg');
+        background-size: auto 30%, cover;
+        background-repeat: no-repeat, no-repeat;
+        background-position: center center, center center
+    }
+}
+
+.docs-layout-header > .mdl-layout__header-row {
+    padding: 0;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    height: auto
+}
+
+.docs-layout-title {
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1.5em;
+    font-size: 2.1rem;
+    cursor: pointer;
+}
+
+.docs-layout .docs-layout-title a {
+    font-weight: inherit;
+    color: #fff
+}
+
+.docs-layout-header.mdl-layout__header {
+    background-color: #2e2e2e;
+}
+
+.docs-navigation__container {
+    overflow: hidden;
+    position: absolute;
+    height: 64px;
+    width: 100%;
+    bottom: 0;
+    left: 0
+}
+
+.docs-navigation {
+    box-shadow: none !important;
+    border: 0 !important;
+    width: 100%;
+    height: 85px;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    padding: 0 16px 0 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-bottom: -16px
+}
+
+.docs-layout.is-small-screen .docs-navigation {
+    padding: 0
+}
+
+.docs-navigation::-webkit-scrollbar {
+    display: none
+}
+
+body:not(.jblog-index) .docs-layout.is-small-screen .docs-layout-header {
+    background-image: none
+}
+
+.docs-layout.mdl-layout.is-small-screen .docs-layout-header.mdl-layout__header {
+    padding: 0;
+    height: 64px
+}
+
+.docs-layout.is-small-screen .docs-layout-header .docs-layout-title {
+    display: none
+}
+
+.docs-layout.is-small-screen .docs-navigation__container {
+    top: 0;
+    bottom: auto;
+    left: 48px;
+    width: calc(100% - 2 * 48px);
+    padding: 0 !important
+}
+
+.docs-layout .scrollindicator {
+    position: absolute;
+    top: 0;
+    line-height: 64px;
+    height: 64px;
+    width: 48px;
+    display: none;
+    margin-right: 0;
+    text-align: center;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.docs-layout .scrollindicator.disabled {
+    opacity: .12;
+    cursor: default
+}
+
+.docs-layout .scrollindicator.scrollindicator--right {
+    right: 0
+}
+
+.docs-layout .scrollindicator.scrollindicator--left {
+    left: 0
+}
+
+.docs-layout.is-small-screen .scrollindicator.scrollindicator.scrollindicator {
+    display: block
+}
+
+.docs-navigation .mdl-navigation__link {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    -webkit-user-select: inherit;
+    -moz-user-select: inherit;
+    -ms-user-select: inherit;
+    user-select: inherit;
+    height: 64px
+}
+
+.docs-navigation .mdl-navigation__link:hover {
+    background-color: inherit;
+    opacity: 1 !important
+}
+
+.docs-navigation .mdl-navigation__link {
+    opacity: .65;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    line-height: 64px;
+    padding: 0 16px;
+    color: #fff;
+    box-sizing: border-box;
+    border-bottom: 3px solid transparent
+}
+
+.docs-layout.is-small-screen .docs-navigation .mdl-navigation__link {
+    padding: 0 12px
+}
+
+.mdl-layout__content.docs-layout-content {
+    overflow: visible
+}
+
+.docs-layout-content h2.mdl-card__title-text {
+    padding-top: 0;
+    margin-bottom: 0
+}
+
+.docs-layout-title a {
+    color: inherit;
+    text-decoration: none
+}
+
+.subpageheader {
+    width: 960px;
+    margin: 75px auto 40px auto;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    color: rgba(0, 0, 0, .54);
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 500
+}
+
+.docs-navigation .spacer {
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1
+}
+
+.mdl-mega-footer a .material-icons {
+    position: relative;
+    top: 6px;
+}
+
+.mdl-mega-footer__bottom-section .mdl-mega-footer__link-list {
+    margin: 0 0 6px !important;
+}
+
+.mdl-mega-footer__bottom-section .mdl-mega-footer__link-list .footer-tips {
+    font-size: 10px;
+}

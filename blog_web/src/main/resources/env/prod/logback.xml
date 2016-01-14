@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <jmxConfigurator/>
+
+    <property name="PROJECT_NAME" value="JBlog"/>
+    <property name="LOG_HOME" value="/mnt/app/logs/${PROJECT_NAME}"/>
+
+    <appender name="defaultFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}/log-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 保留 30天数据，默认无限-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss} %msg%n</pattern>
+        </layout>
+    </appender>
 
     <!-- 演示按时间滚动的策略 -->
-    <appender name="defaultlogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--<appender name="defaultlogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/mnt/app/logs/JBlog.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>/mnt/app/logs/JBlog.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- 保留 30天数据，默认无限-->
+            &lt;!&ndash; 保留 30天数据，默认无限&ndash;&gt;
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-
         <encoder>
             <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
-    </appender>
+    </appender>-->
 
-    <!-- project default level -->
-    <logger name="com.caliven.blog" level="INFO"/>
-    <!-- root -->
-    <root level="WARN">
-        <appender-ref ref="defaultLogFile"/>
+    <root level="INFO">
+        <appender-ref ref="defaultFile"/>
     </root>
 </configuration>

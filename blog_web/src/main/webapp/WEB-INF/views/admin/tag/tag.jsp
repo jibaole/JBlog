@@ -1,13 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 <c:set var="navbar" value="5" scope="request"/>
 
 <html>
 <head>
     <title>标签管理</title>
-    <link href="${ctx}/static/styles/admin/tag.css" type="text/css" rel="stylesheet"/>
+    <link href="${qiniu}/statics/styles/admin/tag.css" type="text/css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -20,7 +20,7 @@
                 <c:forEach items="${tags}" var="t">
                     <li class="size" id="${t.id}">
                         <input type="checkbox" value="${t.id}" name="tagId"/>
-                        <span>${t.name}</span>
+                        <span>${t.name}[${t.blogNum}]</span>
                         <a href="javascript:void(0);" class="tag-edit-link"
                            onclick="getTagInfo('${t.id}', '${t.name}', '${t.slug}');"
                            title="编辑">
@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<script src="${ctx}/static/bootstrap/validator/js/bootstrapValidator.min.js" type="text/javascript"></script>
+<script src="${qiniu}/statics/bootstrap-plgin/validator/js/bootstrapValidator.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
         // 便签点击效果
@@ -100,8 +100,8 @@
                         },
                         stringLength: {
                             min: 1,
-                            max: 10,
-                            message: '分类名称长度为1-10位'
+                            max: 20,
+                            message: '分类名称长度为1-20位'
                         },
                         remote: {
                             type: 'GET',

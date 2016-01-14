@@ -37,7 +37,7 @@ public class BlogRelCategoryService {
     }
 
     public List<CategoryTag> findsTagByBlogId(Integer blogId) {
-        List<CategoryTag> list = new ArrayList<CategoryTag>();
+        List<CategoryTag> list = new ArrayList<>();
         List<BlogRelCategory> relList = blogRelCategoryMapper.selectByBlogId(blogId, 2);
         for (BlogRelCategory rel : relList) {
             list.add(categoryTagMapper.selectById(rel.getCategoryTagId()));

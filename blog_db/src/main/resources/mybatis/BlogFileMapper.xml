@@ -24,12 +24,57 @@
         from blog_file
         where id = #{id,jdbcType=INTEGER}
     </select>
+
+    <sql id="Query_By_Params_Sql">
+        <if test="file.isDeleted != null">
+            and is_deleted = #{file.isDeleted,jdbcType=INTEGER}
+        </if>
+        <if test="file.userId != null">
+            and user_id = #{file.userId,jdbcType=INTEGER}
+        </if>
+        <if test="file.entityId != null and file.entityId != ''">
+            and entity_id = #{file.entityId,jdbcType=VARCHAR}
+        </if>
+        <if test="file.fileRealName != null and file.fileRealName != ''">
+            and file_real_name like CONCAT('%',#{file.fileRealName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="file.fileName != null and file.fileName != ''">
+            and (
+            file_name like CONCAT('%',#{file.fileName,jdbcType=VARCHAR},'%')
+            or file_real_name like CONCAT('%',#{file.fileName,jdbcType=VARCHAR},'%')
+            or file_path like #{file.fileName,jdbcType=VARCHAR}
+            )
+        </if>
+        <if test="file.filePath != null and file.filePath != ''">
+            and file_path = #{file.filePath,jdbcType=VARCHAR}
+        </if>
+        <if test="file.createdDate != null">
+            and created_date = #{file.createdDate,jdbcType=TIMESTAMP}
+        </if>
+    </sql>
+    <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="map">
+        select count(1)
+        from blog_file
+        where 1=1
+        <include refid="Query_By_Params_Sql"/>
+    </select>
+
+    <select id="selectByParams" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from blog_file
+        where 1=1
+        <include refid="Query_By_Params_Sql"/>
+        order by created_date desc
+        limit #{page.offset, jdbcType=INTEGER}, #{page.limit, jdbcType=INTEGER}
+    </select>
     <select id="selectByEntityId" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
         from blog_file
         where entity_id = #{entityId,jdbcType=VARCHAR}
         and is_deleted = 0
+        order by created_date desc
     </select>
     <delete id="deleteById" parameterType="java.lang.Integer">
     delete from blog_file
@@ -171,6 +216,22 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+    <update id="batchDeleteFile" parameterType="map">
+        update blog_file
+        set is_deleted = 1
+        where id in
+        <foreach index="index" item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <update id="batchRecoveryFile" parameterType="map">
+        update blog_file
+        set is_deleted = 0
+        where id in
+        <foreach index="index" item="item" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
     <update id="updateBlogId">
         update blog_file
         set entity_id = #{newBlogId,jdbcType=VARCHAR}

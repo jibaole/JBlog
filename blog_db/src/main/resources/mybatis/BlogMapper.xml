@@ -29,15 +29,17 @@
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.caliven.blog.db.entity.Blog" extends="BaseResultMap">
         <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+        <result column="html_content" property="htmlContent" jdbcType="LONGVARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
       b.id, b.user_id, b.title, b.status, b.password, b.type, b.page_url, b.view_num, b.comment_num, b.allow_comment,
       b.allow_quote, b.allow_feed, b.is_draft,b.banner_img_id, b.is_deleted, b.created_date, b.updated_date
     </sql>
-    <sql id="Blob_Column_List">b.content</sql>
+    <sql id="Blob_Column_List">b.content, b.html_content</sql>
     <sql id="User_Column_List">u.id, u.username, u.nickname, u.email</sql>
 
+    <!--查询参数-->
     <sql id="Query_By_Params_Sql">
         <if test="isAll == false">
             <!-- 前台显示查询 -->
@@ -50,7 +52,18 @@
         <if test="blog.userId != null">
             and b.user_id = #{blog.userId, jdbcType=INTEGER}
         </if>
-        <if test="blog.title != null">
+        <if test="blog.type != null">
+            <if test="blog.type != 1">
+                <![CDATA[ and b.type <> 1 ]]>
+            </if>
+            <if test="blog.type == 1">
+                and b.type = 1
+            </if>
+        </if>
+        <if test="blog.isDraft != null">
+            and b.is_draft = #{blog.isDraft, jdbcType=BIT}
+        </if>
+        <if test="blog.title != null and blog.title != ''">
             and b.title like CONCAT('%',#{blog.title,jdbcType=VARCHAR},'%')
         </if>
         <if test="blog.status != null">
@@ -67,6 +80,7 @@
         </if>
     </sql>
 
+    <!--通过条件查询文章总数-->
     <select id="selectCountByParams" resultType="java.lang.Integer" parameterType="map">
         select count(1)
         from blog b
@@ -76,6 +90,7 @@
         <include refid="Query_By_Params_Sql"/>
     </select>
 
+    <!--通过条件查询文章-->
     <select id="selectByParams" resultMap="ResultMapWithBLOBs" parameterType="map">
         select
         <include refid="Base_Column_List"/>
@@ -86,18 +101,18 @@
         from blog b
         JOIN user u on b.user_id = u.id
         <!-- 未删除、且类型为博文 -->
-        where b.is_deleted = 0 and b.type = 1
+        where b.is_deleted = 0
         <include refid="Query_By_Params_Sql"/>
         order by b.created_date desc
         limit #{page.offset, jdbcType=INTEGER}, #{page.limit, jdbcType=INTEGER}
     </select>
 
-    <!--查询上一篇或下一篇博文-->
+    <!--查询上一篇或下一篇文章-->
     <select id="selectPrevOrNextBlog" resultMap="BaseResultMap" parameterType="map">
         select
         <include refid="Base_Column_List"/>
         from blog b
-        where b.is_deleted = 0 and b.type = 1
+        where b.is_deleted = 0 and b.type = 1 and b.is_draft = 0
         <if test="type == 1">
             <!-- 上一篇，根据创建时间降序排列，创建时间大于当前博文的时间则为上一篇，反之为下一遍，unix_timestamp转为时间戳比较这样才精确-->
             <![CDATA[ and unix_timestamp(b.created_date) > unix_timestamp(#{blog.createdDate,jdbcType=TIMESTAMP}) ]]>
@@ -112,41 +127,7 @@
         limit 1
     </select>
 
-
-    <!-- 查询某个用户博文 -->
-    <select id="selectByUserId" resultMap="ResultMapWithBLOBs">
-        select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        ,
-        <include refid="User_Column_List"/>
-        from blog b
-        JOIN user u on b.user_id = u.id
-        where b.is_deleted = 0 and b.type = 1
-        <if test="isAll == false">
-            <!-- 前台显示查询 -->
-            <!-- 创建时间小于等于当前时间的才查询出来 -->
-            <![CDATA[ and b.created_date <= now() ]]>
-        </if>
-        and b.user_id = #{userId,jdbcType=INTEGER}
-        order by b.created_date desc
-    </select>
-
-    <!-- 查询最近博文-->
-    <select id="selectRecentBlog" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select
-        <include refid="Base_Column_List"/>
-        from blog b
-        where b.is_deleted = 0 and b.type = 1
-        <!-- 创建时间小于等于当前时间的才查询出来 -->
-        <![CDATA[ and b.created_date <= now() ]]>
-        and b.user_id = #{userId,jdbcType=INTEGER}
-        order by created_date desc
-        <!-- 查询最近10条记录 -->
-        limit 0, 10
-    </select>
-
+    <!--查询某个用户下文章总数-->
     <select id="selectCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select
         count(1)
@@ -156,6 +137,56 @@
         and user_id = #{userId,jdbcType=INTEGER}
     </select>
 
+    <!-- 查询某个用户下的文章 -->
+    <select id="selectByUserId" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="User_Column_List"/>
+        from blog b
+        JOIN user u on b.user_id = u.id
+        where b.is_deleted = 0
+        and b.type = 1
+        <if test="isAll == false">
+            <!-- 前台显示查询 -->
+            <!-- 创建时间小于等于当前时间的才查询出来 -->
+            <![CDATA[ and b.created_date <= now() ]]>
+        </if>
+        and b.user_id = #{userId,jdbcType=INTEGER}
+        order by b.created_date desc
+    </select>
+
+    <!-- 查询随机10条博文-->
+    <select id="selectRecentBlog" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        `blog` AS b
+        JOIN (
+        SELECT
+        ROUND(
+        Rand() * (
+        (SELECT MAX(id) FROM `blog`) - (SELECT MIN(id) FROM `blog`)
+        ) + (SELECT MIN(id) FROM `blog`)
+        ) AS id
+        ) AS b2
+        WHERE
+        b.id >= b2.id
+        and b.is_deleted = 0
+        and b.type = 1
+        and b.is_draft = 0
+        and b.status = 1
+        <!-- 创建时间小于等于当前时间的才查询出来 -->
+        <![CDATA[ and b.created_date <= now() ]]>
+        and b.user_id = #{userId,jdbcType=INTEGER}
+        ORDER BY
+        b.id
+        LIMIT 10;
+    </select>
+
+    <!--查询未审核文章总数-->
     <select id="selectNoAuditCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select
         count(1)
@@ -168,6 +199,7 @@
         </if>
     </select>
 
+    <!--查询单篇文章-->
     <select id="selectById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -175,6 +207,70 @@
         <include refid="Blob_Column_List"/>
         from blog b
         where b.id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <!--查询有效文章(单篇)-->
+    <select id="selectEffectiveById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from blog b
+        where b.id = #{id,jdbcType=INTEGER}
+        and b.is_deleted = 0
+        and b.type = 1
+        and b.is_draft = 0
+    </select>
+
+    <!-- 查询所有月份归档文章 -->
+    <select id="selectArchives" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from blog b
+        where is_deleted = 0
+        and b.type = 1
+        and b.is_draft = 0
+        and b.status = 1
+        order by created_date desc
+    </select>
+
+    <!-- 通过标签Id查询文章 -->
+    <select id="selectByTagId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from blog b
+        where is_deleted = 0
+        and b.type = 1
+        and b.is_draft = 0
+        and b.status = 1
+        and b.id in(
+        select blog_id from blog_rel_category r
+        where r.blog_id=b.id
+        and r.category_tag_id=#{tagId,jdbcType=INTEGER}
+        )
+        order by created_date desc
+    </select>
+
+    <!--查询关于页面文章-->
+    <select id="selectAboutBlog" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from blog b
+        <!-- type=3为关于我页面文章 -->
+        where b.type = 3 LIMIT 1
+    </select>
+
+    <!--查询留言板页面文章-->
+    <select id="selectMsgboardBlog" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from blog b
+        <!-- type=4为留言板页面文章 -->
+        where b.type = 4 LIMIT 1
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
@@ -187,12 +283,14 @@
           status, password, type, page_url,
           view_num, comment_num, allow_comment,
           allow_quote, allow_feed, is_draft, banner_img_id,
-          is_deleted, created_date, updated_date, content,html_content)
+          is_deleted, created_date, updated_date,
+          content, html_content)
         values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
           #{status,jdbcType=BIT}, #{password,jdbcType=VARCHAR}, #{type,jdbcType=BIT}, #{pageUrl,jdbcType=VARCHAR},
           #{viewNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, #{allowComment,jdbcType=BIT},
           #{allowQuote,jdbcType=BIT}, #{allowFeed,jdbcType=BIT}, #{isDraft,jdbcType=BIT}, #{bannerImgId,jdbcType=INTEGER},
-          #{isDeleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP},#{content,jdbcType=LONGVARCHAR})
+          #{isDeleted,jdbcType=BIT}, #{createdDate,jdbcType=TIMESTAMP}, #{updatedDate,jdbcType=TIMESTAMP},
+          #{content,jdbcType=LONGVARCHAR}, #{htmlContent,jdbcType=LONGVARCHAR})
     </insert>
     <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id"
             parameterType="com.caliven.blog.db.entity.Blog">
@@ -252,6 +350,9 @@
             <if test="content != null">
                 content,
             </if>
+            <if test="htmlContent != null">
+                html_content,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -307,6 +408,9 @@
             </if>
             <if test="content != null">
                 #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="content != null">
+                #{htmlContent,jdbcType=LONGVARCHAR},
             </if>
         </trim>
     </insert>
@@ -364,6 +468,9 @@
             <if test="content != null">
                 content = #{content,jdbcType=LONGVARCHAR},
             </if>
+            <if test="htmlContent != null">
+                html_content = #{htmlContent,jdbcType=LONGVARCHAR},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -385,27 +492,28 @@
       is_deleted = #{isDeleted,jdbcType=BIT},
       created_date = #{createdDate,jdbcType=TIMESTAMP},
       updated_date = #{updatedDate,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=LONGVARCHAR}
+      content = #{content,jdbcType=LONGVARCHAR},
+      html_content = #{htmlContent,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <update id="updateById" parameterType="com.caliven.blog.db.entity.Blog">
-    update blog
-    set user_id = #{userId,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      status = #{status,jdbcType=BIT},
-      password = #{password,jdbcType=VARCHAR},
-      type = #{type,jdbcType=BIT},
-      page_url = #{pageUrl,jdbcType=VARCHAR},
-      view_num = #{viewNum,jdbcType=INTEGER},
-      comment_num = #{commentNum,jdbcType=INTEGER},
-      allow_comment = #{allowComment,jdbcType=BIT},
-      allow_quote = #{allowQuote,jdbcType=BIT},
-      allow_feed = #{allowFeed,jdbcType=BIT},
-      is_draft = #{isDraft,jdbcType=BIT},
-      banner_img_id = #{bannerImgId,jdbcType=INTEGER},
-      is_deleted = #{isDeleted,jdbcType=BIT},
-      created_date = #{createdDate,jdbcType=TIMESTAMP},
-      updated_date = #{updatedDate,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        update blog
+        set user_id = #{userId,jdbcType=INTEGER},
+        title = #{title,jdbcType=VARCHAR},
+        status = #{status,jdbcType=BIT},
+        password = #{password,jdbcType=VARCHAR},
+        type = #{type,jdbcType=BIT},
+        page_url = #{pageUrl,jdbcType=VARCHAR},
+        view_num = #{viewNum,jdbcType=INTEGER},
+        comment_num = #{commentNum,jdbcType=INTEGER},
+        allow_comment = #{allowComment,jdbcType=BIT},
+        allow_quote = #{allowQuote,jdbcType=BIT},
+        allow_feed = #{allowFeed,jdbcType=BIT},
+        is_draft = #{isDraft,jdbcType=BIT},
+        banner_img_id = #{bannerImgId,jdbcType=INTEGER},
+        is_deleted = #{isDeleted,jdbcType=BIT},
+        created_date = #{createdDate,jdbcType=TIMESTAMP},
+        updated_date = #{updatedDate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
 </mapper>

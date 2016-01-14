@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+<%@ include file="/WEB-INF/views/common/common.jsp" %>
 <c:set var="navbar" value="1" scope="request"/>
 
 <html>
@@ -103,7 +103,7 @@
     </div>
 </div>
 
-<script src="${ctx}/static/js/plugin/holder.min.js" type="text/javascript"></script>
-<script src="${ctx}/static/js/admin/index.js" type="text/javascript"></script>
+<script src="${qiniu}/statics/js/plugin/holder.min.js" type="text/javascript"></script>
+<script src="${ctx}/statics/js/admin/index.js" type="text/javascript"></script>
 </body>
 </html>

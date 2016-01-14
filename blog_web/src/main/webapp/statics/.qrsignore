@@ -1,0 +1,10 @@
+# 七牛文件上传忽略配置
+.DS_Store
+/.DS_Store
+/*.DS_Store
+/.*DS_Store
+/.qrsignore
+#/js/acount/
+#/js/admin/
+#/js/index/
+#/styles/web/

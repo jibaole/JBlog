@@ -85,6 +85,14 @@ public interface CategoryTagMapper {
     List<CategoryTag> selectTagByUserId(Integer userId);
 
     /**
+     * 查询分类
+     *
+     * @param userId
+     * @return
+     */
+    List<CategoryTag> selectCategoryByUserId(Integer userId);
+
+    /**
      * 查询用户标签总数
      *
      * @param userId

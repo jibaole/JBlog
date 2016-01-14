@@ -64,7 +64,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="${ctx}/admin/setting"><shiro:principal property="nickname"/></a></li>
+                <li><a href="${ctx}/admin/user/edit?id=<shiro:principal property="id"/>"><shiro:principal property="nickname"/></a></li>
                 <li><a href="${ctx}/logout">登出</a></li>
                 <li><a href="${ctx}/" target="_blank">网站</a></li>
             </ul>

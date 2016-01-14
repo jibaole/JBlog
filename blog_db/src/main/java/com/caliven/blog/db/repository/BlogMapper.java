@@ -23,6 +23,8 @@ public interface BlogMapper {
 
     Blog selectById(Integer id);
 
+    Blog selectEffectiveById(Integer id);
+
     /**
      * 查询上一篇或下一篇博文
      *
@@ -84,4 +86,31 @@ public interface BlogMapper {
      * @return
      */
     int selectNoAuditCount(Integer userId);
+
+    /**
+     * 查询关于我页面文章
+     *
+     * @return
+     */
+    Blog selectAboutBlog();
+
+    /**
+     * 查询留言板页面文章
+     *
+     * @return
+     */
+    Blog selectMsgboardBlog();
+
+    /**
+     * 查询归档列表
+     * @return
+     */
+    List<Blog> selectArchives();
+
+    /**
+     * 通过标签id查询文章
+     * @param tagId
+     * @return
+     */
+    List<Blog> selectByTagId(Integer tagId);
 }

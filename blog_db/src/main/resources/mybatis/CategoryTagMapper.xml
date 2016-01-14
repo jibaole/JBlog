@@ -43,10 +43,10 @@
         <if test="type != null">
             and c.type = #{type,jdbcType=INTEGER}
         </if>
-        <if test="name != null">
+        <if test="name != null and name != ''">
             and c.name = #{name,jdbcType=VARCHAR}
         </if>
-        <if test="slug != null">
+        <if test="slug != null and slug != ''">
             and c.slug = #{slug,jdbcType=VARCHAR}
         </if>
         limit 1
@@ -62,7 +62,7 @@
         <if test="category.parentId != null">
             and c.parent_id = #{category.parentId,jdbcType=INTEGER}
         </if>
-        <if test="category.name != null">
+        <if test="category.name != null and category.name != ''">
             and (
             c.name like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
             or c.slug like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
@@ -73,7 +73,9 @@
             parameterType="map">
         select
         <include refid="Base_Column_List"/>,
-        (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum,
+        (select count(1) from blog_rel_category r, blog b
+                where b.is_deleted = 0 and b.type = 1 and b.is_draft = 0 and b.status = 1
+                and r.blog_id=b.id and r.category_tag_id = c.id) as blogNum,
         (select count(1) from category_tag ct where ct.parent_id = c.id) as childrenNum,
         (select u.nickname from user u where u.id = c.user_id) as username
         from category_tag c
@@ -84,7 +86,7 @@
         <if test="category.parentId != null">
             and c.parent_id = #{category.parentId,jdbcType=INTEGER}
         </if>
-        <if test="category.name != null">
+        <if test="category.name != null and category.name != ''">
             and (
             c.name like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
             or c.slug like CONCAT('%',#{category.name,jdbcType=VARCHAR},'%')
@@ -122,7 +124,9 @@
     <select id="selectTreeCategory" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>,
-        (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum
+        (select count(1) from blog_rel_category r, blog b
+            where b.is_deleted = 0 and b.type = 1 and b.is_draft = 0 and b.status = 1
+            and r.blog_id=b.id and r.category_tag_id = c.id) as blogNum
         from category_tag c
         where c.type = 1
         and c.is_deleted = 0
@@ -147,9 +151,26 @@
     <select id="selectTagByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>,
-        (select count(1) from blog_rel_category r where r.category_tag_id = c.id) as blogNum
+        (select count(1) from blog_rel_category r, blog b
+                where b.is_deleted = 0 and b.type = 1 and b.is_draft = 0 and b.status = 1
+                and r.blog_id=b.id and r.category_tag_id = c.id) as blogNum
         from category_tag c
         where c.type = 2
+        and c.is_deleted = 0
+        <if test="_parameter != null">
+            and c.user_id = #{userId,jdbcType=INTEGER}
+        </if>
+        order by c.created_date desc
+    </select>
+
+    <select id="selectCategoryByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>,
+        (select count(1) from blog_rel_category r, blog b
+                where b.is_deleted = 0 and b.type = 1 and b.is_draft = 0 and b.status = 1
+                and r.blog_id=b.id and r.category_tag_id = c.id) as blogNum
+        from category_tag c
+        where c.type = 1
         and c.is_deleted = 0
         <if test="_parameter != null">
             and c.user_id = #{userId,jdbcType=INTEGER}
@@ -168,14 +189,15 @@
         </if>
     </select>
 
+
     <delete id="deleteById" parameterType="java.lang.Integer">
       delete from category_tag where id = #{id,jdbcType=INTEGER}
     </delete>
 
     <insert id="insert" parameterType="com.caliven.blog.db.entity.CategoryTag">
-        insert into category_tag (id, user_id, parent_id, name,
-          slug, type, description,
-          count, order, level, created_date,
+        insert into category_tag (id, user_id, parent_id, `name`,
+          slug, `type`, description,
+          `count`, `order`, `level`, created_date,
           updated_date)
         values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
           #{slug,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
@@ -196,25 +218,25 @@
                 parent_id,
             </if>
             <if test="name != null">
-                name,
+                `name`,
             </if>
             <if test="slug != null">
                 slug,
             </if>
             <if test="type != null">
-                type,
+                `type`,
             </if>
             <if test="description != null">
                 description,
             </if>
             <if test="count != null">
-                count,
+                `count`,
             </if>
             <if test="order != null">
-                order,
+                `order`,
             </if>
             <if test="level != null">
-                level,
+                `level`,
             </if>
             <if test="isDeleted != null">
                 is_deleted,
@@ -279,25 +301,25 @@
                 parent_id = #{parentId,jdbcType=INTEGER},
             </if>
             <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
+                `name` = #{name,jdbcType=VARCHAR},
             </if>
             <if test="slug != null">
                 slug = #{slug,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
-                type = #{type,jdbcType=INTEGER},
+                `type` = #{type,jdbcType=INTEGER},
             </if>
             <if test="description != null">
                 description = #{description,jdbcType=VARCHAR},
             </if>
             <if test="count != null">
-                count = #{count,jdbcType=INTEGER},
+                `count` = #{count,jdbcType=INTEGER},
             </if>
             <if test="order != null">
-                order = #{order,jdbcType=INTEGER},
+                `order` = #{order,jdbcType=INTEGER},
             </if>
             <if test="level != null">
-                level = #{level,jdbcType=INTEGER},
+                `level` = #{level,jdbcType=INTEGER},
             </if>
             <if test="isDeleted != null">
                 is_deleted = #{isDeleted,jdbcType=BIT},
@@ -315,13 +337,13 @@
         update category_tag
         set user_id = #{userId,jdbcType=INTEGER},
           parent_id = #{parentId,jdbcType=INTEGER},
-          name = #{name,jdbcType=VARCHAR},
+          `name` = #{name,jdbcType=VARCHAR},
           slug = #{slug,jdbcType=VARCHAR},
-          type = #{type,jdbcType=INTEGER},
+          `type` = #{type,jdbcType=INTEGER},
           description = #{description,jdbcType=VARCHAR},
-          count = #{count,jdbcType=INTEGER},
-          order = #{order,jdbcType=INTEGER},
-          level = #{level,jdbcType=INTEGER},
+          `count` = #{count,jdbcType=INTEGER},
+          `order` = #{order,jdbcType=INTEGER},
+          `level` = #{level,jdbcType=INTEGER},
           is_deleted = #{isDeleted,jdbcType=BIT},
           created_date = #{createdDate,jdbcType=TIMESTAMP},
           updated_date = #{updatedDate,jdbcType=TIMESTAMP}

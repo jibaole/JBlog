@@ -1,6 +1,7 @@
 package com.caliven.blog.db.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 分类、标签pojo
@@ -41,6 +42,8 @@ public class CategoryTag {
     private Integer blogNum;
     private Integer childrenNum;
     private String username;
+
+    private List<Blog> blogList;
 
     /******
      * 非数据库字段 end
@@ -172,5 +175,13 @@ public class CategoryTag {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Blog> getBlogList() {
+        return blogList;
+    }
+
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
     }
 }

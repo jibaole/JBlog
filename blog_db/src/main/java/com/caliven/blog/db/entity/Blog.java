@@ -21,11 +21,11 @@ public class Blog {
 
     private String title;
 
-    private Integer status; //状态【0待审核、1公开、2影藏、3密码保护、4私密】
+    private Integer status; // 状态【0待审核、1公开、2影藏、3密码保护、4私密】
 
     private String password;
 
-    private Integer type;
+    private Integer type; // 类型【1博文、2独立页面、3关于页面】
 
     private String pageUrl;
 
@@ -50,11 +50,12 @@ public class Blog {
     private Timestamp updatedDate;
 
     private String content;
+    private String htmlContent;
 
-    private List<Comment> comments;
     private List<CategoryVo> categorys;
     private List<CategoryTag> categoryList;
     private List<CategoryTag> tagList;
+
     private Integer categroyTagId;
     private String relativeTime;
     private String publishTime;
@@ -213,12 +214,12 @@ public class Blog {
         this.content = content;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public String getHtmlContent() {
+        return htmlContent;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
     }
 
     public List<CategoryVo> getCategorys() {

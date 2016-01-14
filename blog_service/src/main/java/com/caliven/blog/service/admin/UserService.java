@@ -2,8 +2,8 @@ package com.caliven.blog.service.admin;
 
 import com.caliven.blog.db.entity.User;
 import com.caliven.blog.db.repository.UserMapper;
-import com.caliven.blog.db.search.Search;
-import com.caliven.blog.utils.BlogUtils;
+import com.caliven.blog.service.shiro.ShiroUtils;
+import com.caliven.blog.utils.SHA1Utils;
 import com.caliven.blog.utils.Digests;
 import com.caliven.blog.utils.Encodes;
 import com.caliven.blog.utils.Page;
@@ -32,9 +32,9 @@ public class UserService {
      * @param user
      */
     private void entryptPassword(User user) {
-        byte[] salt = Digests.generateSalt(BlogUtils.SALT_SIZE);
+        byte[] salt = Digests.generateSalt(SHA1Utils.SALT_SIZE);
         user.setSalt(Encodes.encodeHex(salt));
-        byte[] hashPassword = Digests.sha1(user.getPassword().getBytes(), salt, BlogUtils.HASH_INTERATIONS);
+        byte[] hashPassword = Digests.sha1(user.getPassword().getBytes(), salt, SHA1Utils.HASH_INTERATIONS);
         user.setPassword(Encodes.encodeHex(hashPassword));
     }
 
@@ -49,8 +49,11 @@ public class UserService {
             user.setNickname(user.getUsername());
         }
         Timestamp time = new Timestamp(System.currentTimeMillis());
-        if (user.getId() == null) {
+
+        if(ShiroUtils.isAdmin()){
             this.entryptPassword(user);
+        }
+        if (user.getId() == null) {
             user.setStatus(true);
             user.setCreatedDate(time);
             userMapper.insertSelective(user);
